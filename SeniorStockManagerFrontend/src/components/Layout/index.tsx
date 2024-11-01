@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Header from "../Header";
 import Footer from "../Footer";
 
@@ -7,7 +8,10 @@ export default function Layout() {
       <Header />
 
       <div className="flex-1 flex flex-row">
+        {/* Menu */}
+
         {/* Conteúdo principal */}
+        <Outlet />
       </div>
       <Footer />
     </div>

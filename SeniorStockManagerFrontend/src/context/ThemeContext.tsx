@@ -20,7 +20,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme, setTheme] = useState('light');
-  const [fontSize, setFontSize] = useState(16); // Tamanho da fonte em pixels
+  const [fontSize, setFontSize] = useState(16);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') ?? 'light';
@@ -41,11 +41,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   };
 
   const changeFontSize = (newFontSize: number) => {
-    if (newFontSize < 0 || newFontSize > 44) return; // Impede número negativo
+    if (newFontSize < 0 || newFontSize > 44) return; 
     setFontSize(newFontSize);
     localStorage.setItem('fontSize', `${newFontSize}`);
 
-    // Atualiza a variável CSS do tamanho da fonte
+    
     document.documentElement.style.setProperty(
       '--font-size',
       `${newFontSize}px`,

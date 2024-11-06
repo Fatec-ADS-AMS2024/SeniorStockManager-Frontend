@@ -1,3 +1,5 @@
+@import url("assets/fonts/inter.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,11 +8,12 @@
     html {
       --font-size: 16px;
       font-size: var(--font-size);
+      font-family: Inter, sans-serif;
     }
   
     :root {
-      --color-primary: #539AFD;
-      --color-secondary: #f76205;
+      --color-primary: #3A95CF;
+      --color-secondary: #3CA3E5;
       --color-background: #E0E3E0;
       --color-text-primary: #495453;
       --color-text-secondary: #6D8385;

@@ -26,7 +26,7 @@ export default function AccessibilityBar() {
   };
 
   return (
-    <div className="h-full w-full flex gap-2 items-center justify-end text-primary text-base p-1 border-b-[1px]">
+    <div className="h-8 w-full flex gap-2 items-center justify-end text-primary text-base p-1 border-b-[1px]">
       <button onClick={increaseFontSize}>
         <MagnifyingGlassPlus weight="bold" />
       </button>

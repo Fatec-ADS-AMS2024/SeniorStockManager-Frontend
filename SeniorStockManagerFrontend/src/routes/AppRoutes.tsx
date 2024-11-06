@@ -8,11 +8,13 @@ import {
 import { routes } from "./routes";
 import Layout from "../components/Layout";
 import AcessibilityPage from "../pages/AcessibilityPage";
+import LoginPage from "../pages/LoginPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="" element={<Layout />} errorElement={<GlobalErrorBoundary />}>
       <Route path={routes.ACCESSIBILITY} element={<AcessibilityPage />} />
+      <Route path={routes.LOGIN} element={<LoginPage />} />
     </Route>
   )
 );

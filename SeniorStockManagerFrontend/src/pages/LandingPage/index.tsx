@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import fotoEntradaSistema from "../../assets/fotoEntradaSistema.jpg";
+import fotoEntradaSistema from "../../assets/images/fotoEntradaSistema.jpg";
 import { ThemeContext } from "../../context/ThemeContext";
 
 export default function LandingPage() {

@@ -16,7 +16,7 @@ export default function LandingPage() {
           Plataforma de recursos para administrar o cuidado e a qualidade de
           vida de idosos
         </p>
-        <button className="bg-primary h-14 w-52 mt-5 rounded text-surface font-semibold hover:bg-secondary transition-colors mx-16 text-lg">
+        <button className="bg-primary h-14 w-52 mt-5 rounded text-surface font-semibold hover:bg-primary transition-colors mx-16 text-lg">
           Fazer login
         </button>
       </div>

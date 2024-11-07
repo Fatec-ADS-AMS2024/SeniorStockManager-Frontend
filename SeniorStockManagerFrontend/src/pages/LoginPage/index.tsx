@@ -1,10 +1,8 @@
-import { useContext, useState } from "react";
-import fotoEntradaSistema from "../../assets/images/fotoLoginSistema.png";
-import { ThemeContext } from "../../context/ThemeContext";
+import { useState } from "react";
+import fotoLoginSistema from "../../assets/images/fotoLoginSistema.png";
 import { Envelope, Lock, Eye, EyeSlash } from "@phosphor-icons/react";
 
 export default function LandingPage() {
-  const { theme } = useContext(ThemeContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -12,18 +10,18 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:w-[40%] w-full h-full bg-surface flex flex-col justify-center items-center px-8 md:px-16">
-        <h1 className="text-secondary font-bold text-4xl md:text-5xl mb-8">Login</h1>
-
-        {/* Campo de Email */}
+    <div className="flex bg-background">
+      <div className="md:w-[40%] w-full h-full bg-surface flex flex-col justify-center items-start px-8 md:px-16">
+        <h1 className="font-bold text-4xl md:text-5xl mb-4 text-secondary">Login</h1>
         <div className="flex flex-col w-full max-w-md mb-4">
           <label
             htmlFor="email"
-            className="text-lg font-semibold text-textSecondary mb-2 tracking-wide"
-          ></label>
-          <div className="flex items-center border border-gray-300 rounded">
-            <Envelope size={24} className="text-gray-300 mx-2" />
+            className="text-lg font-semibold mb-2 tracking-wide text-textSecondary"
+          >
+            Email
+          </label>
+          <div className="flex items-center border border-surfaceUser rounded">
+            <Envelope size={24} className="mx-2 text-textSecondary" />
             <input
               id="email"
               type="email"
@@ -32,15 +30,15 @@ export default function LandingPage() {
             />
           </div>
         </div>
-
-        {/* Campo de Senha */}
-        <div className="flex flex-col w-full max-w-md mb-4">
+        <div className="flex flex-col w-full max-w-md mb-2">
           <label
             htmlFor="password"
-            className="text-lg font-semibold text-textSecondary mb-2 tracking-wide"
-          ></label>
-          <div className="flex items-center border border-gray-300 rounded">
-            <Lock size={24} className="text-gray-300 mx-2" />
+            className="text-lg font-semibold mb-2 tracking-wide text-textSecondary"
+          >
+            Senha
+          </label>
+          <div className="flex items-center border border-surfaceUser rounded">
+            <Lock size={24} className="mx-2 text-textSecondary" />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
@@ -50,30 +48,24 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="text-gray-300 mx-2"
+              className="text-textSecondary mx-2"
             >
               {showPassword ? <EyeSlash size={24} /> : <Eye size={24} />}
             </button>
           </div>
+          <p className="mt-2 cursor-pointer hover:text-secondary transition-colors text-right text-textSecondary">
+            Esqueceu sua senha?
+          </p>
         </div>
-
-        {/* Esqueceu a senha */}
-        <p className="text-gray-500 mt-2 cursor-pointer hover:text-blue-500 transition-colors self-end">
-          Esqueceu sua senha?
-        </p>
-
-        {/* Botão de login */}
-        <button className="bg-primary h-12 w-full max-w-md rounded text-surface font-semibold hover:bg-secondary-dark transition-colors text-lg mt-5">
-          Fazer login
+        <button className="bg-primary h-12 w-full max-w-md rounded text-surface font-semibold hover:bg-secondary transition-colors text-lg mt-5">
+          Entrar
         </button>
       </div>
-
-      {/* Imagem de fundo */}
-      <div className="relative md:w-[50%] w-full h-[50%] md:h-full flex items-center justify-center bg-transparent">
+      <div className="relative hidden md:block md:w-[50%] w-full h-[50%] md:h-full  items-center justify-center">
         <img
-          src={fotoEntradaSistema}
+          src={fotoLoginSistema}
           alt="Foto Login Sistema"
-          className="w-[80%] h-auto object-contain" // Define a largura para 80% e altura automática
+          className="w-full h-auto object-contain"
         />
       </div>
     </div>

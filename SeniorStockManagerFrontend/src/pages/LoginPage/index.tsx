@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 import fotoLoginSistema from "../../assets/images/fotoLoginSistema.png";
 import { Envelope, Lock, Eye, EyeSlash } from "@phosphor-icons/react";
 
-export default function LandingPage() {
+export default function LoginPage() {
+  const { theme } = useContext(ThemeContext);
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
-    <div className="flex bg-background">
+    <div className="flex bg-surface">
       <div className="md:w-[40%] w-full h-full bg-surface flex flex-col justify-center items-start px-8 md:px-16">
         <h1 className="font-bold text-4xl md:text-5xl mb-4 text-secondary">Login</h1>
         <div className="flex flex-col w-full max-w-md mb-4">
@@ -20,7 +22,7 @@ export default function LandingPage() {
           >
             Email
           </label>
-          <div className="flex items-center border border-surfaceUser rounded">
+          <div className="flex items-center border border-textSecondary rounded">
             <Envelope size={24} className="mx-2 text-textSecondary" />
             <input
               id="email"
@@ -37,7 +39,7 @@ export default function LandingPage() {
           >
             Senha
           </label>
-          <div className="flex items-center border border-surfaceUser rounded">
+          <div className="flex items-center border border-textSecondary rounded">
             <Lock size={24} className="mx-2 text-textSecondary" />
             <input
               id="password"
@@ -50,7 +52,11 @@ export default function LandingPage() {
               onClick={togglePasswordVisibility}
               className="text-textSecondary mx-2"
             >
-              {showPassword ? <EyeSlash size={24} /> : <Eye size={24} />}
+              {showPassword ? (
+                <EyeSlash size={24} />
+              ) : (
+                <Eye size={24} />
+              )}
             </button>
           </div>
           <p className="mt-2 cursor-pointer hover:text-secondary transition-colors text-right text-textSecondary">
@@ -61,11 +67,11 @@ export default function LandingPage() {
           Entrar
         </button>
       </div>
-      <div className="relative hidden md:block md:w-[50%] w-full h-[50%] md:h-full  items-center justify-center">
+      <div className="relative hidden md:flex md:w-[50%] w-full h-full justify-end items-center pr-16">
         <img
           src={fotoLoginSistema}
           alt="Foto Login Sistema"
-          className="w-full h-auto object-contain"
+          className={`w-[80%] h-auto object-contain ${theme === "high-contrast" ? "grayscale" : ""}`}
         />
       </div>
     </div>

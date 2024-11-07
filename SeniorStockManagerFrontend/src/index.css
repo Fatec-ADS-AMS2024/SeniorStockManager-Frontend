@@ -17,6 +17,7 @@
       --color-text-secondary: #6D8385;
       --color-surface: #FFFFFF;
       --color-surface-user: #D2EDEB;
+      --color-hoverButton: #062c60;
     }
     
     [data-theme="high-contrast"] {
@@ -27,5 +28,7 @@
       --color-text-secondary: #3F3F3F;
       --color-surface: #FFFFFF;
       --color-surface-user: #D2D2D2;
+      --color-hoverButton: #c9d6e9;
+
     }
   }

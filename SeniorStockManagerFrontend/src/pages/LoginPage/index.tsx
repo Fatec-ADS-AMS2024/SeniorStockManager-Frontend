@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex bg-surface">
-      <div className="md:w-[40%] w-full h-full bg-surface flex flex-col justify-center items-start px-8 md:px-16">
+      <div className="md:w-[40%] w-full h-full bg-surface flex flex-col justify-center items-center px-8">
         <h1 className="font-bold text-4xl md:text-5xl mb-4 text-secondary">Login</h1>
         <div className="flex flex-col w-full max-w-md mb-4">
           <label
@@ -63,7 +63,7 @@ export default function LoginPage() {
             Esqueceu sua senha?
           </p>
         </div>
-        <button className="bg-primary h-12 w-full max-w-md rounded text-surface font-semibold hover:bg-secondary transition-colors text-lg mt-5">
+        <button className="bg-primary h-12 w-full max-w-md rounded text-surface font-semibold hover:bg-hoverButton transition-colors text-lg mt-5">
           Entrar
         </button>
       </div>

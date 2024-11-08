@@ -10,6 +10,10 @@
       font-size: var(--font-size);
       font-family: Inter, sans-serif;
     }
+
+    input::-ms-clear, input::-ms-reveal {
+      display: none;
+    }
   
     :root {
       --color-primary: #2fa6eb;

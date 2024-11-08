@@ -23,7 +23,7 @@ export default function LoginPage() {
             Email
           </label>
           <div className="flex items-center border border-textSecondary rounded">
-            <Envelope size={24} className="mx-2 text-textSecondary" />
+            <Envelope size={24} className="mx-2 text-textSecondary shrink-0" />
             <input
               id="email"
               type="email"
@@ -40,17 +40,17 @@ export default function LoginPage() {
             Senha
           </label>
           <div className="flex items-center border border-textSecondary rounded">
-            <Lock size={24} className="mx-2 text-textSecondary" />
+            <Lock size={24} className="mx-2 text-textSecondary shrink-0" />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className="flex-1 h-12 px-4 focus:outline-none"
+              className="flex-1 h-12 px-4 focus:outline-none w-full"
               placeholder="Digite sua senha"
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="text-textSecondary mx-2"
+              className="text-textSecondary mx-2 shrink-0"
             >
               {showPassword ? (
                 <EyeSlash size={24} />

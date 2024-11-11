@@ -1,5 +1,5 @@
-import logoFatec from "../../assets/logotipoFatec.png";
-import logoCPS from "../../assets/logotipoCPS.png";
+import logoFatec from "../../assets/images/logotipoFatec.png";
+import logoCPS from "../../assets/images/logotipoCPS.png";
 
 export default function Footer() {
   return (

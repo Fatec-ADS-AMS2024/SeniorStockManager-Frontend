@@ -1,3 +1,4 @@
+@import url("assets/fonts/inter.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,22 +10,24 @@
     }
   
     :root {
-      --color-primary: #539AFD;
-      --color-secondary: #f76205;
-      --color-background: #E0E3E0;
-      --color-text-primary: #495453;
-      --color-text-secondary: #6D8385;
-      --color-surface: #FFFFFF;
-      --color-surface-user: #D2EDEB;
-    }
-    
-    [data-theme="high-contrast"] {
-      --color-primary: #000000;
-      --color-secondary: #242424;
-      --color-background: #E0E3E0;
-      --color-text-primary: #424242;
-      --color-text-secondary: #3F3F3F;
-      --color-surface: #FFFFFF;
-      --color-surface-user: #D2D2D2;
-    }
+        --color-primary: #539AFD;
+        --color-secondary: #38B6FF;
+        --color-background: #E0E3E0;
+        --color-text-primary: #495453;
+        --color-text-secondary: #6D8385;
+        --color-surface: #FFFFFF;
+        --color-surface-user: #D2EDEB;
+        --color-hoverButton: #3083b2;
+      }
+      
+      [data-theme="high-contrast"] {
+        --color-primary: #000000;
+        --color-secondary: #242424;
+        --color-background: #E0E3E0;
+        --color-text-primary: #424242;
+        --color-text-secondary: #3F3F3F;
+        --color-surface: #FFFFFF;
+        --color-surface-user: #D2D2D2;
+        --color-hoverButton: #2e2e2e;
+      }
   }

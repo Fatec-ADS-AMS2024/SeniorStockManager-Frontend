@@ -14,6 +14,7 @@ export default {
         textSecondary: 'var(--color-text-secondary)',
         surface: 'var(--color-surface)',
         surfaceUser: 'var(--color-surface-user)',
+        hoverButton: 'var(--color-hoverButton)',
       }
     },
   },

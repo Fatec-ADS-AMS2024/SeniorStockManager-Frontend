@@ -41,7 +41,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   };
 
   const changeFontSize = (newFontSize: number) => {
-    if (newFontSize < 0 || newFontSize > 44) return; // Impede número negativo
+    if (newFontSize < 10 || newFontSize > 44) return; // Impede número negativo
     setFontSize(newFontSize);
     localStorage.setItem('fontSize', `${newFontSize}`);
 

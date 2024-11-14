@@ -1,5 +1,6 @@
 export const routes = {
   ACCESSIBILITY: '/accessibility',
   LANDING: '/',
-  LOGIN: '/login'
+  LOGIN: '/login',
+  REGISTER: '/register'
 }

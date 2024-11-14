@@ -9,9 +9,7 @@ import { routes } from "../../routes/routes";
 export default function LandingPage() {
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
-
   const handleLoginClick = () => {
-    console.log("Funfa pfv")
     navigate(routes.LOGIN); 
   };
 

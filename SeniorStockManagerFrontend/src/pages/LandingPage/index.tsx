@@ -1,9 +1,19 @@
 import { useContext } from "react";
 import fotoEntradaSistema from "../../assets/images/fotoEntradaSistema.jpg";
 import { ThemeContext } from "../../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../routes/routes";
+
+
 
 export default function LandingPage() {
   const { theme } = useContext(ThemeContext);
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    console.log("Funfa pfv")
+    navigate(routes.LOGIN); 
+  };
 
   return (
     <div className="flex">
@@ -16,7 +26,8 @@ export default function LandingPage() {
           Plataforma de recursos para administrar o cuidado e a qualidade de
           vida de idosos
         </p>
-        <button className="bg-primary h-14 w-52 mt-5 rounded text-surface font-semibold hover:bg-hoverButton hover:scale-105 transition-colors mx-16 text-lg">
+        
+        <button onClick={handleLoginClick} className="bg-primary h-14 w-52 mt-5 rounded text-surface font-semibold hover:bg-hoverButton hover:scale-105 transition-colors mx-16 text-lg">
           Fazer login
         </button>
       </div>
@@ -26,5 +37,6 @@ export default function LandingPage() {
         className={`w-[60%] h-full object-cover ${theme === "high-contrast" ? "grayscale" : "grayscale-0"}`}
       />
     </div>
+    
   );
 }

@@ -3,7 +3,6 @@ import {
 } from '@phosphor-icons/react';
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
-import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card"
 
@@ -28,7 +27,7 @@ const cards = [
 export default function RegisterPage() {
 
   return (
-    <div className='grid grid-cols-5 justify-center align-middle gap-0 min-h-screen pl-12 pr-'>
+    <div className='grid grid-cols-5 justify-center align-middle gap-0 min-full-screen pl-12 pr-'>
       {cards.map(({ text, icon, page, subText }) => (
         <Card 
           subText={subText}

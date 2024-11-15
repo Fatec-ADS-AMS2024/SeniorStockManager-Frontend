@@ -15,17 +15,17 @@ export default function Card({ text, subText, icon, page }: CardProps) {
 
     return (
         <div 
-            className="relative w-64 h-40 bg-white rounded-lg shadow-md border border-gray-200 cursor-pointer hover:shadow-lg transition-shadow"
+            className="w-64 h-40 bg-surface rounded-lg shadow-md border border-surface cursor-pointer hover:shadow-lg transition-shadow"
             onClick={() => navigate(page)}
         >
-            <div className="absolute top-0 left-0 right-0 h-2 bg-primary" />
+            <div className="bg-primary h-11" />
             
-            <div className="relative z-10 flex flex-col items-center justify-center h-full text-gray-800">
-                <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full mb-2">
+            <div className="z-10 flex flex-col items-center justify-center h-full text-textPrimary">
+                <div className="flex items-center justify-center w-12 h-12 bg-surface rounded-full mb-2  text-textSecondary">
                     {icon}
                 </div>
                 <p className="text-lg font-medium">{text}</p>
-                <p className="text-sm text-gray-500">{subText}</p> 
+                <p className="text-sm text-textSecondary">{subText}</p> 
             </div>
         </div>
     );

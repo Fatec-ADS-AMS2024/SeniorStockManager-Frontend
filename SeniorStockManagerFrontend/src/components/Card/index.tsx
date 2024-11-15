@@ -1,28 +1,32 @@
-import { useContext } from "react";
+import { useContext, JSX } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
 
+interface CardProps {
+    text: string;
+    subText: string;
+    icon: JSX.Element;
+    page: string;
+}
 
-export default function Card(){
-const { theme } = useContext(ThemeContext);
-    return(
-<div className="flex flex-col items-center justify-center min-h-screen">
+export default function Card({ text, subText, icon, page }: CardProps) {
+    const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate();
 
-    <div className="relative w-64 h-64 bg-purple-900 rounded-lg shadow-lg overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center opacity-75 background-image: url('your-image-url-here');"></div>
-
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-            <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-700" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+    return (
+        <div 
+            className="relative w-64 h-40 bg-white rounded-lg shadow-md border border-gray-200 cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => navigate(page)}
+        >
+            <div className="absolute top-0 left-0 right-0 h-2 bg-primary" />
+            
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-gray-800">
+                <div className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full mb-2">
+                    {icon}
+                </div>
+                <p className="text-lg font-medium">{text}</p>
+                <p className="text-sm text-gray-500">{subText}</p> 
             </div>
-            <p className="text-lg font-medium">Create Chatbot</p>
         </div>
-    </div>
-
-    <div className="p-4 text-center text-gray-500">
-        <p>Inspired by <a href="https://galichat.com" className="text-blue-500 underline">galichat.com</a></p>
-    </div>
-</div>
     );
 }

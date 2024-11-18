@@ -27,17 +27,19 @@ interface ModalProps {
   title?: string;
   inputs?: { label: string }[];
   action?: (data: { [key: string]: string }) => void;
+  statusModal?: boolean;
 }
 
-export default function Modal({title = "Título", inputs = [], action}: ModalProps) {
+export default function Modal({title = "Título", inputs = [], action, statusModal = true}: ModalProps) {
   const [formData, setFormData] = useState({});
+  const [showModal, setShowModal] = useState(statusModal);
 
   const handleFormSubmit = (label: string, value: string) => {
     setFormData((prev) => ({ ...prev, [label]: value }));
   };
 
   const closeModal = () => {
-    return null;
+    setShowModal(false);
   };
 
   const handleSubmit = () => {
@@ -46,6 +48,8 @@ export default function Modal({title = "Título", inputs = [], action}: ModalPro
     }
   };
 
+  if (!showModal)
+    return null;  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
       <form className="bg-white rounded-lg shadow-lg w-full max-w-lg p-4">

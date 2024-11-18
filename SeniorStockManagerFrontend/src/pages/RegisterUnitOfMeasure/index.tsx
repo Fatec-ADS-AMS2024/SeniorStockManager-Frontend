@@ -13,8 +13,15 @@ const inputs = [
 export default function Register_Unit_Of_Measure() {
     return(
         <div>
-            <SearchBar placeholder="Digite aqui..." action={console.log} />
-            <Modal title="Unidade de medida" inputs={inputs} action={console.log} />
+            <SearchBar 
+                placeholder="Digite aqui..." 
+                action={console.log} 
+            />
+            <Modal 
+                title="Unidade de medida" 
+                inputs={inputs} 
+                action={console.log}
+            />
             
         </div>
     );

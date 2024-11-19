@@ -29,7 +29,7 @@ interface ModalProps {
   statusModal?: boolean;
 }
 
-export default function Modal({title = "Título", inputs = [], action, statusModal = true}: ModalProps) {
+export default function Modal({title = "Título", inputs = [], action, statusModal = false}: ModalProps) {
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(statusModal);
 

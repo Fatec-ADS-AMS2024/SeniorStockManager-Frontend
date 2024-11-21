@@ -14,7 +14,7 @@ const inputs = [
 
 export default function Register_Unit_Of_Measure() {
     return(
-        <div>
+        <div className="bg-background  py-8 px-4">
             <PageTitle title="Unidade de Medida"/>
             <Breadcrumb/>
             <SearchBar 

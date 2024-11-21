@@ -10,8 +10,8 @@ import Layout from "../components/Layout";
 import AcessibilityPage from "../pages/AcessibilityPage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import RegisterUnitOfMeasure from "../pages/RegisterUnitOfMeasure"
+import RegisterPage from "../pages/Registrations";
+import RegisterUnitOfMeasure from "../pages/Registrations/RegisterUnitOfMeasure"
 
 const router = createBrowserRouter(
   createRoutesFromElements(

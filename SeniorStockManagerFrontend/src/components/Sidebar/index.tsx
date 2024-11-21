@@ -17,7 +17,7 @@ const buttons = [
   { id: 'elderly', label: 'Idosos', icon: <Users className="size-7 shrink-0" weight="fill" />, route: '/elderly' },
   { id: 'calendar', label: 'Calendário', icon: <CalendarDots className="size-7 shrink-0" weight="fill" />, route: '/calendar' },
   { id: 'careProvided', label: 'Cuidados Prestados', icon: <HandHeart className="size-7 shrink-0" weight="fill" />, route: '/careProvided' },
-  { id: 'registrations', label: 'Cadastros', icon: <UserCirclePlus className="size-7 shrink-0" weight="fill" />, route: '/registrations' },
+  { id: 'registrations', label: 'Cadastros', icon: <UserCirclePlus className="size-7 shrink-0" weight="fill" />, route: '/register' },
 ];
 
 export default function Sidebar() {

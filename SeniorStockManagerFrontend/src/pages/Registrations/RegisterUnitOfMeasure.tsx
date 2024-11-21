@@ -18,7 +18,7 @@ export default function Register_Unit_Of_Measure() {
             <PageTitle title="Unidade de Medida"/>
             <Breadcrumb/>
             <SearchBar 
-                placeholder="Digite aqui..." 
+                placeholder="Buscar Unidade de Medida" 
                 action={console.log} 
             />
             <Modal 

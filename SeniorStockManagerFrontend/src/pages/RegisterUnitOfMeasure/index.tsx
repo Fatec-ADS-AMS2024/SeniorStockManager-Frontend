@@ -1,6 +1,7 @@
 import SearchBar from "../../components/SearchBar";
 import Modal    from "../../components/GenericModal";
 import Breadcrumb from "../../components/Breadcrumb";
+import PageTitle from "../../components/PageTitle";
 
 const inputs = [
     {
@@ -14,6 +15,7 @@ const inputs = [
 export default function Register_Unit_Of_Measure() {
     return(
         <div>
+            <PageTitle title="Unidade de Medida"/>
             <Breadcrumb/>
             <SearchBar 
                 placeholder="Digite aqui..." 

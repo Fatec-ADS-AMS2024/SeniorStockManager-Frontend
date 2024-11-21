@@ -6,6 +6,8 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
 import SearchBar from "../../components/SearchBar";
+import Breadcrumb from '../../components/Breadcrumb';
+import PageTitle from '../../components/PageTitle';
 
 const cards = [
   {
@@ -26,6 +28,8 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       {/* Search Bar Section */}
+      <PageTitle title="Cadastros"/>
+      <Breadcrumb/>
       <SearchBar placeholder="Digite aqui..." action={console.log} />
 
       {/* Card Grid */}

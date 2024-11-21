@@ -26,7 +26,7 @@ const cards = [
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen py-8 px-4">
       {/* Search Bar Section */}
       <PageTitle title="Cadastros"/>
       <Breadcrumb/>

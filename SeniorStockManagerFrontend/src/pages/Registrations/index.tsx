@@ -21,7 +21,7 @@ export default function RegisterPage() {
     <div className=" bg-background">
       {/* Search Bar Section */}
       
-      <div className='bg-gray-100'>
+      <div>
         <PageTitle title="Cadastros"/>
         <Breadcrumb/>
       </div>

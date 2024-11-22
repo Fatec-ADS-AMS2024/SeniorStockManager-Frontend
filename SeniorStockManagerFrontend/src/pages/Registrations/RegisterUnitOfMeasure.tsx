@@ -1,7 +1,6 @@
 import SearchBar from "../../components/SearchBar";
 import Modal    from "../../components/GenericModal";
-import Breadcrumb from "../../components/Breadcrumb";
-import PageTitle from "../../components/PageTitle";
+import Breadcrumb_PageTitle from "../../components/BreadcrumbPageTitle";
 
 const inputs = [
     {
@@ -14,9 +13,8 @@ const inputs = [
 
 export default function Register_Unit_Of_Measure() {
     return(
-        <div className="bg-background  py-8 px-4">
-            <PageTitle title="Unidade de Medida"/>
-            <Breadcrumb/>
+        <div>
+            <Breadcrumb_PageTitle title="Unidade de Medida"/>
             <SearchBar 
                 placeholder="Buscar Unidade de Medida" 
                 action={console.log} 

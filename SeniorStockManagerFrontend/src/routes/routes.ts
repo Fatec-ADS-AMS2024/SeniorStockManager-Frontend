@@ -4,5 +4,5 @@ export const routes = {
   LOGIN: '/login',
   HOME: '/home',
   REGISTER: '/register',
-  REGISTER_UNIT_OF_MEASURE: '/home/register/unitofmeasure'
+  REGISTER_UNIT_OF_MEASURE: '/register/unitofmeasure'
 }

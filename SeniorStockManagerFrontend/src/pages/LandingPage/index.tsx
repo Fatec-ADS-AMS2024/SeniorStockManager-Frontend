@@ -17,12 +17,11 @@ export default function LandingPage() {
     <div className="flex">
       <div className="w-[40%] h-full bg-surface flex flex-col justify-center">
         <h1 className="text-secondary font-bold text-5xl mx-16">
-          Plataforma de ferramentas para gerenciar o cuidado e bem-estar de
-          idosos.
+          Plataforma de ferramentas para gerenciamento da parte adiministrativa 
+          
         </h1>
         <p className="text-textSecondary font-semibold text-2xl mt-2 mx-16">
-          Plataforma de recursos para administrar o cuidado e a qualidade de
-          vida de idosos
+          Plataforma de recursos para administrar o estoque, compras e doações da instituição
         </p>
         
         <button onClick={handleLoginClick} className="bg-primary h-14 w-52 mt-5 rounded text-surface font-semibold hover:bg-hoverButton hover:scale-105 transition-colors mx-16 text-lg">

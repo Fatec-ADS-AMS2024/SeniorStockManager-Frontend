@@ -29,7 +29,7 @@ export default function Sidebar() {
     <div
       className={`flex flex-col ${
         isOpen ? 'w-72' : 'w-16'
-      } h-full bg-surface shadow-lg transition-all duration-500 overflow-hidden`}
+      } h-full bg-neutralWhite shadow-lg transition-all duration-500 overflow-hidden`}
     >
       {/* Botão de Menu */}
       <button
@@ -47,7 +47,7 @@ export default function Sidebar() {
             onClick={() => navigate(button.route)}
             className={`flex items-center gap-2 h-14 whitespace-nowrap border-x-transparent border-x-4 ${isOpen ? 'px-4' : 'justify-center'} ${
               location.pathname === button.route
-                ? 'bg-secondary text-surface' // Estilo para a página ativa
+                ? 'bg-secondary text-neutralWhite' // Estilo para a página ativa
                 : 'text-primary hover:bg-[#F3F3F3] hover:border-r-primary'
             }`}
           >

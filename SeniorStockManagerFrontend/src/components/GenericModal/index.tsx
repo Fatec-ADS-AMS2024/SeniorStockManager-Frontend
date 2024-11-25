@@ -30,7 +30,7 @@ export default function Modal({title = "Título", inputs = [], action, statusMod
     return null;  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-      <form className="bg-surface rounded-lg shadow-lg w-full max-w-lg p-4">
+      <form className="bg-neutralWhite rounded-lg shadow-lg w-full max-w-lg p-4">
         {/* Cabeçalho do Modal */}
         <div className="flex justify-center items-center px-4 py-0 mr-0 border-0">
           <h2 className="text-xl font-semibold ">{title}</h2>
@@ -57,14 +57,14 @@ export default function Modal({title = "Título", inputs = [], action, statusMod
         <div className="flex justify-end px-4 py-2">
           <button
             type="button"
-            className="bg-red001 text-surface px-5 py-1 rounded hover:bg-red002 transition"
+            className="bg-red001 text-neutralWhite px-5 py-1 rounded hover:bg-red002 transition"
             onClick={closeModal}
           >
             x Cancelar
           </button>
           <button
             type="button"
-            className="bg-green001 text-surface px-5 py-1 rounded hover:bg-green002 transition ml-3"
+            className="bg-green001 text-neutralWhite px-5 py-1 rounded hover:bg-green002 transition ml-3"
             onClick={handleSubmit}
           >
             + Enviar

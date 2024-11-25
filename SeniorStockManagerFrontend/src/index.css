@@ -21,13 +21,14 @@
       --color-neutral: #f3f3f3; /* Tons intermediários */
       --color-neutral-darker: #d9d9d9; /* Tons mais escuros */
       --color-neutral-dark: #c6c6c6; /* Ideal para contraste suave */
-      --color-surface: #FFFFFF;
+      --color-neutral-white: #FFFFFF;
+      --color-text-primary: #495453;
+      --color-text-secondary: #6D8385;
 
+      /* Cores específicas do Módulo */
       --color-primary: #539AFD;
       --color-secondary: #38B6FF;
       --color-background: #f3f4f6;
-      --color-text-primary: #495453;
-      --color-text-secondary: #6D8385;
       --color-surface-user: #D2EDEB;
       --color-hoverButton: #3083b2;
 
@@ -46,7 +47,6 @@
       --color-background: #E0E3E0;
       --color-text-primary: #424242;
       --color-text-secondary: #3F3F3F;
-      --color-surface: #FFFFFF;
       --color-surface-user: #D2D2D2;
       --color-hoverButton: #2e2e2e;
     }

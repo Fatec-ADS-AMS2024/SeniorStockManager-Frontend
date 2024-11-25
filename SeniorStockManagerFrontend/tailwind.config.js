@@ -17,7 +17,7 @@ export default {
         background: 'var(--color-background)',
         textPrimary: 'var(--color-text-primary)',
         textSecondary: 'var(--color-text-secondary)',
-        surface: 'var(--color-surface)',
+        neutralWhite: 'var(--color-neutral-white)',
         surfaceUser: 'var(--color-surface-user)',
         hoverButton: 'var(--color-hoverButton)',
 

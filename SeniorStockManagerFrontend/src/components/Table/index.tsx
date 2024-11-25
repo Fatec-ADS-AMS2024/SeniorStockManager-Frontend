@@ -13,7 +13,7 @@ interface TableProps {
 
 export default function Table({ columns, data, actions }: TableProps) {
   return (
-    <table className="w-full bg-surface rounded-lg shadow-md">
+    <table className="w-full bg-neutralWhite rounded-lg shadow-md">
       {/* Cabeçalho da tabela */}
       <TableHeader columns={columns} actions={actions} />
       {/* Corpo da tabela */}

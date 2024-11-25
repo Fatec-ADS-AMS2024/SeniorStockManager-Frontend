@@ -17,14 +17,27 @@
     }
   
     :root {
+      --color-neutral-lighter: #fafafa; /* Fundo claro*/
+      --color-neutral: #f3f3f3; /* Tons intermediários */
+      --color-neutral-darker: #d9d9d9; /* Tons mais escuros */
+      --color-neutral-dark: #c6c6c6; /* Ideal para contraste suave */
+      --color-surface: #FFFFFF;
+
       --color-primary: #539AFD;
       --color-secondary: #38B6FF;
-      --color-background: #E0E3E0;
+      --color-background: #f3f4f6;
       --color-text-primary: #495453;
       --color-text-secondary: #6D8385;
-      --color-surface: #FFFFFF;
       --color-surface-user: #D2EDEB;
       --color-hoverButton: #3083b2;
+
+      /* Color Green (Do mais claro ao mais escuro)*/
+      --color-green-001: #16a34a;
+      --color-green-002: #15803d;
+
+      /* Color Red(Do mais claro ao mais escuro) */
+      --color-red-001: #dc2626;
+      --color-red-002: #b91c1c;
     }
     
     [data-theme="high-contrast"] {

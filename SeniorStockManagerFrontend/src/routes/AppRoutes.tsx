@@ -8,9 +8,10 @@ import {
 import { routes } from "./routes";
 import Layout from "../components/Layout";
 import AcessibilityPage from "../pages/AcessibilityPage";
-
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/Registrations";
+import RegisterUnitOfMeasure from "../pages/Registrations/RegisterUnitOfMeasure"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,8 @@ const router = createBrowserRouter(
       <Route path={routes.ACCESSIBILITY} element={<AcessibilityPage />} />
       <Route path={routes.LANDING} element={<LandingPage />} />
       <Route path={routes.LOGIN} element={<LoginPage />} />
+      <Route path={routes.REGISTER} element={<RegisterPage />} />
+      <Route path={routes.REGISTER_UNIT_OF_MEASURE} element={<RegisterUnitOfMeasure />} />
     </Route>
   )
 );

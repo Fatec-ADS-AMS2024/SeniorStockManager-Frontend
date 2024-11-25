@@ -13,7 +13,7 @@ export default function Card({ text, subText, icon, page }: CardProps) {
 
   return (
     <div
-      className="w-64 h-36 bg-neutralWhite rounded-lg shadow-md border border-background cursor-pointer hover:shadow-lg transition"
+      className="w-64 h-36 bg-neutralWhite rounded-lg shadow-md border border-neutralLighter cursor-pointer hover:shadow-lg transition"
       onClick={() => navigate(page)}
     >
       {/* Ícone */}

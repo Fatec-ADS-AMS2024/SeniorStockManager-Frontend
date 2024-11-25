@@ -28,7 +28,6 @@
       /* Cores específicas do Módulo */
       --color-primary: #539AFD;
       --color-secondary: #38B6FF;
-      --color-background: #f3f4f6;
       --color-surface-user: #D2EDEB;
       --color-hoverButton: #3083b2;
 
@@ -44,7 +43,6 @@
     [data-theme="high-contrast"] {
       --color-primary: #000000;
       --color-secondary: #242424;
-      --color-background: #E0E3E0;
       --color-text-primary: #424242;
       --color-text-secondary: #3F3F3F;
       --color-surface-user: #D2D2D2;

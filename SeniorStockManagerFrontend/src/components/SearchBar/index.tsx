@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import SearchIcon from '../../assets/icons/search-icon.png';
+import { MagnifyingGlass } from '@phosphor-icons/react';
 
 // Parametros da barra de pesquisa
 interface SearchBarProps {
   placeholder?: string;
-  icon?: string;
   action?: (searchTerm: string) => void;
 }
 
 // Componente de barra de pesquisa
-export default function SearchBar({ placeholder, icon, action }: SearchBarProps) {
+export default function SearchBar({ placeholder, action }: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Função para lidar com a ação de pesquisa
@@ -30,20 +29,18 @@ export default function SearchBar({ placeholder, icon, action }: SearchBarProps)
       <input
         type="text"
         placeholder={placeholder ? placeholder : 'Digite aqui...'}
-        className="w-full py-2 pl-4 text-sm text-gray-600 rounded-l border-2 border-white bg-white focus:outline-none focus:border-gray-400"
+        className="w-full py-2 pl-4 text-sm text-textPrimary rounded-l border-2 border-surface bg-surface focus:outline-none focus:border-neutralDarker"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
         {/* Botão pra envio do formulário com a ação de pesquisa */}
         <button
           type="button"
-          className="py-1 px-5 text-xl text-white rounded-r bg-gray-300 hover:bg-gray-400 focus:outline-none"
+          className="py-1 px-5 text-xl text-textSecondary rounded-r bg-neutralDarker hover:bg-neutralDark focus:outline-none"
           onClick={handleSearch}
         >
           {/* Icone da barra de pesquisa */}
-          {
-            icon? <img className="w-5 h-5" src={icon}/> : <img className="w-5 h-5" src={SearchIcon}/> 
-          }
+          <MagnifyingGlass size={27} /> 
         </button>
       </form>
     </div>

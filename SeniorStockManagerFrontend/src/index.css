@@ -31,13 +31,14 @@
       --color-surface-user: #D2EDEB;
       --color-hoverButton: #3083b2;
 
-      /* Color Green (Do mais claro ao mais escuro)*/
-      --color-green-001: #16a34a;
-      --color-green-002: #15803d;
+      --color-danger: #d30202;
+      --color-hoverDanger: #b80202;
+      --color-edit: #5DB6DC;
+      --color-hoverEdit: #278bb6;
+      --color-success: #009F55;
+      --color-hoverSuccess: #198754;
+      --color-warning: #ffc107;
 
-      /* Color Red(Do mais claro ao mais escuro) */
-      --color-red-001: #dc2626;
-      --color-red-002: #b91c1c;
     }
     
     [data-theme="high-contrast"] {
@@ -47,6 +48,14 @@
       --color-text-secondary: #3F3F3F;
       --color-surface-user: #D2D2D2;
       --color-hoverButton: #2e2e2e;
+
+      --color-danger: #000000;
+      --color-hoverDanger: #242424;
+      --color-edit: #000000;
+      --color-hoverEdit: #242424;
+      --color-success: #000000;
+      --color-hoverSuccess: #242424;
+      --color-warning: #000000;
     }
   }
 

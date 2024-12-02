@@ -4,24 +4,24 @@ import Button from '../Button';
 import { Plus } from '@phosphor-icons/react';
 import { X } from '@phosphor-icons/react';
 
-interface ModalProps {
+interface ModalProps<T> {
   title?: string;
-  inputs?: { label: string }[];
-  action?: (data: { [key: string]: string }) => void;
+  inputs?: { label: string, attribute: string}[];
+  action?: (dados: T) => void;
   statusModal?: boolean;
   closeModal?: () => void;
 }
 
-export default function Modal({title = "Título", inputs = [], action, statusModal = true, closeModal}: ModalProps) {
+export default function Modal<T>({title = "Título", inputs = [], action, statusModal = true, closeModal}: ModalProps<T>) {
   const [formData, setFormData] = useState({});
 
-  const handleFormSubmit = (label: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [label]: value }));
+  const handleFormSubmit = (attribute: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [attribute]: value }));
   };
 
   const handleSubmit = () => {
     if (action) {
-      action(formData);
+      action(formData as T);
     }
   };
 
@@ -29,7 +29,7 @@ export default function Modal({title = "Título", inputs = [], action, statusMod
     return null;  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-      <form className="bg-surface rounded-lg shadow-lg w-full max-w-xl p-4 bg-white">
+      <form className="bg-surface rounded-lg shadow-lg w-full max-w-xl p-4 bg-neutralWhite">
         {/* Cabeçalho do Modal */}
         <div className="flex items-center px-2">
           <h2 className="text-xl font-semibold text-textPrimary">{title}</h2>
@@ -43,7 +43,7 @@ export default function Modal({title = "Título", inputs = [], action, statusMod
             <Input
               key={input.label}
               label={input.label}
-              action={(value) => handleFormSubmit(input.label, value)}
+              action={(value) => handleFormSubmit(input.attribute, value)}
             />
           ))}
         </div>
@@ -54,7 +54,7 @@ export default function Modal({title = "Título", inputs = [], action, statusMod
         {/* Rodapé do Modal */}
         <div className="flex justify-end px-4 py-2 gap-7">
           <Button
-            icon={<X size={20} color='white'/>}
+            icon={<X size={20} color='neutralWhite'/>}
             label="Cancelar"
             onClick={closeModal}
             color='danger'
@@ -62,7 +62,7 @@ export default function Modal({title = "Título", inputs = [], action, statusMod
             className='rounded-[5px] w-32'
           />
           <Button
-            icon={<Plus size={20} color='white'/>}
+            icon={<Plus size={20} color='neutralWhite'/>}
             label="Salvar"
             onClick={handleSubmit}
             color='success'

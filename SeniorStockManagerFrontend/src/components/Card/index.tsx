@@ -13,8 +13,9 @@ export default function Card({ text, subText, icon, page }: CardProps) {
 
   return (
     <div
-      className="w-64 h-36 bg-neutralWhite rounded-lg shadow-md border border-neutralLighter cursor-pointer hover:shadow-lg transition"
+      className="w-64 h-36 bg-neutralWhite hover:border-r-primary rounded-lg shadow-md border border-neutralLighter cursor-pointer hover:shadow-lg transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
       onClick={() => navigate(page)}
+      tabIndex={0}  // Garante que o div pode ser focado
     >
       {/* Ícone */}
       <div className="h-1/4 relative">

@@ -18,6 +18,7 @@
   
     :root {
       --color-neutral-lighter: #fafafa; /* Fundo claro*/
+      --color-neutral-light: #E0E3E0;
       --color-neutral: #f3f3f3; /* Tons intermediários */
       --color-neutral-darker: #d9d9d9; /* Tons mais escuros */
       --color-neutral-dark: #c6c6c6; /* Ideal para contraste suave */

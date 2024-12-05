@@ -11,6 +11,7 @@ export default {
         neutral: 'var(--color-neutral)',
         neutralDarker: 'var(--color-neutral-darker)',
         neutralDark: 'var(--color-neutral-dark)',
+        neutralLight: 'var(--color-neutral-light)',
 
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',

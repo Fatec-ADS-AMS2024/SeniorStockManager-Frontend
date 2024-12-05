@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '../InputText';
 import Button from '../Button';
 import { Plus, X, Pencil } from '@phosphor-icons/react';
@@ -21,6 +21,20 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
   const [formData, setFormData] = useState<Record<string, string>>(
     inputs.reduce((prev, input) => ({...prev, [input.attribute]: input.defaultValue || ""}), {})
   );
+  
+  useEffect(() => {
+    if (statusModal) {
+    // Executa apenas ao abrir o modal
+      setFormData(
+        inputs.reduce(
+          (prev, input) => ({
+            ...prev,
+            [input.attribute]: input.defaultValue ?? "",
+          }),{}
+        )
+      );
+   }
+  }, [statusModal]);
 
   const handleFormSubmit = (attribute: string, value: string) => {
     setFormData((prev) => ({ ...prev, [attribute]: value }));
@@ -53,7 +67,6 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
                   key={input.label}
                   label={input.label}
                   action={(value) => handleFormSubmit(input.attribute, value)}
-                  value={formData[input.attribute]}
                 />
             ))}
           </div>
@@ -101,10 +114,11 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
           <div className="mb-4 px-2">
             {inputs.map((input) => (
               <Input
-                key={input.label}
-                label={input.label}
+                key={input.attribute}
+                label={input.label && input.label}
                 action={(value) => handleFormSubmit(input.attribute, value)}
                 value={formData[input.attribute]}
+                defaultDisable={input.label? false : true}
               />
             ))}
           </div>
@@ -152,7 +166,6 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
               />
             ))}
           </div>
-          <p className="text-md text-textSecondary break-words">{msgConfirm}</p>
           <div className="flex justify-end px-4 py-2 gap-7">
             <Button
               label="Cancelar"

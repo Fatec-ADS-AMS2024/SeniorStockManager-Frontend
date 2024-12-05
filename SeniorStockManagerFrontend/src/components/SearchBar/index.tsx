@@ -38,7 +38,7 @@ export default function SearchBar({ placeholder, action }: SearchBarProps) {
         <Button 
         label=""
           icon={<MagnifyingGlass size={20} />}
-          className="bg-neutralLight text-textPrimary hover:bg-neutralDark"
+          color='neutralLight'
           onClick={handleSearch}
           type="button"
         />

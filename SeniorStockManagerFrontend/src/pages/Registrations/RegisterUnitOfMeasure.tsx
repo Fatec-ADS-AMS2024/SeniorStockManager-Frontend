@@ -9,14 +9,18 @@ import UnitOfMeasure from "../../types/models/UnitOfMeasure";
 
 const inputs = [
     {   
+        label: "Id",
         attribute: "id",
         defaultValue: "1",
+        locked: true
     }, 
     {
+        label: "Nome",
         attribute: "name",
         defaultValue: "Unidade de Medida 1",
     },
     {
+
         attribute: "abreviation",
         defaultValue: "UM1",
     },
@@ -77,7 +81,8 @@ export default function Register_Unit_Of_Measure() {
                 />
                 <Modal<UnitOfMeasure>
                     type="delete"
-                    title="Deseja realmente excluir essa Unidade de Medida?"
+                    title="Deseja excluir essa Unidade de Medida?"
+                    msgInformation="Ao excluir esta unidade, ela será removida permanentemente do sistema."
                     action={console.log}
                     statusModal={showModal}
                     closeModal={closeModal}

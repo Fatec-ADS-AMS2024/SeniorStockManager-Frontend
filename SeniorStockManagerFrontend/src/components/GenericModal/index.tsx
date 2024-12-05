@@ -5,19 +5,18 @@ import { Plus, X, Pencil } from '@phosphor-icons/react';
 
 interface ModalProps<T> {
   title?: string;
-  inputs?: { label?: string, attribute: string, defaultValue?: string}[];
+  inputs?: { label?: string, attribute: string, defaultValue?: string, locked?: boolean}[];
   action?: ((dados: T) => void);
   optionalAction?: () => void;
   statusModal: boolean;
   closeModal: () => void;
   type: "create" | "update" | "view" | "delete" | "info"; 
-  msgConfirm?: string
   msgInformation?: string
   className?: string
   icon ?: JSX.Element
 }
 
-export default function Modal<T>({icon, title = "Título", inputs = [], action, statusModal = true, closeModal, type, msgConfirm, msgInformation, className = "", optionalAction}: ModalProps<T>) {
+export default function Modal<T>({icon, title = "Título", inputs = [], action, statusModal = true, closeModal, type, msgInformation, className = "", optionalAction}: ModalProps<T>) {
   const [formData, setFormData] = useState<Record<string, string>>(
     inputs.reduce((prev, input) => ({...prev, [input.attribute]: input.defaultValue || ""}), {})
   );
@@ -52,7 +51,7 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
   if (type === "create"){
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-        <form className={`rounded-lg shadow-lg w-full max-w-xl p-4 bg-neutralWhite ${className}`}>
+        <form className={`rounded-[10px] shadow-lg w-full max-w-xl p-4 bg-neutralWhite ${className}`}>
           {/* Cabeçalho do Modal */}
           <div className="flex items-center px-2">
             <h2 className="text-xl font-semibold text-textPrimary">{title}</h2>
@@ -102,7 +101,7 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
   else if (type === "update"){
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-        <form className="rounded-lg shadow-lg w-full max-w-xl p-4 bg-neutralWhite">
+        <form className="rounded-[10px] shadow-lg w-full max-w-xl p-4 bg-neutralWhite">
           {/* Cabeçalho do Modal */}
           <div className="flex items-center px-2">
             <h2 className="text-xl font-semibold text-textPrimary">{title}</h2>
@@ -118,7 +117,7 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
                 label={input.label && input.label}
                 action={(value) => handleFormSubmit(input.attribute, value)}
                 value={formData[input.attribute]}
-                defaultDisable={input.label? false : true}
+                defaultDisable={input.locked}
               />
             ))}
           </div>
@@ -153,33 +152,33 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
   else if (type === 'delete') {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-        <form className="rounded-lg shadow-lg w-full max-w-xl p-3 bg-neutralWhite px-5 text-start py-7">
+        <form className="rounded-[10px] shadow-lg w-full max-w-xl p-3 bg-neutralWhite px-5 text-start py-7">
           <h2 className="text-2xl font-semibold text-textPrimary">{title}</h2>
           <div className="mb-4 px-2">
           {inputs.map((input) => (
               <Input
                 key={input.attribute}
-                label={input.label}
                 action={(value) => handleFormSubmit(input.attribute, value)}
                 value={formData[input.attribute]}
                 property={{type: "hidden"}}
               />
             ))}
           </div>
+          <p className="text-md text-textSecondary break-words text-xl mb-4">{msgInformation}</p>
           <div className="flex justify-end px-4 py-2 gap-7">
             <Button
               label="Cancelar"
               onClick={closeModal}
               color='textSecondary'
               size='medium'
-              className='rounded-[5px] w-32 font-semibold'
+              className='w-32 font-semibold'
             />
             <Button
               label="Sim, desejo excluir!"
               onClick={() => {handleSubmit(); closeModal(); if (optionalAction) optionalAction();}}
               color='primary'
               size='medium'
-              className='rounded-[5px] font-semibold'
+              className='font-semibold'
               type='button'
             />
           </div>
@@ -190,7 +189,7 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
   else  if (type === 'info') {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50" onClick={closeModal}>
-        <div className="flex flex-col justify-center items-center rounded-lg shadow-lg w-full max-w-md bg-neutralWhite px-5 text-start py-5">
+        <div className="flex flex-col justify-center items-center rounded-[10px] shadow-lg w-full max-w-md bg-neutralWhite px-5 text-start py-5">
           {icon}
           <span className='text-textSecondary text-3xl font-semibold text-center'>{msgInformation}</span>
         </div>

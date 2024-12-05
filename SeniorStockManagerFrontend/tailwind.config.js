@@ -28,8 +28,6 @@ export default {
         success: 'var(--color-success)',
         hoverSuccess: 'var(--color-hoverSuccess)',
         warning: 'var(--color-warning)',
-        confirmation: 'var(--color-confirmation)',
-        hoverConfirmation: 'var(--color-hoverConfirmation)',
         }
     },
   },

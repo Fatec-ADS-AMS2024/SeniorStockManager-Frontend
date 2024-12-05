@@ -177,7 +177,7 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
             <Button
               label="Sim, desejo excluir!"
               onClick={() => {handleSubmit(); closeModal(); if (optionalAction) optionalAction();}}
-              color='confirmation'
+              color='primary'
               size='medium'
               className='rounded-[5px] font-semibold'
               type='button'

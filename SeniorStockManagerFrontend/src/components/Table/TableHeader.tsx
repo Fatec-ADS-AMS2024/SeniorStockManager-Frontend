@@ -1,8 +1,6 @@
-import { JSX } from "react";
-
 interface TableHeaderProps {
   columns: string[];
-  actions?: JSX.Element;
+  actions?: boolean;
 }
 
 export default function TableHeader({ columns, actions }: TableHeaderProps) {

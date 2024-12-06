@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MagnifyingGlass } from '@phosphor-icons/react';
+import Button from '../Button';
 
 // Parametros da barra de pesquisa
 interface SearchBarProps {
@@ -29,19 +30,19 @@ export default function SearchBar({ placeholder, action }: SearchBarProps) {
       <input
         type="text"
         placeholder={placeholder ? placeholder : 'Digite aqui...'}
-        className="w-full py-2 pl-4 text-sm text-textPrimary rounded-l border-2 border-surface bg-surface focus:outline-none focus:border-neutralDarker"
+        className="w-full py-2 pl-4 text-sm text-textPrimary rounded-l border-2 border-neutralWhite bg-neutralWhite focus:outline-none focus:border-neutralDarker"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
         {/* Botão pra envio do formulário com a ação de pesquisa */}
-        <button
-          type="button"
-          className="py-1 px-5 text-xl text-textSecondary rounded-r bg-neutralDarker hover:bg-neutralDark focus:outline-none"
+        <Button 
+        label=""
+          icon={<MagnifyingGlass size={20} />}
+          color='neutralLight'
           onClick={handleSearch}
-        >
-          {/* Icone da barra de pesquisa */}
-          <MagnifyingGlass size={27} /> 
-        </button>
+          type="button"
+        />
+
       </form>
     </div>
   );

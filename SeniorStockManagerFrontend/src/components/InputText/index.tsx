@@ -19,6 +19,7 @@ export default function Input({ label = "", value, action, defaultDisable = fals
         }}
         disabled={defaultDisable}
         { ...property }
+        required
         />
     </div>
   );

@@ -36,13 +36,12 @@ export default function SearchBar({ placeholder, action }: SearchBarProps) {
       />
         {/* Botão pra envio do formulário com a ação de pesquisa */}
         <Button 
-        label=""
+          label=""
           icon={<MagnifyingGlass size={20} />}
           color='neutralLight'
           onClick={handleSearch}
           type="button"
         />
-
       </form>
     </div>
   );

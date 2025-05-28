@@ -196,5 +196,4 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
       </div>
     );
   }
-    
 }

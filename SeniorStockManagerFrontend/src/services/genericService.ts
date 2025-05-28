@@ -1,8 +1,7 @@
 import axios from "axios";
 import ServiceResult from "../types/services/ServiceResult";
 
-// TODO implementar validações básicas
-export default abstract class GenericService<T> {
+export default abstract class GenericService<T extends { id: number }> {
     protected readonly baseUrl: string;
 
     constructor(modelName: string) {
@@ -45,7 +44,6 @@ export default abstract class GenericService<T> {
 
     async update(id: number, model: T): Promise<ServiceResult<T>> {
         try {
-            this.validateId(id);
             this.validateModel(model);
 
             const res = await axios.put(this.baseUrl + id, model);
@@ -78,6 +76,7 @@ export default abstract class GenericService<T> {
 
     protected validateModel(model: T): void {
         if (!model) throw new Error("Os dados não foram informados");
+        this.validateId(model.id);
     }
 
     protected handleError(error: unknown): { code: number, message: string } {

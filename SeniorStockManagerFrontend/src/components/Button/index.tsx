@@ -8,7 +8,7 @@ interface ButtonProps
   label: string;
   icon?: JSX.Element;
   iconPosition?: "left" | "right";
-  color?: "primary" | "secondary" | "danger" | "edit";
+  color?: "primary" | "secondary" | "success" | "danger" | "edit" | "textSecondary" | "neutralLight";
   size?: "small" | "medium" | "large";
 }
 
@@ -22,10 +22,13 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const colorClasses = {
-    primary: "bg-primary hover:bg-secondary text-white",
-    secondary: "bg-secondary hover:bg-primary text-white",
-    danger: "bg-danger hover:bg-hoverDanger text-white",
-    edit: "bg-edit hover:bg-hoverEdit text-white",
+    primary: "bg-primary hover:bg-secondary text-neutralWhite",
+    secondary: "bg-secondary hover:bg-primary text-neutralWhite",
+    success: "bg-success hover:bg-hoverSuccess text-neutralWhite",
+    danger: "bg-danger hover:bg-hoverDanger text-neutralWhite",
+    edit: "bg-edit hover:bg-hoverEdit text-neutralWhite",
+    textSecondary: "bg-textSecondary hover:bg-hoverConfirmation text-neutralWhite",
+    neutralLight: "bg-neutralLight hover:bg-neutralDark text-textPrimary",
   };
 
   const sizeClasses = {
@@ -36,7 +39,7 @@ export default function Button({
 
   return (
     <button
-      className={`flex items-center justify-center gap-1 rounded-sm transition ${colorClasses[color]} ${sizeClasses[size]} ${className}`}
+      className={`flex items-center justify-center gap-1 rounded-[4px] shadow-md transition ${colorClasses[color]} ${sizeClasses[size]} ${className}`}
       {...props}
     >
       {iconPosition === "left" && <span>{icon}</span>}

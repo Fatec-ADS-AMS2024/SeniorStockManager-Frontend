@@ -11,13 +11,13 @@ export default {
         neutral: 'var(--color-neutral)',
         neutralDarker: 'var(--color-neutral-darker)',
         neutralDark: 'var(--color-neutral-dark)',
+        neutralLight: 'var(--color-neutral-light)',
 
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
-        background: 'var(--color-background)',
         textPrimary: 'var(--color-text-primary)',
         textSecondary: 'var(--color-text-secondary)',
-        surface: 'var(--color-surface)',
+        neutralWhite: 'var(--color-neutral-white)',
         surfaceUser: 'var(--color-surface-user)',
         hoverButton: 'var(--color-hoverButton)',
 
@@ -28,11 +28,7 @@ export default {
         success: 'var(--color-success)',
         hoverSuccess: 'var(--color-hoverSuccess)',
         warning: 'var(--color-warning)',
-        green001: 'var(--color-green-001)',
-        green002: 'var(--color-green-002)',
-        red001: 'var(--color-red-001)',
-        red002: 'var(--color-red-002)',
-      }
+        }
     },
   },
   plugins: [],

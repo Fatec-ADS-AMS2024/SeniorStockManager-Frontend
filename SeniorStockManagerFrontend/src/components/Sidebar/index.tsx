@@ -17,7 +17,7 @@ const buttons = [
   { id: 'elderly', label: 'Idosos', icon: <Users className="size-7 shrink-0" weight="fill" />, route: '/elderly' },
   { id: 'calendar', label: 'Calendário', icon: <CalendarDots className="size-7 shrink-0" weight="fill" />, route: '/calendar' },
   { id: 'careProvided', label: 'Cuidados Prestados', icon: <HandHeart className="size-7 shrink-0" weight="fill" />, route: '/careProvided' },
-  { id: 'registrations', label: 'Cadastros', icon: <UserCirclePlus className="size-7 shrink-0" weight="fill" />, route: '/register' },
+  { id: 'registrations', label: 'Cadastros', icon: <UserCirclePlus className="size-7 shrink-0" weight="fill" />, route: '/registrations' },
 ];
 
 export default function Sidebar() {
@@ -29,12 +29,12 @@ export default function Sidebar() {
     <div
       className={`flex flex-col ${
         isOpen ? 'w-72' : 'w-16'
-      } h-full bg-surface shadow-lg transition-all duration-500 overflow-hidden`}
+      } h-full bg-neutralWhite shadow-lg transition-all duration-500 overflow-hidden`}
     >
       {/* Botão de Menu */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-center h-16 text-primary hover:bg-[#F3F3F3] border-x-4 border-x-transparent hover:border-r-primary relative "
+        className="flex w-full items-center justify-center h-16 text-primary hover:bg-neutralLighter border-x-4 border-x-transparent hover:border-r-primary relative "
       >
         {isOpen ? <X className="size-6 absolute right-4" /> : <List className="size-8" />}
       </button>
@@ -47,8 +47,8 @@ export default function Sidebar() {
             onClick={() => navigate(button.route)}
             className={`flex items-center gap-2 h-14 whitespace-nowrap border-x-transparent border-x-4 ${isOpen ? 'px-4' : 'justify-center'} ${
               location.pathname === button.route
-                ? 'bg-secondary text-surface' // Estilo para a página ativa
-                : 'text-primary hover:bg-[#F3F3F3] hover:border-r-primary'
+                ? 'bg-secondary text-neutralWhite border-r-primary' // Estilo para a página ativa
+                : 'text-primary hover:bg-neutralLighter hover:border-r-primary'
             }`}
           >
             {button.icon}

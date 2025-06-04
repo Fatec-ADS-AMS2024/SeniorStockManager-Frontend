@@ -5,6 +5,7 @@ import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
 import SearchBar from "../../components/SearchBar";
 import Breadcrumb_PageTitle from '../../components/BreadcrumbPageTitle';
+import { Group } from 'lucide-react';
 
 const cards = [
   {
@@ -12,6 +13,12 @@ const cards = [
     subText: 'Unidades de medidas Cadastradas',
     icon: <Ruler size={28} className='shrink-0' />,
     page: routes.REGISTER_UNIT_OF_MEASURE,
+  },
+    {
+    text: 'Grupo de Produtos',
+    subText: 'Grupo de produtos Cadastrados',
+    icon: <Group size={28} className='shrink-0' />,
+    page: routes.PRODUTCT_GROUP,
   },
 ];
 

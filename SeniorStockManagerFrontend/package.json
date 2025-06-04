@@ -12,9 +12,12 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
     "axios": "^1.7.7",
+    "lucide-react": "^0.511.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.27.0"
+    "react-hook-form": "^7.57.0",
+    "react-router-dom": "^6.27.0",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

@@ -17,7 +17,7 @@
     }
   
     :root {
-      --color-background: #F9F9F9 ;
+      --color-background: #f9f9f9 ; /* cor de fundo*/
       --color-neutral-lighter: #fafafa; /* Fundo claro*/
       --color-neutral-light: #E0E3E0;
       --color-neutral: #f3f3f3; /* Tons intermediários */

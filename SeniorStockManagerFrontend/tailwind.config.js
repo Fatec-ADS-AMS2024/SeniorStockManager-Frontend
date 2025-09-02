@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        background: 'var(--color-background)',
         neutralLighter: 'var(--color-neutral-lighter)',
         neutral: 'var(--color-neutral)',
         neutralDarker: 'var(--color-neutral-darker)',

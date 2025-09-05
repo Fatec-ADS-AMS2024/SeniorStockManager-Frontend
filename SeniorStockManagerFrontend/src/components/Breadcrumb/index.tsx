@@ -10,8 +10,9 @@ export default function Breadcrumb() {
   //EXEMPLO: REGISTER: "CADASTROS"
   const breadcrumbNameMap: { [key: string]: string } = {
     home: "Início",
-    register: "Cadastros",
+    registrations: "Cadastros",
     unitofmeasure: "Unidade de Medida",
+    product: "Produto",
   };
 
   return (

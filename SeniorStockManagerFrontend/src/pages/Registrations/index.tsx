@@ -13,6 +13,12 @@ const cards = [
     icon: <Ruler size={28} className='shrink-0' />,
     page: routes.REGISTER_UNIT_OF_MEASURE,
   },
+   {
+    text: 'Produtos',
+    subText: 'Produtos Cadastrados',
+    icon: <Ruler size={28} className='shrink-0' />,
+    page: routes.REGISTER_PRODUCT,
+  },
 ];
 
 export default function RegisterPage() {

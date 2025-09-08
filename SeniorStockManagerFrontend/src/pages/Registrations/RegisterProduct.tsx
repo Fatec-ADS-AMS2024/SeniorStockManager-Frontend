@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../routes/routes";
 
 export default function ProductRegistration() {
-  const columns = ["Descrição", "Abreviação"];
+  const columns = ["Descrição", "Tipo", "Grupo"];
   const [data, setData] = useState<Product[]>([]);
   const [originalData, setOriginalData] = useState<Product[]>([]);
   const [modalDelete, setModalDelete] = useState(false);
@@ -93,33 +93,19 @@ export default function ProductRegistration() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Unidade de Medida" />
+      <BreadcrumbPageTitle title="Cadastro de Produtos" />
       <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
         <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Unidade de Medida..." />
+          <SearchBar action={handleSearch} placeholder="Buscar Produtos..." />
           <Button
-            label="Adicionar"
+            label="Adicionar Produto"
             icon={<Plus />}
             iconPosition="left"
             color="success"
             size="medium"
             onClick={() => navigate(routes.FORM_PRODUCT)}
           />
-          <Modal<Product>
-            type="delete"
-            title="Deseja realmente excluir essa Unidade de Medida?"
-            msgInformation="Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema."
-            action={(product) => deleteProduct(product.id)}
-            statusModal={modalDelete}
-            closeModal={() => openCloseModalDelete()}
-          />
-          <Modal<Product>
-            type="info"
-            msgInformation="Unidade de Medida excluida com sucesso!"
-            icon={<CheckCircle size={90} className="text-success" weight="fill" />}
-            statusModal={modalInfo}
-            closeModal={openCloseModalInfo}
-          />
+
         </div>
         <Table
           columns={columns}

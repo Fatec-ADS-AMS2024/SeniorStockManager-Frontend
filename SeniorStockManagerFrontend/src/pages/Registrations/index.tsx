@@ -1,5 +1,5 @@
 import {
-  Ruler,
+  Ruler, Archive,
 } from '@phosphor-icons/react';
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
@@ -12,6 +12,13 @@ const cards = [
     subText: 'Unidades de medidas Cadastradas',
     icon: <Ruler size={28} className='shrink-0' />,
     page: routes.REGISTER_UNIT_OF_MEASURE,
+  },
+
+  {
+    text: 'Tipo de produto',
+    subText: 'Tipos de produto cadastrados',
+    icon: <Archive size={32} className='shrink-0' />,
+    page: routes.REGISTER_PRODUCT_TYPE,
   },
 ];
 

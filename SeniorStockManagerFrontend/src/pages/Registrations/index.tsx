@@ -17,7 +17,7 @@ const cards = [
   {
     text: 'Tipo de produto',
     subText: 'Tipos de produto cadastrados',
-    icon: <Archive size={32} className='shrink-0' />,
+    icon: <Archive size={28} className='shrink-0' />,
     page: routes.REGISTER_PRODUCT_TYPE,
   },
 ];

@@ -1,4 +1,4 @@
-import ManuFacturer from "../types/models/ManuFacturer";
+import ManuFacturer from "../types/models/Manufacturer";
 import GenericService from "./genericService";
 
 export default class ManuFacturerService extends GenericService<ManuFacturer> {

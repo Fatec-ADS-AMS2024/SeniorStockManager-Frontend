@@ -1,4 +1,4 @@
-export default interface ManuFacturer {
+export default interface Manufacturer {
     id: number;
     CorporateName: string;
     TradeName : string;

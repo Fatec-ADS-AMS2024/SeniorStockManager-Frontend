@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ManuFacturerService from "../../services/manuFacturerService";
-import ManuFacturer from "../../types/models/ManuFacturer";
+import ManuFacturer from "../../types/models/Manufacturer";
 import Table from "../../components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
 import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";

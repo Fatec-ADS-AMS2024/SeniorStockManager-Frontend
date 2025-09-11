@@ -16,14 +16,14 @@ const cards = [
     {
     text: 'Fabricante',
     subText: 'Fabricantes Cadastrados',
-    icon: <Factory size={32} className='shrink-0' />,
+    icon: <Factory size={28} className='shrink-0' />,
     page: routes.REGISTER_MANUFACTURER,
   },
 ];
 
 export default function RegisterPage() {
   return (
-    <div className=" bg-neutralLighter">
+    <div className="bg-neutralLighter">
       <Breadcrumb_PageTitle title="Cadastros"/>
 
       <div className="mt-8 px-4 flex flex-wrap items-center gap-8">

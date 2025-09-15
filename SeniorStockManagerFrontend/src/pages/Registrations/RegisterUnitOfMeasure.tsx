@@ -93,6 +93,26 @@ export default function UnitOfMeasureRegistration() {
 
     setModalEdit((isOpen) => !isOpen);
   };
+  const validate = (unitOfMeasure: UnitOfMeasure) => {
+    if (unitOfMeasure.abbreviation === null) {
+      alert('Abreviação não pode ser nulo');
+      return false;
+    }
+    if (unitOfMeasure.description === null) {
+      alert('Descrição não pode ser nulo')
+      return false;
+    }
+    if (unitOfMeasure.description.length > 50) {
+      alert('Campo descrição deve conter menos de 50 caracteres')
+      return false;
+    }
+    if (unitOfMeasure.abbreviation.length > 50){
+      alert('Campo abreviação deve conter menos de 50 caracteres')
+      return false;
+    }
+
+    return true;
+  }
 
   // Abre a modal para deleção pegando os dados da linha
   const openCloseModalDelete = (id?: number) => {
@@ -120,6 +140,8 @@ export default function UnitOfMeasureRegistration() {
   };
 
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
+    if(!validate(model)) return;
+
     const unitOfMeasure = new UnitOfMeasureService();
     const res = await unitOfMeasure.create({
       ...model,
@@ -135,6 +157,8 @@ export default function UnitOfMeasureRegistration() {
   };
 
   const editUnitOfMeasure = async (id: number, model: UnitOfMeasure) => {
+    if (!validate(model)) return;
+
     const unitOfMeasure = new UnitOfMeasureService();
     const res = await unitOfMeasure.update(id, model);
     if (res.code === 200) {

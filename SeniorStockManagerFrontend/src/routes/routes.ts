@@ -5,5 +5,8 @@ export const routes = {
   HOME: '/home',
   REGISTER: '/registrations',
   REGISTER_UNIT_OF_MEASURE: '/registrations/unitofmeasure',
-  PRODUCT_GROUP: '/registrations/productgroup'
+  PRODUCT_GROUP: '/registrations/productgroup', 
+  SUPPLIER_NEW: "/registrations/supplier/new",
+  SUPPLIER_EDIT: "/registrations/supplier/:id",
+  SUPPLIER: '/registrations/supplier'
 }

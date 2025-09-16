@@ -34,7 +34,7 @@ export default function Modal<T>({icon, title = "Título", inputs = [], action, 
         )
       );
    }
-  }, [statusModal, inputs]); // Adicionado 'inputs' à dependência para resetar o form
+  }, [statusModal]);
 
   const handleFormSubmit = (attribute: string, value: string) => {
     setFormData((prev) => ({ ...prev, [attribute]: value }));

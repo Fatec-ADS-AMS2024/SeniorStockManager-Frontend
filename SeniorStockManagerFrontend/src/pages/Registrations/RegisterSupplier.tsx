@@ -229,8 +229,9 @@ const SupplierList = () => {
       if (res.code >= 200 && res.code < 300) {
         setModalDelete(false);
         setCurrentId(null);
+        const itemName = data.find(item => item.id === id)?.tradeName || "";
         await fetchData();
-        showInfoModal("Fornecedor excluído com sucesso!", "success");
+        showInfoModal(`Fornecedor "${itemName}" excluído com sucesso!`, "success");
       } else {
         showInfoModal(res.message || "Erro inesperado ao excluir o Fornecedor.", "error");
       }

@@ -32,7 +32,7 @@ export default abstract class GenericService<T extends { id: number }> {
 
     async create(model: T): Promise<ServiceResult<T>> {
         try {
-            this.validateModel(model);
+            model.id = 0;
             const res = await axios.post(this.baseUrl, model);
 
             return new ServiceResult<T>(res.status, "Registro criado com sucesso", res.data);

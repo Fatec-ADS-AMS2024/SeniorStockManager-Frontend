@@ -16,21 +16,21 @@ export default function ProductRegistration() {
   const [originalData, setOriginalData] = useState<Product[]>([]);
   const [modalDelete, setModalDelete] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const navigate = useNavigate();
-  
 
+  // Pega os dados já cadastrados para mostrar na tabela
   const fetchData = async () => {
     const product = new ProductService();
     const res = await product.getAll();
     if (res.code === 200 && res.data) {
-      setData([...res.data]);
-      setOriginalData([...res.data]); // Salva os dados originais
+      setData([...res.data.data]);
+      setOriginalData([...res.data.data]); // Salva os dados originais
     } else {
       console.error("Erro ao buscar dados:", res.message);
     }
   };
 
-  // Pega os dados ja cadastrados para mostrar na tabela
   useEffect(() => {
     fetchData();
   }, []);
@@ -47,29 +47,33 @@ export default function ProductRegistration() {
     setData(filteredData);
   };
 
-  // Abre a modal para deleção pegando os dados da linha
+  // Abre o modal para deleção, armazenando o ID do produto
   const openCloseModalDelete = (id?: number) => {
-    if (!id) {
-      setModalDelete((isOpen) => !isOpen);
-      return;
-    }
-
     setModalDelete((isOpen) => !isOpen);
+    if (id) {
+      setProductToDelete(id);
+    } else {
+      setProductToDelete(null);
+    }
   };
 
+  // Abre e fecha o modal de informação
   const openCloseModalInfo = () => {
     setModalInfo((isOpen) => !isOpen);
   };
 
-  const deleteProduct = async (id: number) => {
-    const product = new ProductService();
-    const res = await product.delete(id);
-    if (res.code === 200) {
-      setModalDelete(false);
-      setModalInfo(true)
-      await fetchData();
-    } else {
-      alert(res.message);
+  // Lógica para excluir o produto
+  const deleteProduct = async () => {
+    if (productToDelete) {
+      const product = new ProductService();
+      const res = await product.delete(productToDelete);
+      if (res.code === 200) {
+        setModalDelete(false);
+        setModalInfo(true);
+        await fetchData(); // Recarrega a lista
+      } else {
+        console.error("Erro ao deletar:", res.message);
+      }
     }
   };
 
@@ -77,7 +81,7 @@ export default function ProductRegistration() {
   const Actions = ({ id }: { id: number }) => (
     <>
       <button
-        onClick={() => navigate(`/registrations/product/${id}`)}
+        onClick={() => navigate(`${routes.FORM_PRODUCT.replace(':id', String(id))}`)}
         className="text-edit hover:text-hoverEdit"
       >
         <Pencil className="size-6" weight="fill" />
@@ -103,9 +107,8 @@ export default function ProductRegistration() {
             iconPosition="left"
             color="success"
             size="medium"
-            onClick={() => navigate(routes.FORM_PRODUCT)}
+            onClick={() => navigate(routes.FORM_PRODUCT.replace(':id', '0'))}
           />
-
         </div>
         <Table
           columns={columns}
@@ -113,6 +116,24 @@ export default function ProductRegistration() {
           actions={(id) => <Actions id={id} />}
         />
       </div>
+
+      <Modal
+        title="Confirmar Exclusão"
+        msgInformation="Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita."
+        statusModal={modalDelete}
+        closeModal={() => openCloseModalDelete()}
+        action={deleteProduct} // Chama a função de exclusão
+        type="delete"
+      />
+
+      <Modal
+        title="Sucesso"
+        msgInformation="Produto excluído com sucesso!"
+        icon={<CheckCircle size={32} />}
+        statusModal={modalInfo}
+        closeModal={() => openCloseModalInfo()}
+        type="info"
+      />
     </div>
   );
 }

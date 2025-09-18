@@ -39,7 +39,7 @@ export default function Button({
 
   return (
     <button
-      className={`flex items-center justify-center gap-1 rounded-[4px] shadow-md transition ${colorClasses[color]} ${sizeClasses[size]} ${className}`}
+      className={`flex items-center justify-center shrink-0 gap-1 rounded-[4px] shadow-md transition ${colorClasses[color]} ${sizeClasses[size]} ${className}`}
       {...props}
     >
       {iconPosition === "left" && <span>{icon}</span>}

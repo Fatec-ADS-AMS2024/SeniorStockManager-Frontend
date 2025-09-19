@@ -94,20 +94,20 @@ export default function UnitOfMeasureRegistration() {
     setModalEdit((isOpen) => !isOpen);
   };
   const validate = (unitOfMeasure: UnitOfMeasure) => {
-    if (unitOfMeasure.abbreviation === null) {
-      alert('Abreviação não pode ser nulo');
+    if (unitOfMeasure.abbreviation.trim() === '') {
+      alert('Abreviação não pode ser nula ou vazia');
       return false;
     }
-    if (unitOfMeasure.description === null) {
-      alert('Descrição não pode ser nulo')
+    if (unitOfMeasure.description.trim() === '') {
+      alert('Descrição não pode ser nula ou vazia');
       return false;
     }
-    if (unitOfMeasure.description.length > 50) {
-      alert('Campo descrição deve conter menos de 50 caracteres')
+    if (unitOfMeasure.description.trim().length > 50) {
+      alert('Campo descrição deve conter menos de 50 caracteres');
       return false;
     }
-    if (unitOfMeasure.abbreviation.length > 50){
-      alert('Campo abreviação deve conter menos de 50 caracteres')
+    if (unitOfMeasure.abbreviation.trim().length > 50) {
+      alert('Campo abreviação deve conter menos de 50 caracteres');
       return false;
     }
 

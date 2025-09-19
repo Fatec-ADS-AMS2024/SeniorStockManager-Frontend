@@ -103,7 +103,7 @@ export default function CarrierRegistration() {
             iconPosition="left"
             color="success"
             size="medium"
-            onClick={() => navigate(routes.FORM_CARRIER)}
+            onClick={() => navigate(routes.FORM_CARRIER.replace(':id', '0'))}
           />
           <Modal<Carrier>
             type="delete"

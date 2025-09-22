@@ -1,6 +1,7 @@
 import {
   Ruler,
-  Package
+  Archive,
+  Package,
 } from '@phosphor-icons/react';
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
@@ -19,7 +20,13 @@ const cards = [
     subText: 'Grupos de Produtos Cadastrados',
     icon: <Package size={28} className='shrink-0' />,
     page: routes.PRODUCT_GROUP,
-  },  
+  },
+  {
+    text: 'Tipo de produto',
+    subText: 'Tipos de produto cadastrados',
+    icon: <Archive size={28} className='shrink-0' />,
+    page: routes.REGISTER_PRODUCT_TYPE,
+  },
 ];
 
 export default function RegisterPage() {

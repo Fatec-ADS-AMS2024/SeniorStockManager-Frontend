@@ -8,5 +8,7 @@ export const routes = {
   PRODUCT_GROUP: '/registrations/productgroup', 
   SUPPLIER_NEW: "/registrations/supplier/new",
   SUPPLIER_EDIT: "/registrations/supplier/:id",
-  SUPPLIER: '/registrations/supplier'
+  SUPPLIER: '/registrations/supplier',
+  PRODUCT_GROUP: '/registrations/productgroup',
+  REGISTER_PRODUCT_TYPE: '/registrations/TipodeProduto',
 }

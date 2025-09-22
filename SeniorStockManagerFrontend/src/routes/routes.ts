@@ -5,5 +5,6 @@ export const routes = {
   HOME: '/home',
   REGISTER: '/registrations',
   REGISTER_UNIT_OF_MEASURE: '/registrations/unitofmeasure',
-  REGISTER_PRODUCT_TYPE: '/registrations/TipodeProduto'
+  PRODUCT_GROUP: '/registrations/productgroup',
+  REGISTER_PRODUCT_TYPE: '/registrations/TipodeProduto',
 }

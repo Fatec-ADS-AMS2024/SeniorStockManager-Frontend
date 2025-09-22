@@ -13,6 +13,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/Registrations";
 import RegisterUnitOfMeasure from "../pages/Registrations/RegisterUnitOfMeasure"
 import ProductTypeRegistration from "../pages/Registrations/RegisterProductType";
+import ProductGroup from "../pages/Registrations/RegisterProductGroup";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path={routes.LOGIN} element={<LoginPage />} />
       <Route path={routes.REGISTER} element={<RegisterPage />} />
       <Route path={routes.REGISTER_UNIT_OF_MEASURE} element={<RegisterUnitOfMeasure />} />
+      <Route path={routes.PRODUCT_GROUP} element={<ProductGroup/>} />
       <Route path={routes.REGISTER_PRODUCT_TYPE} element={<ProductTypeRegistration />} />
     </Route>
   )

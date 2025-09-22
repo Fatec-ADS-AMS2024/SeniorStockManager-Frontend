@@ -3,6 +3,7 @@ import {
   Handshake,
   Archive,
   Package,
+  Factory,
 } from '@phosphor-icons/react';
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
@@ -17,6 +18,12 @@ const cards = [
     page: routes.REGISTER_UNIT_OF_MEASURE,
   },
   {
+    text: 'Fabricante',
+    subText: 'Fabricantes Cadastrados',
+    icon: <Factory size={28} className='shrink-0' />,
+    page: routes.REGISTER_MANUFACTURER,
+  },
+  {
     text: 'Grupo de Produtos',
     subText: 'Grupos de Produtos Cadastrados',
     icon: <Package size={28} className='shrink-0' />,
@@ -27,7 +34,8 @@ const cards = [
     subText: 'Fornecedores Cadastrados',
     icon: <Handshake size={28} className='shrink-0' />,
     page: routes.SUPPLIER,
-  },  
+  },
+  {
     text: 'Tipo de produto',
     subText: 'Tipos de produto cadastrados',
     icon: <Archive size={28} className='shrink-0' />,
@@ -37,7 +45,7 @@ const cards = [
 
 export default function RegisterPage() {
   return (
-    <div className=" bg-neutralLighter">
+    <div className="bg-neutralLighter">
       <Breadcrumb_PageTitle title="Cadastros"/>
 
       <div className="mt-8 px-4 flex flex-wrap items-center gap-8">

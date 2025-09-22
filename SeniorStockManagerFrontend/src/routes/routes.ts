@@ -5,6 +5,7 @@ export const routes = {
   HOME: '/home',
   REGISTER: '/registrations',
   REGISTER_UNIT_OF_MEASURE: '/registrations/unitofmeasure',
+  REGISTER_MANUFACTURER: '/registrations/Fabricante',
   PRODUCT_GROUP: '/registrations/productgroup', 
   SUPPLIER_NEW: "/registrations/supplier/new",
   SUPPLIER_EDIT: "/registrations/supplier/:id",

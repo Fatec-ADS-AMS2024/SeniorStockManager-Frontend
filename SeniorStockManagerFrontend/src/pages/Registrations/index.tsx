@@ -1,5 +1,6 @@
 import {
   Ruler,
+  Handshake,
   Archive,
   Package,
 } from '@phosphor-icons/react';
@@ -22,6 +23,11 @@ const cards = [
     page: routes.PRODUCT_GROUP,
   },
   {
+    text: 'Fornecedores',
+    subText: 'Fornecedores Cadastrados',
+    icon: <Handshake size={28} className='shrink-0' />,
+    page: routes.SUPPLIER,
+  },  
     text: 'Tipo de produto',
     subText: 'Tipos de produto cadastrados',
     icon: <Archive size={28} className='shrink-0' />,

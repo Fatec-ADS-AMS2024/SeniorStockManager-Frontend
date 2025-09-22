@@ -17,7 +17,7 @@ export default function LandingPage() {
     <div className="flex">
       <div className="w-[40%] h-full bg-neutralWhite flex flex-col justify-center">
         <h1 className="text-secondary font-bold text-5xl mx-16">
-          Plataforma de ferramentas para gerenciamento da parte adiministrativa 
+          Plataforma de ferramentas para gerenciamento da parte administrativa 
           
         </h1>
         <p className="text-textSecondary font-semibold text-2xl mt-2 mx-16">

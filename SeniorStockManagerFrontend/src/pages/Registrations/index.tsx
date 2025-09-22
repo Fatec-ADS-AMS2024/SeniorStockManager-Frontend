@@ -1,5 +1,9 @@
 import {
-  Ruler, Factory
+  Ruler,
+  Handshake,
+  Archive,
+  Package,
+  Factory,
 } from '@phosphor-icons/react';
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
@@ -13,11 +17,29 @@ const cards = [
     icon: <Ruler size={28} className='shrink-0' />,
     page: routes.REGISTER_UNIT_OF_MEASURE,
   },
-    {
+  {
     text: 'Fabricante',
     subText: 'Fabricantes Cadastrados',
     icon: <Factory size={28} className='shrink-0' />,
     page: routes.REGISTER_MANUFACTURER,
+  },
+  {
+    text: 'Grupo de Produtos',
+    subText: 'Grupos de Produtos Cadastrados',
+    icon: <Package size={28} className='shrink-0' />,
+    page: routes.PRODUCT_GROUP,
+  },
+  {
+    text: 'Fornecedores',
+    subText: 'Fornecedores Cadastrados',
+    icon: <Handshake size={28} className='shrink-0' />,
+    page: routes.SUPPLIER,
+  },
+  {
+    text: 'Tipo de produto',
+    subText: 'Tipos de produto cadastrados',
+    icon: <Archive size={28} className='shrink-0' />,
+    page: routes.REGISTER_PRODUCT_TYPE,
   },
 ];
 

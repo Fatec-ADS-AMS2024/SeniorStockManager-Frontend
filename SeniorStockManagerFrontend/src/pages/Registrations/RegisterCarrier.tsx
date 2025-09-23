@@ -93,7 +93,7 @@ export default function CarrierRegistration() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Unidade de Medida" />
+      <BreadcrumbPageTitle title="Cadastro de Fornecedora" />
       <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
         <div className="flex items-center justify-between mb-4">
           <SearchBar action={handleSearch} placeholder="Buscar Fornecedor ..." />

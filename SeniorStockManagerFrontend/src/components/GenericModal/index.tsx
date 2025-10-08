@@ -68,7 +68,57 @@ export default function Modal<T>({
     }
   };
 
-  if (!statusModal) return null;
+  // Função 'renderField' adicionada para lidar com diferentes tipos de input
+  const renderField = (input: any) => {
+    if (input.render) {
+      return (
+        <div key={input.attribute} className="mb-3">
+          {input.label && (
+            <label className="block text-sm font-medium text-textPrimary mb-1">
+              {input.label}
+            </label>
+          )}
+          {input.render()}
+        </div>
+      );
+    }
+
+    if (input.options?.length) {
+      return (
+        <div key={input.attribute} className="mb-3">
+          {input.label && (
+            <label className="block text-sm font-medium text-textPrimary mb-1">
+              {input.label}:
+            </label>
+          )}
+          <select
+            className="w-full border rounded-[5px] p-2 outline-none text-textPrimary mb-1"
+            value={formData[input.attribute] ?? ""}
+            onChange={(e) => handleFormSubmit(input.attribute, e.target.value)}
+            disabled={input.locked}
+          >
+            <option value="" disabled>Selecione…</option>
+            {input.options.map((opt: any) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
+      );
+    }
+
+    return (
+      <Input
+        key={input.attribute}
+        label={input.label}
+        action={(value) => handleFormSubmit(input.attribute, value)}
+        value={formData[input.attribute]} // 'value' e 'defaultDisable' adicionados
+        defaultDisable={input.locked}
+      />
+    );
+  };
+
+  if (!statusModal)
+    return null; 
   // Modal de Criação
   if (type === "create") {
     return (
@@ -85,13 +135,8 @@ export default function Modal<T>({
 
           {/* Corpo do Modal */}
           <div className="mb-4 px-2">
-            {inputs.map((input) => (
-              <Input
-                key={input.label}
-                label={input.label}
-                action={(value) => handleFormSubmit(input.attribute, value)}
-              />
-            ))}
+            {/* Alterado para usar renderField */}
+            {inputs.map((input) => renderField(input))}
           </div>
 
           {/* Separador */}
@@ -135,15 +180,8 @@ export default function Modal<T>({
 
           {/* Corpo do Modal */}
           <div className="mb-4 px-2">
-            {inputs.map((input) => (
-              <Input
-                key={input.attribute}
-                label={input.label && input.label}
-                action={(value) => handleFormSubmit(input.attribute, value)}
-                value={formData[input.attribute]}
-                defaultDisable={input.locked}
-              />
-            ))}
+            {/* Alterado para usar renderField */}
+            {inputs.map((input) => renderField(input))}
           </div>
 
           {/* Separador */}
@@ -224,9 +262,9 @@ export default function Modal<T>({
       >
         <div className="flex flex-col justify-center items-center rounded-[10px] shadow-lg w-full max-w-md bg-neutralWhite px-5 text-start py-5">
           {icon}
-          <span className="text-textSecondary text-3xl font-semibold text-center">
-            {msgInformation}
-          </span>
+          <span className='text-textSecondary text-3xl font-semibold text-center'>{msgInformation}</span>
+          {/* Adicionado o map de inputs para o tipo 'info' */}
+          {inputs.map((input) => renderField(input))}
         </div>
       </div>
     );

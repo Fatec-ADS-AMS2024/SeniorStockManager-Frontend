@@ -32,10 +32,9 @@ export default abstract class GenericService<T extends { id: number }> {
 
     async create(model: T): Promise<ServiceResult<T>> {
         try {
-            if (!model) throw new Error("Os dados não foram informados");
-        // REMOVE o ID manualmente se vier undefined
-            const { id, ...rest } = model;
-            const res = await axios.post(this.baseUrl, rest);
+            model.id = 0;
+            const res = await axios.post(this.baseUrl, model);
+
             return new ServiceResult<T>(res.status, "Registro criado com sucesso", res.data);
         } catch (error) {
             const { code, message } = this.handleError(error);

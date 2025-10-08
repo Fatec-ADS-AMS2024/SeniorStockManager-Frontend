@@ -18,6 +18,12 @@ const cards = [
     page: routes.REGISTER_UNIT_OF_MEASURE,
   },
   {
+    text: 'Produtos',
+    subText: 'Produtos Cadastrados',
+    icon: <Ruler size={28} className='shrink-0' />,
+    page: routes.REGISTER_PRODUCT,
+  },
+  {
     text: 'Fabricante',
     subText: 'Fabricantes Cadastrados',
     icon: <Factory size={28} className='shrink-0' />,

@@ -5,7 +5,7 @@ import Sidebar from "../Sidebar";
 
 export default function Layout() {
   return (
-    <div className='flex flex-col text-text bg-background h-screen w-screen overflow-y-auto overflow-x-clip'>
+    <div className='flex flex-col relative text-text bg-background h-full w-full min-h-screen min-w-screen overflow-y-auto overflow-x-clip pt-24 pl-16'>
       <Header />
 
       <div className="flex-1 flex flex-row">

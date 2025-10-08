@@ -11,6 +11,8 @@ import AcessibilityPage from "../pages/AcessibilityPage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/Registrations";
+import RegisterProduct from "../pages/Registrations/RegisterProduct";
+import FormProduct from "../pages/Registrations/FormProduct";
 import RegisterManufacturer from "../pages/Registrations/RegisterManufacturer";
 import RegisterUnitOfMeasure from "../pages/Registrations/RegisterUnitOfMeasure";
 import ProductTypeRegistration from "../pages/Registrations/RegisterProductType";
@@ -25,6 +27,8 @@ const router = createBrowserRouter(
       <Route path={routes.LOGIN} element={<LoginPage />} />
       <Route path={routes.REGISTER} element={<RegisterPage />} />
       <Route path={routes.REGISTER_UNIT_OF_MEASURE} element={<RegisterUnitOfMeasure />} />
+      <Route path={routes.REGISTER_PRODUCT} element={<RegisterProduct />} />
+      <Route path={routes.FORM_PRODUCT} element={<FormProduct />} />
       <Route path={routes.REGISTER_MANUFACTURER} element={<RegisterManufacturer />} />
       <Route path={routes.PRODUCT_GROUP} element={<ProductGroup/>} />
       <Route path={routes.SUPPLIER_NEW} element={<Supplier />} />

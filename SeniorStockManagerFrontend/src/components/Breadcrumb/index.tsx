@@ -12,6 +12,7 @@ export default function Breadcrumb() {
     home: "Início",
     registrations: "Cadastros",
     unitofmeasure: "Unidade de Medida",
+    product: "Produto",
     productgroup: "Grupo de Produtos",
     supplier: "Fornecedor",
     new: "Novo",

@@ -1,5 +1,6 @@
 import {
   Ruler,
+  Truck,
   Handshake,
   Archive,
   Package,
@@ -17,6 +18,12 @@ const cards = [
     icon: <Ruler size={28} className='shrink-0' />,
     page: routes.REGISTER_UNIT_OF_MEASURE,
   },
+   {
+    text: 'Fornecedor',
+    subText: 'Fornecedores cadastrados',
+    icon: <Truck size={28} className='shrink-0' />,
+    page: routes.REGISTER_CARRIER,
+   },
   {
     text: 'Produtos',
     subText: 'Produtos Cadastrados',

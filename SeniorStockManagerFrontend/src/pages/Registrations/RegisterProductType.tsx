@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import UnitOfMeasureService from "../../services/unitOfMeasureService";
-import UnitOfMeasure from "../../types/models/UnitOfMeasure";
+import ProductTypeService from "../../services/productTypeService";
+import ProductType from "../../types/models/ProductType";
 import Table from "../../components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
 import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
@@ -16,29 +16,24 @@ const inputs = [
     locked: true,
   },
   {
-    label: "Abreviação",
-    attribute: "abbreviation",
+    label: "Nome",
+    attribute: "Name",
     defaultValue: "",
   },
-  {
-    label: "Descrição",
-    attribute: "description",
-    defaultValue: "",
-},
 ];
 
-export default function UnitOfMeasureRegistration() {
-  const columns = ["Descrição", "Abreviação"];
-  const [data, setData] = useState<UnitOfMeasure[]>([]);
-  const [originalData, setOriginalData] = useState<UnitOfMeasure[]>([]);
+export default function ProductTypeRegistration() {
+  const columns = ["Nome"];
+  const [data, setData] = useState<ProductType[]>([]);
+  const [originalData, setOriginalData] = useState<ProductType[]>([]);
   const [modalRegister, setModalRegister] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.getAll();
+    const productType = new ProductTypeService();
+    const res = await productType.getAll();
     if (res.code === 200 && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
@@ -57,11 +52,6 @@ export default function UnitOfMeasureRegistration() {
       setData(originalData); // Restaura os dados originais
       return;
     }
-
-    const filteredData = originalData.filter((unitOfMeasure) =>
-      unitOfMeasure.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setData(filteredData);
   };
 
   // Pega os valores de uma linha baseado em seu id
@@ -93,26 +83,6 @@ export default function UnitOfMeasureRegistration() {
 
     setModalEdit((isOpen) => !isOpen);
   };
-  const validate = (unitOfMeasure: UnitOfMeasure) => {
-    if (unitOfMeasure.abbreviation.trim() === '') {
-      alert('Abreviação não pode ser nula ou vazia');
-      return false;
-    }
-    if (unitOfMeasure.description.trim() === '') {
-      alert('Descrição não pode ser nula ou vazia');
-      return false;
-    }
-    if (unitOfMeasure.description.trim().length > 50) {
-      alert('Campo descrição deve conter menos de 50 caracteres');
-      return false;
-    }
-    if (unitOfMeasure.abbreviation.trim().length > 50) {
-      alert('Campo abreviação deve conter menos de 50 caracteres');
-      return false;
-    }
-
-    return true;
-  }
 
   // Abre a modal para deleção pegando os dados da linha
   const openCloseModalDelete = (id?: number) => {
@@ -139,16 +109,14 @@ export default function UnitOfMeasureRegistration() {
     setModalInfo((isOpen) => !isOpen);
   };
 
-  const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
-    if(!validate(model)) return;
-
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.create({
+  const registerProductType = async (model: ProductType) => {
+    const productType = new ProductTypeService();
+    const res = await productType.create({
       ...model,
       id: Number(model.id),
     });
     if (res.code === 200) {
-      alert(`Unidade de medida ${res.data?.description} criada com sucesso!`);
+      alert(`Tipo de produto ${res.data?.name} criada com sucesso!`);
       setModalRegister(false);
       await fetchData();
     } else {
@@ -156,13 +124,11 @@ export default function UnitOfMeasureRegistration() {
     }
   };
 
-  const editUnitOfMeasure = async (id: number, model: UnitOfMeasure) => {
-    if (!validate(model)) return;
-
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.update(id, model);
+  const editProductType = async (id: number, model: ProductType) => {
+    const productType = new ProductTypeService();
+    const res = await productType.update(id, model);
     if (res.code === 200) {
-      alert(`Unidade de medida ${res.data?.description} atualizada com sucesso!`);
+      alert(`Tipo de produto ${res.data?.name} atualizada com sucesso!`);
       setModalEdit(false);
       await fetchData();
     } else {
@@ -170,9 +136,9 @@ export default function UnitOfMeasureRegistration() {
     }
   };
 
-  const deleteUnitOfMeasure = async (id: number) => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.delete(id);
+  const deleteProductType = async (id: number) => {
+    const productType = new ProductTypeService();
+    const res = await productType.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
       setModalInfo(true)
@@ -202,10 +168,10 @@ export default function UnitOfMeasureRegistration() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Unidade de Medida" />
+      <BreadcrumbPageTitle title="Cadastro de Tipo de Produto" />
       <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
         <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Unidade de Medida..." />
+          <SearchBar action={handleSearch} placeholder="Buscar Tipo de Produto..." />
           <Button
             label="Adicionar"
             icon={<Plus />}
@@ -214,34 +180,34 @@ export default function UnitOfMeasureRegistration() {
             size="medium"
             onClick={openCloseModalRegister}
           />
-          <Modal<UnitOfMeasure>
-            title="Cadastrar Unidade de Medida"
+          <Modal<ProductType>
+            title="Cadastrar Tipo de Produto"
             inputs={inputs}
-            action={registerUnitOfMeasure}
+            action={registerProductType}
             statusModal={modalRegister}
             closeModal={openCloseModalRegister}
             type="create"
           />
-          <Modal<UnitOfMeasure>
+          <Modal<ProductType>
             type="update"
-            title="Editar Unidade de Medida"
+            title="Editar Tipo de Produto"
             inputs={inputs}
-            action={(unitOfMeasure) => editUnitOfMeasure(unitOfMeasure.id, unitOfMeasure)}
+            action={(productType) => editProductType(productType.id, productType)}
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
-          <Modal<UnitOfMeasure>
+          <Modal<ProductType>
             type="delete"
-            title="Deseja realmente excluir essa Unidade de Medida?"
-            msgInformation="Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema."
-            action={(unitOfMeasure) => deleteUnitOfMeasure(unitOfMeasure.id)}
+            title="Deseja realmente excluir esse Tipo de Produto?"
+            msgInformation="Ao excluir este Tipo de Produto, ela será removida permanentemente do sistema."
+            action={(productType) => deleteProductType(productType.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}
           />
-          <Modal<UnitOfMeasure>
+          <Modal<ProductType>
             type="info"
-            msgInformation="Unidade de Medida excluida com sucesso!"
+            msgInformation="Tipo de Produto excluida com sucesso!"
             icon={<CheckCircle size={90} className="text-success" weight="fill" />}
             statusModal={modalInfo}
             closeModal={openCloseModalInfo}

@@ -7,4 +7,13 @@ export const routes = {
   REGISTER_UNIT_OF_MEASURE: '/registrations/unitofmeasure',
   REGISTER_CARRIER: '/registrations/carrier',
   FORM_CARRIER: '/registrations/formcarrier/:id',
+  REGISTER_PRODUCT: '/registrations/product',
+  FORM_PRODUCT: '/registrations/product/:id',
+  REGISTER_MANUFACTURER: '/registrations/Fabricante',
+  PRODUCT_GROUP: '/registrations/productgroup', 
+  SUPPLIER_NEW: "/registrations/supplier/new",
+  SUPPLIER_EDIT: "/registrations/supplier/:id",
+  SUPPLIER: '/registrations/supplier',
+  PRODUCT_GROUP: '/registrations/productgroup',
+  REGISTER_PRODUCT_TYPE: '/registrations/TipodeProduto',
 }

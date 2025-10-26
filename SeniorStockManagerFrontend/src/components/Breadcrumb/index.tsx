@@ -10,8 +10,12 @@ export default function Breadcrumb() {
   //EXEMPLO: REGISTER: "CADASTROS"
   const breadcrumbNameMap: { [key: string]: string } = {
     home: "Início",
-    register: "Cadastros",
+    registrations: "Cadastros",
     unitofmeasure: "Unidade de Medida",
+    product: "Produto",
+    productgroup: "Grupo de Produtos",
+    supplier: "Fornecedor",
+    new: "Novo",
   };
 
   return (
@@ -31,6 +35,10 @@ export default function Breadcrumb() {
         {pathnames.map((value, index) => {
           const to = `/${pathnames.slice(0, index + 1).join("/")}`;
           const isLast = index === pathnames.length - 1;
+          
+          if (isLast && (["new", "edit"].includes(value) || !isNaN(Number(value)))) {
+          return null;
+          }     
 
           return (
             <li key={to} className="flex items-center">

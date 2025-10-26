@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import UnitOfMeasureService from "../../services/unitOfMeasureService";
-import UnitOfMeasure from "../../types/models/UnitOfMeasure";
+import ManuFacturerService from "../../services/manuFacturerService";
+import ManuFacturer from "../../types/models/Manufacturer";
 import Table from "../../components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
 import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
@@ -16,29 +16,34 @@ const inputs = [
     locked: true,
   },
   {
-    label: "Abreviação",
+    label: "Nome Corporativo",
     attribute: "abbreviation",
     defaultValue: "",
   },
   {
-    label: "Descrição",
+    label: "Nome Comercial",
+    attribute: "description",
+    defaultValue: "",
+},
+  {
+    label: "CpfCnpj",
     attribute: "description",
     defaultValue: "",
 },
 ];
 
-export default function UnitOfMeasureRegistration() {
-  const columns = ["Descrição", "Abreviação"];
-  const [data, setData] = useState<UnitOfMeasure[]>([]);
-  const [originalData, setOriginalData] = useState<UnitOfMeasure[]>([]);
+export default function ManuFacturerRegistration() {
+  const columns = ["Nome Corporativo", "Nome Comercial", "CpfCnpj"];
+  const [data, setData] = useState<ManuFacturer[]>([]);
+  const [originalData, setOriginalData] = useState<ManuFacturer[]>([]);
   const [modalRegister, setModalRegister] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.getAll();
+    const manuFacturer = new ManuFacturerService();
+    const res = await manuFacturer.getAll();
     if (res.code === 200 && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
@@ -58,8 +63,8 @@ export default function UnitOfMeasureRegistration() {
       return;
     }
 
-    const filteredData = originalData.filter((unitOfMeasure) =>
-      unitOfMeasure.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredData = originalData.filter((manuFacturer) =>
+      manuFacturer.CorporateName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setData(filteredData);
   };
@@ -93,26 +98,6 @@ export default function UnitOfMeasureRegistration() {
 
     setModalEdit((isOpen) => !isOpen);
   };
-  const validate = (unitOfMeasure: UnitOfMeasure) => {
-    if (unitOfMeasure.abbreviation.trim() === '') {
-      alert('Abreviação não pode ser nula ou vazia');
-      return false;
-    }
-    if (unitOfMeasure.description.trim() === '') {
-      alert('Descrição não pode ser nula ou vazia');
-      return false;
-    }
-    if (unitOfMeasure.description.trim().length > 50) {
-      alert('Campo descrição deve conter menos de 50 caracteres');
-      return false;
-    }
-    if (unitOfMeasure.abbreviation.trim().length > 50) {
-      alert('Campo abreviação deve conter menos de 50 caracteres');
-      return false;
-    }
-
-    return true;
-  }
 
   // Abre a modal para deleção pegando os dados da linha
   const openCloseModalDelete = (id?: number) => {
@@ -139,16 +124,14 @@ export default function UnitOfMeasureRegistration() {
     setModalInfo((isOpen) => !isOpen);
   };
 
-  const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
-    if(!validate(model)) return;
-
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.create({
+  const registerManuFacturer = async (model: ManuFacturer) => {
+    const manuFacturer = new ManuFacturerService();
+    const res = await manuFacturer.create({
       ...model,
       id: Number(model.id),
     });
     if (res.code === 200) {
-      alert(`Unidade de medida ${res.data?.description} criada com sucesso!`);
+      alert(`Fabricante ${res.data?.CorporateName} cadastrado com sucesso!`);
       setModalRegister(false);
       await fetchData();
     } else {
@@ -156,13 +139,11 @@ export default function UnitOfMeasureRegistration() {
     }
   };
 
-  const editUnitOfMeasure = async (id: number, model: UnitOfMeasure) => {
-    if (!validate(model)) return;
-
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.update(id, model);
+  const editManuFacturer = async (id: number, model: ManuFacturer) => {
+    const manuFacturer = new ManuFacturerService();
+    const res = await manuFacturer.update(id, model);
     if (res.code === 200) {
-      alert(`Unidade de medida ${res.data?.description} atualizada com sucesso!`);
+      alert(`Fabricante ${res.data?.CorporateName} atualizado com sucesso!`);
       setModalEdit(false);
       await fetchData();
     } else {
@@ -170,9 +151,9 @@ export default function UnitOfMeasureRegistration() {
     }
   };
 
-  const deleteUnitOfMeasure = async (id: number) => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.delete(id);
+  const deleteManuFacturer = async (id: number) => {
+    const manuFacturer = new ManuFacturerService();
+    const res = await manuFacturer.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
       setModalInfo(true)
@@ -202,10 +183,10 @@ export default function UnitOfMeasureRegistration() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Unidade de Medida" />
+      <BreadcrumbPageTitle title="Cadastro de Fabricante" />
       <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
         <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Unidade de Medida..." />
+          <SearchBar action={handleSearch} placeholder="Buscar Fabricante..." />
           <Button
             label="Adicionar"
             icon={<Plus />}
@@ -214,34 +195,34 @@ export default function UnitOfMeasureRegistration() {
             size="medium"
             onClick={openCloseModalRegister}
           />
-          <Modal<UnitOfMeasure>
-            title="Cadastrar Unidade de Medida"
+          <Modal<ManuFacturer>
+            title="Cadastrar Fabricante"
             inputs={inputs}
-            action={registerUnitOfMeasure}
+            action={registerManuFacturer}
             statusModal={modalRegister}
             closeModal={openCloseModalRegister}
             type="create"
           />
-          <Modal<UnitOfMeasure>
+          <Modal<ManuFacturer>
             type="update"
-            title="Editar Unidade de Medida"
+            title="Editar Fabricante"
             inputs={inputs}
-            action={(unitOfMeasure) => editUnitOfMeasure(unitOfMeasure.id, unitOfMeasure)}
+            action={(manuFacturer) => editManuFacturer(manuFacturer.id, manuFacturer)}
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
-          <Modal<UnitOfMeasure>
+          <Modal<ManuFacturer>
             type="delete"
-            title="Deseja realmente excluir essa Unidade de Medida?"
-            msgInformation="Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema."
-            action={(unitOfMeasure) => deleteUnitOfMeasure(unitOfMeasure.id)}
+            title="Deseja realmente excluir esse Fabricante?"
+            msgInformation="Ao excluir este Fabricante, ela será removida permanentemente do sistema."
+            action={(manuFacturer) => deleteManuFacturer(manuFacturer.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}
           />
-          <Modal<UnitOfMeasure>
+          <Modal<ManuFacturer>
             type="info"
-            msgInformation="Unidade de Medida excluida com sucesso!"
+            msgInformation="Fabricante excluido com sucesso!"
             icon={<CheckCircle size={90} className="text-success" weight="fill" />}
             statusModal={modalInfo}
             closeModal={openCloseModalInfo}

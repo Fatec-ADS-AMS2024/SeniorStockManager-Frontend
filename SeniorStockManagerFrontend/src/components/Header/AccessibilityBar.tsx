@@ -4,7 +4,7 @@ import {
   MagnifyingGlassPlus,
   MagnifyingGlassMinus,
 } from "@phosphor-icons/react";
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function AccessibilityBar() {
   const { theme, fontSize, toggleTheme, changeFontSize } =

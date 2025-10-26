@@ -1,19 +1,19 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import InputText from "../../components/InputText";
-import Product from "../../types/models/Product";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
-import { YesNo } from "../../types/enums/YesNo";
-import ProductType from "../../types/models/ProductType";
-import ProductTypeService from "../../services/productTypeService";
-import ProductGroup from "../../types/models/ProductGroup";
-import ProductGroupService from "../../services/productGroupService";
-import UnitOfMeasureService from "../../services/unitOfMeasureService";
-import UnitOfMeasure from "../../types/models/UnitOfMeasure";
-import ProductService from "../../services/productService";
-import { routes } from "../../routes/routes";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
+import InputText from "@/components/InputText";
+import Product from "@/types/models/Product";
+import Button from "@/components/Button";
+import Modal from "@/components/GenericModal";
+import { YesNo } from "@/types/enums/YesNo";
+import ProductType from "@/types/models/ProductType";
+import ProductTypeService from "@/services/productTypeService";
+import ProductGroup from "@/types/models/ProductGroup";
+import ProductGroupService from "@/services/productGroupService";
+import UnitOfMeasureService from "@/services/unitOfMeasureService";
+import UnitOfMeasure from "@/types/models/UnitOfMeasure";
+import ProductService from "@/services/productService";
+import { routes } from "@/routes/routes";
 
 export default function FormProduct() {
   const navigate = useNavigate();

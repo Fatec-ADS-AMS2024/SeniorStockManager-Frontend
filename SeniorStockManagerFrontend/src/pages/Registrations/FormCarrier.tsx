@@ -1,16 +1,16 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import InputText from "../../components/InputText";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
-import { routes } from "../../routes/routes";
-import Carrier from "../../types/models/Carrier";
-import CarrierService from '../../services/CarrierService';
-import CarrierType from "../../types/models/CarrierType";
-import CarrierGroup from "../../types/models/CarrierGroup";
-import CarrierTypeService from "../../services/CarrierTypeService";
-import CarrierGroupService from "../../services/CarrierGroupService";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
+import InputText from "@/components/InputText";
+import Button from "@/components/Button";
+import Modal from "@/components/GenericModal";
+import { routes } from "@/routes/routes";
+import Carrier from "@/types/models/Carrier";
+import CarrierService from '@/services/CarrierService';
+import CarrierType from "@/types/models/CarrierType";
+import CarrierGroup from "@/types/models/CarrierGroup";
+import CarrierTypeService from "@/services/CarrierTypeService";
+import CarrierGroupService from "@/services/CarrierGroupService";
 
 
 export default function FormCarrier() {

@@ -16,7 +16,7 @@ export default function SearchBar({ placeholder, action }: SearchBarProps) {
   const handleSearch = () => {
     if (typeof action === 'function') {
       action(searchTerm);
-    } else { 
+    } else {
     console.log(searchTerm);
     };
   };
@@ -35,7 +35,7 @@ export default function SearchBar({ placeholder, action }: SearchBarProps) {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
         {/* Botão pra envio do formulário com a ação de pesquisa */}
-        <Button 
+        <Button
           label=""
           icon={<MagnifyingGlass size={20} />}
           color='neutralLight'

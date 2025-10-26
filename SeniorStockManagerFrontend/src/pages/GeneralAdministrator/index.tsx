@@ -1,4 +1,4 @@
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
 
 export default function GeneralAdministrator() {
     return (
@@ -6,4 +6,4 @@ export default function GeneralAdministrator() {
             <BreadcrumbPageTitle title="Visão Geral" />
         </div>
     );
-} 
+}

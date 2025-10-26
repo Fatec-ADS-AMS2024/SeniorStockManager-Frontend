@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ManufacturerService from "../../services/manuFacturerService";
+import ManufacturerService from "../../services/manufacturerService";
 import Manufacturer from "../../types/models/Manufacturer";
 import Table from "../../components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
@@ -42,8 +42,8 @@ export default function ManufacturerRegistration() {
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const manuFacturer = new ManufacturerService();
-    const res = await manuFacturer.getAll();
+    const manufacturer = new ManufacturerService();
+    const res = await manufacturer.getAll();
     if (res.code === 200 && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
@@ -63,8 +63,8 @@ export default function ManufacturerRegistration() {
       return;
     }
 
-    const filteredData = originalData.filter((manuFacturer) =>
-      manuFacturer.CorporateName.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredData = originalData.filter((manufacturer) =>
+      manufacturer.CorporateName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setData(filteredData);
   };
@@ -125,8 +125,8 @@ export default function ManufacturerRegistration() {
   };
 
   const registerManufacturer = async (model: Manufacturer) => {
-    const manuFacturer = new ManufacturerService();
-    const res = await manuFacturer.create({
+    const manufacturer = new ManufacturerService();
+    const res = await manufacturer.create({
       ...model,
       id: Number(model.id),
     });
@@ -140,8 +140,8 @@ export default function ManufacturerRegistration() {
   };
 
   const editManufacturer = async (id: number, model: Manufacturer) => {
-    const manuFacturer = new ManufacturerService();
-    const res = await manuFacturer.update(id, model);
+    const manufacturer = new ManufacturerService();
+    const res = await manufacturer.update(id, model);
     if (res.code === 200) {
       alert(`Fabricante ${res.data?.CorporateName} atualizado com sucesso!`);
       setModalEdit(false);
@@ -152,8 +152,8 @@ export default function ManufacturerRegistration() {
   };
 
   const deleteManufacturer = async (id: number) => {
-    const manuFacturer = new ManufacturerService();
-    const res = await manuFacturer.delete(id);
+    const manufacturer = new ManufacturerService();
+    const res = await manufacturer.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
       setModalInfo(true)
@@ -207,7 +207,7 @@ export default function ManufacturerRegistration() {
             type="update"
             title="Editar Fabricante"
             inputs={inputs}
-            action={(manuFacturer) => editManufacturer(manuFacturer.id, manuFacturer)}
+            action={(manufacturer) => editManufacturer(manufacturer.id, manufacturer)}
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
@@ -215,7 +215,7 @@ export default function ManufacturerRegistration() {
             type="delete"
             title="Deseja realmente excluir esse Fabricante?"
             msgInformation="Ao excluir este Fabricante, ela será removida permanentemente do sistema."
-            action={(manuFacturer) => deleteManufacturer(manuFacturer.id)}
+            action={(manufacturer) => deleteManufacturer(manufacturer.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}

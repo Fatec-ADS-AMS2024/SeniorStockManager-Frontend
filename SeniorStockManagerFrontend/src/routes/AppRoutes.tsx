@@ -6,20 +6,20 @@ import {
   useRouteError,
 } from "react-router-dom";
 import { routes } from "./routes";
-import Layout from "../components/Layout";
-import AccessibilityPage from "../pages/AccessibilityPage";
-import LandingPage from "../pages/LandingPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/Registrations";
-import RegisterCarrier from "../pages/Registrations/RegisterCarrier";
-import FormCarrier from "../pages/Registrations/FormCarrier";
-import RegisterProduct from "../pages/Registrations/RegisterProduct";
-import FormProduct from "../pages/Registrations/FormProduct";
-import RegisterManufacturer from "../pages/Registrations/RegisterManufacturer";
-import RegisterUnitOfMeasure from "../pages/Registrations/RegisterUnitOfMeasure";
-import ProductTypeRegistration from "../pages/Registrations/RegisterProductType";
-import ProductGroup from "../pages/Registrations/RegisterProductGroup";
-import Supplier from "../pages/Registrations/RegisterSupplier";
+import Layout from "@/components/Layout";
+import AccessibilityPage from "@/pages/AccessibilityPage";
+import LandingPage from "@/pages/LandingPage";
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/Registrations";
+import RegisterCarrier from "@/pages/Registrations/RegisterCarrier";
+import FormCarrier from "@/pages/Registrations/FormCarrier";
+import RegisterProduct from "@/pages/Registrations/RegisterProduct";
+import FormProduct from "@/pages/Registrations/FormProduct";
+import RegisterManufacturer from "@/pages/Registrations/RegisterManufacturer";
+import RegisterUnitOfMeasure from "@/pages/Registrations/RegisterUnitOfMeasure";
+import ProductTypeRegistration from "@/pages/Registrations/RegisterProductType";
+import ProductGroup from "@/pages/Registrations/RegisterProductGroup";
+import Supplier from "@/pages/Registrations/RegisterSupplier";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

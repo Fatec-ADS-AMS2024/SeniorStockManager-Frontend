@@ -1,5 +1,5 @@
 import axios from "axios";
-import ServiceResult from "../types/services/ServiceResult";
+import ServiceResult from "@/types/services/ServiceResult";
 
 export default abstract class GenericService<T extends { id: number }> {
     protected readonly baseUrl: string;

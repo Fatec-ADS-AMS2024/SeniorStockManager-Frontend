@@ -1,4 +1,4 @@
-import { YesNo } from "../enums/YesNo";
+import YesNo from "../enums/YesNo";
 
 export default interface Product {
     id: number;

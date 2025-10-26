@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import CarrierService from "../../services/CarrierService";
-import Carrier from "../../types/models/Carrier";
-import Table from "../../components/Table";
+import CarrierService from "@/services/CarrierService";
+import Carrier from "@/types/models/Carrier";
+import Table from "@/components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import SearchBar from "../../components/SearchBar";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
+import SearchBar from "@/components/SearchBar";
+import Button from "@/components/Button";
+import Modal from "@/components/GenericModal";
 import { useNavigate } from "react-router-dom";
-import { routes } from "../../routes/routes";
+import { routes } from "@/routes/routes";
 
 export default function CarrierRegistration() {
   const columns = ["Descrição", "Abreviação"];

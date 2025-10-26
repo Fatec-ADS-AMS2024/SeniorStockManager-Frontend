@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import ProductGroupService from "../../services/productGroupService";
-import ProductGroup from "../../types/models/ProductGroup";
-import Table from "../../components/Table";
+import ProductGroupService from "@/services/productGroupService";
+import ProductGroup from "@/types/models/ProductGroup";
+import Table from "@/components/Table";
 import { CheckCircle, Pencil, Plus, Trash, XCircle } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import SearchBar from "../../components/SearchBar";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
+import SearchBar from "@/components/SearchBar";
+import Button from "@/components/Button";
+import Modal from "@/components/GenericModal";
 
 const inputs: {
   label: string;
@@ -121,7 +121,7 @@ export default function ProductGroupRegistration() {
 
   const registerProductGroup = async (model: ProductGroup) => {
     const productGroupService = new ProductGroupService();
-    
+
     if (!model.name || model.name.trim().length < 3 || model.name.trim().length > 100) {
       showInfoModal("Nome deve ter entre 3 e 100 caracteres.", "error");
       return;
@@ -134,7 +134,7 @@ export default function ProductGroupRegistration() {
       showInfoModal("Já existe um Grupo de Produto com esse nome.", "error");
       return;
     }
-    
+
     const res = await productGroupService.create(model);
     if (res.code >= 200 && res.code < 300) {
       setModalRegister(false);
@@ -147,7 +147,7 @@ export default function ProductGroupRegistration() {
 
   const editProductGroup = async (id: number, model: ProductGroup) => {
     const productGroupService = new ProductGroupService();
-    
+
     if (!model.name || model.name.trim().length < 3 || model.name.trim().length > 100) {
       showInfoModal("Nome deve ter entre 3 e 100 caracteres.", "error");
       return;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import SupplierService from "../../services/supplierService";
-import Supplier from "../../types/models/Supplier";
-import Table from "../../components/Table";
+import SupplierService from "@/services/supplierService";
+import Supplier from "@/types/models/Supplier";
+import Table from "@/components/Table";
 import { CheckCircle, Pencil, Plus, Trash, XCircle } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import SearchBar from "../../components/SearchBar";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
+import SearchBar from "@/components/SearchBar";
+import Button from "@/components/Button";
+import Modal from "@/components/GenericModal";
 
 const isValidCPF = (cpf: string): boolean => {
   if (typeof cpf !== "string") return false;
@@ -160,7 +160,7 @@ const SupplierList = () => {
   const [infoMessage, setInfoMessage] = useState("");
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [infoIcon, setInfoIcon] = useState<JSX.Element | undefined>(undefined);
-  
+
 
   const fetchData = async () => {
     const supplierService = new SupplierService();
@@ -450,7 +450,7 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
       addresscomplement: supplier.addresscomplement || ''
     };
 
-    const res = isEdit 
+    const res = isEdit
       ? await supplierService.update(Number(id), payload as Supplier)
       : await supplierService.create(payload as Supplier);
 
@@ -496,11 +496,11 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
                 return (
                   <div className="flex flex-col" key={input.name}>
                     <label htmlFor={input.name} className="mb-1 font-semibold">{input.label}</label>
-                    <select 
-                      id={input.name} 
-                      name={input.name} 
-                      value={supplier.state || ''} 
-                      onChange={handleChange} 
+                    <select
+                      id={input.name}
+                      name={input.name}
+                      value={supplier.state || ''}
+                      onChange={handleChange}
                       className="border p-2 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white h-[42px]"
                     >
                       <option value="">Selecione um estado</option>
@@ -513,12 +513,12 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
                 return (
                   <div className="flex flex-col" key={input.name}>
                     <label htmlFor={input.name} className="mb-1 font-semibold">{input.label}</label>
-                    <select 
-                      id={input.name} 
-                      name={input.name} 
-                      value={supplier.city || ''} 
-                      onChange={handleChange} 
-                      disabled={!supplier.state} 
+                    <select
+                      id={input.name}
+                      name={input.name}
+                      value={supplier.city || ''}
+                      onChange={handleChange}
+                      disabled={!supplier.state}
                       className="border p-2 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white disabled:bg-gray-100 h-[42px]"
                     >
                       <option value="">Selecione uma cidade</option>

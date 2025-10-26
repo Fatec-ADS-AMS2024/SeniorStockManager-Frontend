@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import ProductTypeService from "../../services/productTypeService";
-import ProductType from "../../types/models/ProductType";
-import Table from "../../components/Table";
+import ProductTypeService from "@/services/productTypeService";
+import ProductType from "@/types/models/ProductType";
+import Table from "@/components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import SearchBar from "../../components/SearchBar";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
+import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
+import SearchBar from "@/components/SearchBar";
+import Button from "@/components/Button";
+import Modal from "@/components/GenericModal";
 
 const inputs = [
   {
     label: "Id",
-    attribute: "id", 
+    attribute: "id",
     defaultValue: "",
     locked: true,
   },
@@ -75,7 +75,7 @@ export default function ProductTypeRegistration() {
     if (rowValues) {
       inputs.forEach((input) => {
         input.defaultValue = rowValues[input.attribute]
-      }); 
+      });
     } else {
       alert("Registro não encontrado");
       return;
@@ -96,7 +96,7 @@ export default function ProductTypeRegistration() {
     if (rowValues) {
       inputs.forEach((input) => {
         input.defaultValue = rowValues[input.attribute]
-      }); 
+      });
     } else {
       alert("Registro não encontrado");
       return;

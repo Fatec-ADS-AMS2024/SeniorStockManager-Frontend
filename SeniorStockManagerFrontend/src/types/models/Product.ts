@@ -7,10 +7,9 @@ export default interface Product {
     minimumStock: number;
     currentStock: number;
     stockValue?: number;
-    unitPrice: number;  
+    unitPrice: number;
     averageCost?: number;
     lastPurchasePrice?: number;
-    HighCost: YesNo;
-    ExpirationControlled: YesNo; 
+    highCost: YesNo;
+    expirationControlled: YesNo;
 }
-  

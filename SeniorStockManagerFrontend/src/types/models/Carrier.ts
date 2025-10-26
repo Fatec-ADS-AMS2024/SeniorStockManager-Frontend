@@ -1,17 +1,15 @@
 export default interface Carrier {
     id: number
-    corporateName: string 
+    corporateName: string
     tradeName: string
-    cpfcnpj: string
+    cpfCnpj: string
     street: string
     number: string
-    district: string 
-    adresscomplement: string 
+    district: string
+    adressComplement: string
     city: string
     state: string
-    postalCode: string 
+    postalCode: string
     phone: string
     email: string
-
 }
-  

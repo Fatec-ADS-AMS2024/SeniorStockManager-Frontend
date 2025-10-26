@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 import Modal from "../../components/GenericModal";
 import { routes } from "../../routes/routes";
 import Carrier from "../../types/models/Carrier";
-import CarrierService from '../../services/CarrierService'; 
+import CarrierService from '../../services/CarrierService';
 import CarrierType from "../../types/models/CarrierType";
 import CarrierGroup from "../../types/models/CarrierGroup";
 import CarrierTypeService from "../../services/CarrierTypeService";
@@ -25,13 +25,13 @@ export default function FormCarrier() {
   const [street, setStreet] = useState<string>("");
   const [number, setNumber] = useState<string>("");
   const [district, setDistrict] = useState<string>("");
-  const [addressComplement, setAddressComplement] = useState<string>(""); 
+  const [addressComplement, setAddressComplement] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [postalCode, setPostalCode] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  
+
   // Estados para modais e dropdowns (removi UnitOfMeasure)
   const [modalType, setModalType] = useState<boolean>(false);
   const [modalGroup, setModalGroup] = useState<boolean>(false);
@@ -51,7 +51,7 @@ export default function FormCarrier() {
         setStreet(c.street);
         setNumber(c.number);
         setDistrict(c.district);
-        setAddressComplement(c.adresscomplement); 
+        setAddressComplement(c.adresscomplement);
         setCity(c.city);
         setState(c.state);
         setPostalCode(c.postalCode);
@@ -86,7 +86,7 @@ export default function FormCarrier() {
       street,
       number,
       district,
-      adresscomplement: addressComplement, 
+      adresscomplement: addressComplement,
       city,
       state,
       postalCode,
@@ -107,7 +107,7 @@ export default function FormCarrier() {
     }
   };
 
- 
+
   const openModalType = () => setModalType(true);
   const openModalGroup = () => setModalGroup(true);
   const closeModalType = () => setModalType(false);
@@ -136,7 +136,7 @@ export default function FormCarrier() {
     closeModalGroup();
     getCarrierGroups();
   };
-  
+
   const inputsType = [{ label: "Nome do Tipo", attribute: "name", type: "text", required: true }];
   const inputsGroup = [{ label: "Nome do Grupo", attribute: "name", type: "text", required: true }];
 
@@ -177,7 +177,7 @@ export default function FormCarrier() {
             <InputText label="Cidade" value={city} action={setCity} property={{ type: "text" }} />
             <InputText label="Estado (UF)" value={state} action={setState} property={{ type: "text" }} />
           </div>
-          
+
           {/* --- CONTATO E GRUPOS --- */}
           <div className="w-full border-t my-4"></div>
           <h2 className="text-textPrimary font-bold text-xl w-full mb-4">Contato e Classificação</h2>

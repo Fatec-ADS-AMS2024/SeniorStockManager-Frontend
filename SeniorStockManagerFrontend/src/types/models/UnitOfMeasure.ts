@@ -3,4 +3,3 @@ export default interface UnitOfMeasure {
     abbreviation: string;
     description : string;
 }
-  

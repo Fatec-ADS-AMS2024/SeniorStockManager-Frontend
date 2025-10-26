@@ -17,7 +17,7 @@ export default function CarrierRegistration() {
   const [modalDelete, setModalDelete] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
   const navigate = useNavigate();
-  
+
 
   const fetchData = async () => {
     const carrier = new CarrierService();

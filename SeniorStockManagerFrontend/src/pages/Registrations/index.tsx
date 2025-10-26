@@ -9,7 +9,7 @@ import {
 import { routes } from "../../routes/routes";
 import Card from "../../components/Card";
 import SearchBar from "../../components/SearchBar";
-import Breadcrumb_PageTitle from '../../components/BreadcrumbPageTitle';
+import BreadcrumbPageTitle from '../../components/BreadcrumbPageTitle';
 
 const cards = [
   {
@@ -59,7 +59,7 @@ const cards = [
 export default function RegisterPage() {
   return (
     <div className="bg-neutralLighter">
-      <Breadcrumb_PageTitle title="Cadastros"/>
+      <BreadcrumbPageTitle title="Cadastros"/>
 
       <div className="mt-8 px-4 flex flex-wrap items-center gap-8">
         <SearchBar placeholder="Buscar Cadastro" action={console.log} />

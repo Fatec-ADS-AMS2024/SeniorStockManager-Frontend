@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ManuFacturerService from "../../services/manuFacturerService";
-import ManuFacturer from "../../types/models/Manufacturer";
+import ManufacturerService from "../../services/manuFacturerService";
+import Manufacturer from "../../types/models/Manufacturer";
 import Table from "../../components/Table";
 import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
 import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
@@ -11,7 +11,7 @@ import Modal from "../../components/GenericModal";
 const inputs = [
   {
     label: "Id",
-    attribute: "id", 
+    attribute: "id",
     defaultValue: "",
     locked: true,
   },
@@ -32,17 +32,17 @@ const inputs = [
 },
 ];
 
-export default function ManuFacturerRegistration() {
+export default function ManufacturerRegistration() {
   const columns = ["Nome Corporativo", "Nome Comercial", "CpfCnpj"];
-  const [data, setData] = useState<ManuFacturer[]>([]);
-  const [originalData, setOriginalData] = useState<ManuFacturer[]>([]);
+  const [data, setData] = useState<Manufacturer[]>([]);
+  const [originalData, setOriginalData] = useState<Manufacturer[]>([]);
   const [modalRegister, setModalRegister] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const manuFacturer = new ManuFacturerService();
+    const manuFacturer = new ManufacturerService();
     const res = await manuFacturer.getAll();
     if (res.code === 200 && res.data) {
       setData([...res.data]);
@@ -90,7 +90,7 @@ export default function ManuFacturerRegistration() {
     if (rowValues) {
       inputs.forEach((input) => {
         input.defaultValue = rowValues[input.attribute]
-      }); 
+      });
     } else {
       alert("Registro não encontrado");
       return;
@@ -111,7 +111,7 @@ export default function ManuFacturerRegistration() {
     if (rowValues) {
       inputs.forEach((input) => {
         input.defaultValue = rowValues[input.attribute]
-      }); 
+      });
     } else {
       alert("Registro não encontrado");
       return;
@@ -124,8 +124,8 @@ export default function ManuFacturerRegistration() {
     setModalInfo((isOpen) => !isOpen);
   };
 
-  const registerManuFacturer = async (model: ManuFacturer) => {
-    const manuFacturer = new ManuFacturerService();
+  const registerManufacturer = async (model: Manufacturer) => {
+    const manuFacturer = new ManufacturerService();
     const res = await manuFacturer.create({
       ...model,
       id: Number(model.id),
@@ -139,8 +139,8 @@ export default function ManuFacturerRegistration() {
     }
   };
 
-  const editManuFacturer = async (id: number, model: ManuFacturer) => {
-    const manuFacturer = new ManuFacturerService();
+  const editManufacturer = async (id: number, model: Manufacturer) => {
+    const manuFacturer = new ManufacturerService();
     const res = await manuFacturer.update(id, model);
     if (res.code === 200) {
       alert(`Fabricante ${res.data?.CorporateName} atualizado com sucesso!`);
@@ -151,8 +151,8 @@ export default function ManuFacturerRegistration() {
     }
   };
 
-  const deleteManuFacturer = async (id: number) => {
-    const manuFacturer = new ManuFacturerService();
+  const deleteManufacturer = async (id: number) => {
+    const manuFacturer = new ManufacturerService();
     const res = await manuFacturer.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
@@ -195,32 +195,32 @@ export default function ManuFacturerRegistration() {
             size="medium"
             onClick={openCloseModalRegister}
           />
-          <Modal<ManuFacturer>
+          <Modal<Manufacturer>
             title="Cadastrar Fabricante"
             inputs={inputs}
-            action={registerManuFacturer}
+            action={registerManufacturer}
             statusModal={modalRegister}
             closeModal={openCloseModalRegister}
             type="create"
           />
-          <Modal<ManuFacturer>
+          <Modal<Manufacturer>
             type="update"
             title="Editar Fabricante"
             inputs={inputs}
-            action={(manuFacturer) => editManuFacturer(manuFacturer.id, manuFacturer)}
+            action={(manuFacturer) => editManufacturer(manuFacturer.id, manuFacturer)}
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
-          <Modal<ManuFacturer>
+          <Modal<Manufacturer>
             type="delete"
             title="Deseja realmente excluir esse Fabricante?"
             msgInformation="Ao excluir este Fabricante, ela será removida permanentemente do sistema."
-            action={(manuFacturer) => deleteManuFacturer(manuFacturer.id)}
+            action={(manuFacturer) => deleteManufacturer(manuFacturer.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}
           />
-          <Modal<ManuFacturer>
+          <Modal<Manufacturer>
             type="info"
             msgInformation="Fabricante excluido com sucesso!"
             icon={<CheckCircle size={90} className="text-success" weight="fill" />}

@@ -8,7 +8,7 @@ export default interface Supplier {
     postalCode: string;
     street: string;
     number: string;
-    addresscomplement: string;
+    addressComplement: string;
     district: string;
     city: string;
     state: string;

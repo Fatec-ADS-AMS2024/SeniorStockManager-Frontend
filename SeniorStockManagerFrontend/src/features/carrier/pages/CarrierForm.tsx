@@ -3,24 +3,20 @@ import { useEffect, useState, useCallback } from 'react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import InputText from '@/components/InputText';
 import Button from '@/components/Button';
-import Modal from '@/components/GenericModal';
-import { routes } from '@/routes/routes';
 import Carrier from '@/types/models/Carrier';
-import CarrierService from '@/services/CarrierService';
-import CarrierType from '@/types/models/CarrierType';
-import CarrierGroup from '@/types/models/CarrierGroup';
-import CarrierTypeService from '@/services/CarrierTypeService';
-import CarrierGroupService from '@/services/CarrierGroupService';
+import useAppRoutes from '@/hooks/useAppRoutes';
+import CarrierService from '../services/carrierService';
 
 export default function CarrierForm() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const routes = useAppRoutes();
   const isEditing = id !== undefined && id !== '0';
 
   // --- ESTADOS PARA OS CAMPOS DE CARRIER ---
   const [corporateName, setCorporateName] = useState<string>('');
   const [tradeName, setTradeName] = useState<string>('');
-  const [cpfcnpj, setCpfcnpj] = useState<string>('');
+  const [cpfCnpj, setCpfcnpj] = useState<string>('');
   const [street, setStreet] = useState<string>('');
   const [number, setNumber] = useState<string>('');
   const [district, setDistrict] = useState<string>('');
@@ -31,12 +27,6 @@ export default function CarrierForm() {
   const [phone, setPhone] = useState<string>('');
   const [email, setEmail] = useState<string>('');
 
-  // Estados para modais e dropdowns (removi UnitOfMeasure)
-  const [modalType, setModalType] = useState<boolean>(false);
-  const [modalGroup, setModalGroup] = useState<boolean>(false);
-  const [carrierTypes, setCarrierTypes] = useState<CarrierType[]>([]);
-  const [carrierGroups, setCarrierGroups] = useState<CarrierGroup[]>([]);
-
   // Função para buscar dados de um Carrier para edição
   const fetchCarrier = useCallback(
     async (carrierId: string) => {
@@ -46,11 +36,11 @@ export default function CarrierForm() {
         const c = res.data.data; // 'c' de carrier
         setCorporateName(c.corporateName);
         setTradeName(c.tradeName);
-        setCpfcnpj(c.cpfcnpj);
+        setCpfcnpj(c.cpfCnpj);
         setStreet(c.street);
         setNumber(c.number);
         setDistrict(c.district);
-        setAddressComplement(c.adresscomplement);
+        setAddressComplement(c.adressComplement);
         setCity(c.city);
         setState(c.state);
         setPostalCode(c.postalCode);
@@ -58,15 +48,13 @@ export default function CarrierForm() {
         setEmail(c.email);
       } else {
         alert('Transportadora não encontrada!');
-        navigate(routes.REGISTER_CARRIER);
+        navigate(routes.CARRIER.path);
       }
     },
-    [navigate]
+    [navigate, routes.CARRIER.path]
   );
 
   useEffect(() => {
-    getCarrierTypes();
-    getCarrierGroups();
     if (isEditing) {
       fetchCarrier(id);
     }
@@ -80,11 +68,11 @@ export default function CarrierForm() {
       id: isEditing ? Number(id) : 0,
       corporateName,
       tradeName,
-      cpfcnpj,
+      cpfCnpj,
       street,
       number,
       district,
-      adresscomplement: addressComplement,
+      addressComplement,
       city,
       state,
       postalCode,
@@ -101,47 +89,11 @@ export default function CarrierForm() {
       alert(
         `Transportadora ${isEditing ? 'atualizada' : 'cadastrada'} com sucesso!`
       );
-      navigate(routes.REGISTER_CARRIER);
+      navigate(routes.CARRIER.path);
     } else {
       alert(res.message);
     }
   };
-
-  const openModalType = () => setModalType(true);
-  const openModalGroup = () => setModalGroup(true);
-  const closeModalType = () => setModalType(false);
-  const closeModalGroup = () => setModalGroup(false);
-
-  const getCarrierTypes = async () => {
-    const service = new CarrierTypeService();
-    const res = await service.getAll();
-    setCarrierTypes(res.data ?? []);
-  };
-  const getCarrierGroups = async () => {
-    const service = new CarrierGroupService();
-    const res = await service.getAll();
-    setCarrierGroups(res.data ?? []);
-  };
-
-  const registerCarrierType = async (model: CarrierType) => {
-    const service = new CarrierTypeService();
-    await service.create({ ...model, id: 0 });
-    closeModalType();
-    getCarrierTypes();
-  };
-  const registerCarrierGroup = async (model: CarrierGroup) => {
-    const service = new CarrierGroupService();
-    await service.create({ ...model, id: Number(model.id) });
-    closeModalGroup();
-    getCarrierGroups();
-  };
-
-  const inputsType = [
-    { label: 'Nome do Tipo', attribute: 'name', type: 'text', required: true },
-  ];
-  const inputsGroup = [
-    { label: 'Nome do Grupo', attribute: 'name', type: 'text', required: true },
-  ];
 
   return (
     <div>
@@ -173,7 +125,7 @@ export default function CarrierForm() {
             />
             <InputText
               label='CPF / CNPJ'
-              value={cpfcnpj}
+              value={cpfCnpj}
               action={setCpfcnpj}
               property={{ type: 'text', required: true }}
             />
@@ -254,60 +206,6 @@ export default function CarrierForm() {
               property={{ type: 'email' }}
             />
           </div>
-          <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
-            {/* Dropdown para Tipo */}
-            <div>
-              <label
-                htmlFor='carrier-type'
-                className='block text-sm font-medium text-textPrimary'
-              >
-                Tipo:
-              </label>
-              <select
-                id='carrier-type'
-                className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
-              >
-                {carrierTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                type='button'
-                onClick={openModalType}
-                className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
-              >
-                Adicionar Tipo
-              </button>
-            </div>
-            {/* Dropdown para Grupo */}
-            <div>
-              <label
-                htmlFor='carrier-group'
-                className='block text-sm font-medium text-textPrimary'
-              >
-                Grupo:
-              </label>
-              <select
-                id='carrier-group'
-                className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
-              >
-                {carrierGroups.map((group) => (
-                  <option key={group.id} value={group.id}>
-                    {group.name}
-                  </option>
-                ))}
-              </select>
-              <button
-                type='button'
-                onClick={openModalGroup}
-                className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
-              >
-                Adicionar Grupo
-              </button>
-            </div>
-          </div>
 
           {/* --- BOTÃO DE SUBMISSÃO --- */}
           <div className='flex justify-end w-full gap-4 mt-8'>
@@ -322,24 +220,6 @@ export default function CarrierForm() {
           </div>
         </form>
       </div>
-
-      {/* --- MODAIS --- */}
-      <Modal
-        title='Cadastrar Tipo'
-        inputs={inputsType}
-        action={registerCarrierType}
-        statusModal={modalType}
-        closeModal={closeModalType}
-        type='create'
-      />
-      <Modal
-        title='Cadastrar Grupo'
-        inputs={inputsGroup}
-        action={registerCarrierGroup}
-        statusModal={modalGroup}
-        closeModal={closeModalGroup}
-        type='create'
-      />
     </div>
   );
 }

@@ -13,11 +13,12 @@ import { ProductGroupService } from '@/features/productGroup';
 import { UnitOfMeasureService } from '@/features/unitOfMeasure';
 import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import ProductService from '../services/productService';
-import { routes } from '@/routes/routes';
+import useAppRoutes from '@/hooks/useAppRoutes';
 
 export default function ProductForm() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const routes = useAppRoutes();
 
   const [genericName, setGenericName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -50,10 +51,10 @@ export default function ProductForm() {
         setExpirationControlled(p.ExpirationControlled === YesNo.YES);
       } else {
         alert('Produto não encontrado!');
-        navigate(routes.REGISTER_PRODUCT);
+        navigate(routes.PRODUCT.path);
       }
     },
-    [navigate]
+    [navigate, routes.PRODUCT.path]
   ); // navigate é uma dependência que não muda, mas é boa prática incluir
 
   useEffect(() => {
@@ -189,8 +190,8 @@ export default function ProductForm() {
       minimumStock,
       currentStock,
       unitPrice,
-      HighCost: highCost ? YesNo.YES : YesNo.NO,
-      ExpirationControlled: expirationControlled ? YesNo.YES : YesNo.NO,
+      highCost: highCost ? YesNo.YES : YesNo.NO,
+      expirationControlled: expirationControlled ? YesNo.YES : YesNo.NO,
     };
 
     const productService = new ProductService();
@@ -204,7 +205,7 @@ export default function ProductForm() {
 
     if (res.code === 200 || res.code === 201) {
       alert(`Produto ${isEditing ? 'atualizado' : 'cadastrado'} com sucesso!`);
-      navigate(routes.REGISTER_PRODUCT);
+      navigate(routes.PRODUCT.path);
     } else {
       alert(res.message);
     }

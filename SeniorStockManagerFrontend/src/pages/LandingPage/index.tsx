@@ -2,13 +2,14 @@ import { useContext } from 'react';
 import fotoEntradaSistema from '@/assets/images/fotoEntradaSistema.jpg';
 import { ThemeContext } from '@/contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '@/routes/routes';
+import useAppRoutes from '@/hooks/useAppRoutes';
 
 export default function LandingPage() {
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
+  const routes = useAppRoutes();
   const handleLoginClick = () => {
-    navigate(routes.LOGIN);
+    navigate(routes.LOGIN.path);
   };
 
   return (

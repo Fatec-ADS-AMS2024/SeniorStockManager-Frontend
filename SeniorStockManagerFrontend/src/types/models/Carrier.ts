@@ -6,7 +6,7 @@ export default interface Carrier {
   street: string;
   number: string;
   district: string;
-  adressComplement: string;
+  addressComplement: string;
   city: string;
   state: string;
   postalCode: string;

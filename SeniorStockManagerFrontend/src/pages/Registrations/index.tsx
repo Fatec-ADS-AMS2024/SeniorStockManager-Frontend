@@ -6,57 +6,59 @@ import {
   Package,
   Factory,
 } from '@phosphor-icons/react';
-import { routes } from '@/routes/routes';
 import Card from '@/components/Card';
 import SearchBar from '@/components/SearchBar';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
-
-const cards = [
-  {
-    text: 'Unidade de medida',
-    subText: 'Unidades de medidas Cadastradas',
-    icon: <Ruler size={28} className='shrink-0' />,
-    page: routes.REGISTER_UNIT_OF_MEASURE,
-  },
-  {
-    text: 'Fornecedor',
-    subText: 'Fornecedores cadastrados',
-    icon: <Truck size={28} className='shrink-0' />,
-    page: routes.REGISTER_CARRIER,
-  },
-  {
-    text: 'Produtos',
-    subText: 'Produtos Cadastrados',
-    icon: <Ruler size={28} className='shrink-0' />,
-    page: routes.REGISTER_PRODUCT,
-  },
-  {
-    text: 'Fabricante',
-    subText: 'Fabricantes Cadastrados',
-    icon: <Factory size={28} className='shrink-0' />,
-    page: routes.REGISTER_MANUFACTURER,
-  },
-  {
-    text: 'Grupo de Produtos',
-    subText: 'Grupos de Produtos Cadastrados',
-    icon: <Package size={28} className='shrink-0' />,
-    page: routes.PRODUCT_GROUP,
-  },
-  {
-    text: 'Fornecedores',
-    subText: 'Fornecedores Cadastrados',
-    icon: <Handshake size={28} className='shrink-0' />,
-    page: routes.SUPPLIER,
-  },
-  {
-    text: 'Tipo de produto',
-    subText: 'Tipos de produto cadastrados',
-    icon: <Archive size={28} className='shrink-0' />,
-    page: routes.REGISTER_PRODUCT_TYPE,
-  },
-];
+import useAppRoutes from '@/hooks/useAppRoutes';
 
 export default function RegisterPage() {
+  const routes = useAppRoutes();
+
+  const cards = [
+    {
+      text: routes.UNIT_OF_MEASURE.displayName,
+      subText: 'Unidades de medidas Cadastradas',
+      icon: <Ruler size={28} className='shrink-0' />,
+      page: routes.UNIT_OF_MEASURE.path,
+    },
+    {
+      text: routes.CARRIER.displayName,
+      subText: 'Fornecedores cadastrados',
+      icon: <Truck size={28} className='shrink-0' />,
+      page: routes.CARRIER.path,
+    },
+    {
+      text: routes.PRODUCT.displayName,
+      subText: 'Produtos Cadastrados',
+      icon: <Ruler size={28} className='shrink-0' />,
+      page: routes.PRODUCT.path,
+    },
+    {
+      text: routes.MANUFACTURER.displayName,
+      subText: 'Fabricantes Cadastrados',
+      icon: <Factory size={28} className='shrink-0' />,
+      page: routes.MANUFACTURER.path,
+    },
+    {
+      text: routes.PRODUCT_GROUP.displayName,
+      subText: 'Grupos de Produtos Cadastrados',
+      icon: <Package size={28} className='shrink-0' />,
+      page: routes.PRODUCT_GROUP.path,
+    },
+    {
+      text: routes.SUPPLIER.displayName,
+      subText: 'Fornecedores Cadastrados',
+      icon: <Handshake size={28} className='shrink-0' />,
+      page: routes.SUPPLIER.path,
+    },
+    {
+      text: routes.PRODUCT_TYPE.displayName,
+      subText: 'Tipos de produto cadastrados',
+      icon: <Archive size={28} className='shrink-0' />,
+      page: routes.PRODUCT_TYPE.path,
+    },
+  ];
+
   return (
     <div className='bg-neutralLighter'>
       <BreadcrumbPageTitle title='Cadastros' />

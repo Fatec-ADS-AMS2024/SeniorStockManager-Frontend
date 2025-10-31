@@ -8,10 +8,11 @@ import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 import Modal from '@/components/GenericModal';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '@/routes/routes';
+import useAppRoutes from '@/hooks/useAppRoutes';
 
 export default function ProductOverview() {
   const columns = ['Descrição', 'Tipo', 'Grupo'];
+  const routes = useAppRoutes();
   const [data, setData] = useState<Product[]>([]);
   const [originalData, setOriginalData] = useState<Product[]>([]);
   const [modalDelete, setModalDelete] = useState(false);
@@ -82,7 +83,7 @@ export default function ProductOverview() {
     <>
       <button
         onClick={() =>
-          navigate(`${routes.FORM_PRODUCT.replace(':id', String(id))}`)
+          navigate(`${routes.PRODUCT_EDIT.path.replace(':id', String(id))}`)
         }
         className='text-edit hover:text-hoverEdit'
       >
@@ -109,7 +110,7 @@ export default function ProductOverview() {
             iconPosition='left'
             color='success'
             size='medium'
-            onClick={() => navigate(routes.FORM_PRODUCT.replace(':id', '0'))}
+            onClick={() => navigate(routes.PRODUCT_REGISTRATION.path)}
           />
         </div>
         <Table

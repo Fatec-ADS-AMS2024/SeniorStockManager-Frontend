@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import CarrierService from '@/services/CarrierService';
+import CarrierService from '../services/carrierService';
 import Carrier from '@/types/models/Carrier';
 import Table from '@/components/Table';
 import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
@@ -8,10 +8,11 @@ import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
 import Modal from '@/components/GenericModal';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '@/routes/routes';
+import useAppRoutes from '@/hooks/useAppRoutes';
 
 export default function CarrierOverview() {
   const columns = ['Descrição', 'Abreviação'];
+  const routes = useAppRoutes();
   const [data, setData] = useState<Carrier[]>([]);
   const [originalData, setOriginalData] = useState<Carrier[]>([]);
   const [modalDelete, setModalDelete] = useState(false);
@@ -105,7 +106,7 @@ export default function CarrierOverview() {
             iconPosition='left'
             color='success'
             size='medium'
-            onClick={() => navigate(routes.FORM_CARRIER.replace(':id', '0'))}
+            onClick={() => navigate(routes.CARRIER_REGISTRATION.path)}
           />
           <Modal<Carrier>
             type='delete'

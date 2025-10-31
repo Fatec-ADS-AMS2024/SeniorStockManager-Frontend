@@ -1,8 +1,10 @@
 import ProductGroup from '@/types/models/ProductGroup';
-import GenericService from '@/services/genericService';
+import generateGenericMethods from '@/utils/serviceUtils';
 
-export default class ProductGroupService extends GenericService<ProductGroup> {
-  constructor() {
-    super('ProductGroup');
-  }
-}
+const genericMethods = generateGenericMethods<ProductGroup>('ProductGroup');
+
+const ProductGroupService = {
+  ...genericMethods,
+};
+
+export default ProductGroupService;

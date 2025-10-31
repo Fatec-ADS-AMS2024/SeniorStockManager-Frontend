@@ -1,8 +1,10 @@
 import Supplier from '@/types/models/Supplier';
-import GenericService from '@/services/genericService';
+import generateGenericMethods from '@/utils/serviceUtils';
 
-export default class SupplierService extends GenericService<Supplier> {
-  constructor() {
-    super('Supplier');
-  }
-}
+const genericMethods = generateGenericMethods<Supplier>('Supplier');
+
+const SupplierService = {
+  ...genericMethods,
+};
+
+export default SupplierService;

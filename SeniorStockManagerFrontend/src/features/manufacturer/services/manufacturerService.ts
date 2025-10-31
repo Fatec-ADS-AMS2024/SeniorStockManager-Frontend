@@ -1,8 +1,10 @@
 import Manufacturer from '@/types/models/Manufacturer';
-import GenericService from '@/services/genericService';
+import generateGenericMethods from '@/utils/serviceUtils';
 
-export default class ManufacturerService extends GenericService<Manufacturer> {
-  constructor() {
-    super('Manufacturer');
-  }
-}
+const genericMethods = generateGenericMethods<Manufacturer>('Manufacturer');
+
+const ManufacturerService = {
+  ...genericMethods,
+};
+
+export default ManufacturerService;

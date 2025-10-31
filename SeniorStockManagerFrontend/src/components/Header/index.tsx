@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeContext } from '@/context/ThemeContext';
+import { ThemeContext } from '@/contexts/ThemeContext';
 import logo from '@/assets/images/logo.png';
 import AccessibilityBar from './AccessibilityBar';
 

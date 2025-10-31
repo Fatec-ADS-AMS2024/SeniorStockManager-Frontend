@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { ThemeContext } from '@/context/ThemeContext';
+import { ThemeContext } from '@/contexts/ThemeContext';
 import fotoLoginSistema from '@/assets/images/fotoLoginSistema.png';
 import { Envelope, Lock, Eye, EyeSlash } from '@phosphor-icons/react';
 

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import fotoEntradaSistema from '@/assets/images/fotoEntradaSistema.jpg';
-import { ThemeContext } from '@/context/ThemeContext';
+import { ThemeContext } from '@/contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '@/routes/routes';
 

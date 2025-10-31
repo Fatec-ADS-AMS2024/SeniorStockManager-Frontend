@@ -1,6 +1,6 @@
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 
-export default function GeneralAdministrator() {
+export default function AdminOverview() {
   return (
     <div>
       <BreadcrumbPageTitle title='Visão Geral' />

@@ -6,48 +6,39 @@ import {
   useRouteError,
 } from 'react-router-dom';
 import { routes } from './routes';
-import Layout from '@/components/Layout';
-import AccessibilityPage from '@/pages/AccessibilityPage';
-import LandingPage from '@/pages/LandingPage';
-import LoginPage from '@/pages/LoginPage';
-import RegisterPage from '@/pages/Registrations';
-import RegisterCarrier from '@/pages/Registrations/RegisterCarrier';
-import FormCarrier from '@/pages/Registrations/FormCarrier';
-import RegisterProduct from '@/pages/Registrations/RegisterProduct';
-import FormProduct from '@/pages/Registrations/FormProduct';
-import RegisterManufacturer from '@/pages/Registrations/RegisterManufacturer';
-import RegisterUnitOfMeasure from '@/pages/Registrations/RegisterUnitOfMeasure';
-import ProductTypeRegistration from '@/pages/Registrations/RegisterProductType';
-import ProductGroup from '@/pages/Registrations/RegisterProductGroup';
-import Supplier from '@/pages/Registrations/RegisterSupplier';
+import { AppLayout, HeaderFooterLayout } from '@/features/layout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='' element={<Layout />} errorElement={<GlobalErrorBoundary />}>
-      <Route path={routes.ACCESSIBILITY} element={<AccessibilityPage />} />
-      <Route path={routes.LANDING} element={<LandingPage />} />
-      <Route path={routes.LOGIN} element={<LoginPage />} />
-      <Route path={routes.REGISTER} element={<RegisterPage />} />
+    <Route>
       <Route
-        path={routes.REGISTER_UNIT_OF_MEASURE}
-        element={<RegisterUnitOfMeasure />}
-      />
-      <Route path={routes.REGISTER_CARRIER} element={<RegisterCarrier />} />
-      <Route path={routes.FORM_CARRIER} element={<FormCarrier />} />
-      <Route path={routes.REGISTER_PRODUCT} element={<RegisterProduct />} />
-      <Route path={routes.FORM_PRODUCT} element={<FormProduct />} />
+        path=''
+        element={<AppLayout />}
+        errorElement={<GlobalErrorBoundary />}
+      >
+        <Route {...routes.ADMIN_OVERVIEW} />
+        <Route {...routes.REGISTRATIONS} />
+        <Route {...routes.CARRIER} />
+        <Route {...routes.CARRIER_REGISTRATION} />
+        <Route {...routes.CARRIER_EDIT} />
+        <Route {...routes.MANUFACTURER} />
+        <Route {...routes.PRODUCT} />
+        <Route {...routes.PRODUCT_REGISTRATION} />
+        <Route {...routes.PRODUCT_EDIT} />
+        <Route {...routes.PRODUCT_GROUP} />
+        <Route {...routes.PRODUCT_TYPE} />
+        <Route {...routes.SUPPLIER} />
+        <Route {...routes.UNIT_OF_MEASURE} />
+      </Route>
       <Route
-        path={routes.REGISTER_MANUFACTURER}
-        element={<RegisterManufacturer />}
-      />
-      <Route path={routes.PRODUCT_GROUP} element={<ProductGroup />} />
-      <Route path={routes.SUPPLIER_NEW} element={<Supplier />} />
-      <Route path={routes.SUPPLIER_EDIT} element={<Supplier />} />
-      <Route path={routes.SUPPLIER} element={<Supplier />} />
-      <Route
-        path={routes.REGISTER_PRODUCT_TYPE}
-        element={<ProductTypeRegistration />}
-      />
+        path=''
+        element={<HeaderFooterLayout />}
+        errorElement={<GlobalErrorBoundary />}
+      >
+        <Route {...routes.LOGIN} />
+        <Route {...routes.ACCESSIBILITY} />
+        <Route {...routes.LANDING} />
+      </Route>
     </Route>
   )
 );

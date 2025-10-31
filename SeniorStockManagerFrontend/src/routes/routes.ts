@@ -11,8 +11,8 @@ export const routes = {
   FORM_PRODUCT: '/registrations/product/:id',
   REGISTER_MANUFACTURER: '/registrations/manufacturer',
   PRODUCT_GROUP: '/registrations/product_group',
-  SUPPLIER_NEW: "/registrations/supplier/new",
-  SUPPLIER_EDIT: "/registrations/supplier/:id",
+  SUPPLIER_NEW: '/registrations/supplier/new',
+  SUPPLIER_EDIT: '/registrations/supplier/:id',
   SUPPLIER: '/registrations/supplier',
   REGISTER_PRODUCT_TYPE: '/registrations/product_type',
-}
+};

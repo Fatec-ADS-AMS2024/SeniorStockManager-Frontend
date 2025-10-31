@@ -1,34 +1,34 @@
-import { useEffect, useState } from "react";
-import UnitOfMeasureService from "@/services/unitOfMeasureService";
-import UnitOfMeasure from "@/types/models/UnitOfMeasure";
-import Table from "@/components/Table";
-import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
-import SearchBar from "@/components/SearchBar";
-import Button from "@/components/Button";
-import Modal from "@/components/GenericModal";
+import { useEffect, useState } from 'react';
+import UnitOfMeasureService from '@/services/unitOfMeasureService';
+import UnitOfMeasure from '@/types/models/UnitOfMeasure';
+import Table from '@/components/Table';
+import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
+import SearchBar from '@/components/SearchBar';
+import Button from '@/components/Button';
+import Modal from '@/components/GenericModal';
 
 const inputs = [
   {
-    label: "Id",
-    attribute: "id",
-    defaultValue: "",
+    label: 'Id',
+    attribute: 'id',
+    defaultValue: '',
     locked: true,
   },
   {
-    label: "Abreviação",
-    attribute: "abbreviation",
-    defaultValue: "",
+    label: 'Abreviação',
+    attribute: 'abbreviation',
+    defaultValue: '',
   },
   {
-    label: "Descrição",
-    attribute: "description",
-    defaultValue: "",
-},
+    label: 'Descrição',
+    attribute: 'description',
+    defaultValue: '',
+  },
 ];
 
 export default function UnitOfMeasureRegistration() {
-  const columns = ["Descrição", "Abreviação"];
+  const columns = ['Descrição', 'Abreviação'];
   const [data, setData] = useState<UnitOfMeasure[]>([]);
   const [originalData, setOriginalData] = useState<UnitOfMeasure[]>([]);
   const [modalRegister, setModalRegister] = useState(false);
@@ -43,7 +43,7 @@ export default function UnitOfMeasureRegistration() {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error("Erro ao buscar dados:", res.message);
+      console.error('Erro ao buscar dados:', res.message);
     }
   };
 
@@ -84,10 +84,10 @@ export default function UnitOfMeasureRegistration() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute]
+        input.defaultValue = rowValues[input.attribute];
       });
     } else {
-      alert("Registro não encontrado");
+      alert('Registro não encontrado');
       return;
     }
 
@@ -112,7 +112,7 @@ export default function UnitOfMeasureRegistration() {
     }
 
     return true;
-  }
+  };
 
   // Abre a modal para deleção pegando os dados da linha
   const openCloseModalDelete = (id?: number) => {
@@ -125,10 +125,10 @@ export default function UnitOfMeasureRegistration() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute]
+        input.defaultValue = rowValues[input.attribute];
       });
     } else {
-      alert("Registro não encontrado");
+      alert('Registro não encontrado');
       return;
     }
 
@@ -140,7 +140,7 @@ export default function UnitOfMeasureRegistration() {
   };
 
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
-    if(!validate(model)) return;
+    if (!validate(model)) return;
 
     const unitOfMeasure = new UnitOfMeasureService();
     const res = await unitOfMeasure.create({
@@ -162,7 +162,9 @@ export default function UnitOfMeasureRegistration() {
     const unitOfMeasure = new UnitOfMeasureService();
     const res = await unitOfMeasure.update(id, model);
     if (res.code === 200) {
-      alert(`Unidade de medida ${res.data?.description} atualizada com sucesso!`);
+      alert(
+        `Unidade de medida ${res.data?.description} atualizada com sucesso!`
+      );
       setModalEdit(false);
       await fetchData();
     } else {
@@ -175,7 +177,7 @@ export default function UnitOfMeasureRegistration() {
     const res = await unitOfMeasure.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
-      setModalInfo(true)
+      setModalInfo(true);
       await fetchData();
     } else {
       alert(res.message);
@@ -187,62 +189,69 @@ export default function UnitOfMeasureRegistration() {
     <>
       <button
         onClick={() => openCloseModalEdit(id)}
-        className="text-edit hover:text-hoverEdit"
+        className='text-edit hover:text-hoverEdit'
       >
-        <Pencil className="size-6" weight="fill" />
+        <Pencil className='size-6' weight='fill' />
       </button>
       <button
         onClick={() => openCloseModalDelete(id)}
-        className="text-danger hover:text-hoverDanger"
+        className='text-danger hover:text-hoverDanger'
       >
-        <Trash className="size-6" weight="fill" />
+        <Trash className='size-6' weight='fill' />
       </button>
     </>
   );
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Unidade de Medida" />
-      <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
-        <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Unidade de Medida..." />
+      <BreadcrumbPageTitle title='Cadastro de Unidade de Medida' />
+      <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
+        <div className='flex items-center justify-between mb-4'>
+          <SearchBar
+            action={handleSearch}
+            placeholder='Buscar Unidade de Medida...'
+          />
           <Button
-            label="Adicionar"
+            label='Adicionar'
             icon={<Plus />}
-            iconPosition="left"
-            color="success"
-            size="medium"
+            iconPosition='left'
+            color='success'
+            size='medium'
             onClick={openCloseModalRegister}
           />
           <Modal<UnitOfMeasure>
-            title="Cadastrar Unidade de Medida"
+            title='Cadastrar Unidade de Medida'
             inputs={inputs}
             action={registerUnitOfMeasure}
             statusModal={modalRegister}
             closeModal={openCloseModalRegister}
-            type="create"
+            type='create'
           />
           <Modal<UnitOfMeasure>
-            type="update"
-            title="Editar Unidade de Medida"
+            type='update'
+            title='Editar Unidade de Medida'
             inputs={inputs}
-            action={(unitOfMeasure) => editUnitOfMeasure(unitOfMeasure.id, unitOfMeasure)}
+            action={(unitOfMeasure) =>
+              editUnitOfMeasure(unitOfMeasure.id, unitOfMeasure)
+            }
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
           <Modal<UnitOfMeasure>
-            type="delete"
-            title="Deseja realmente excluir essa Unidade de Medida?"
-            msgInformation="Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema."
+            type='delete'
+            title='Deseja realmente excluir essa Unidade de Medida?'
+            msgInformation='Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema.'
             action={(unitOfMeasure) => deleteUnitOfMeasure(unitOfMeasure.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}
           />
           <Modal<UnitOfMeasure>
-            type="info"
-            msgInformation="Unidade de Medida excluida com sucesso!"
-            icon={<CheckCircle size={90} className="text-success" weight="fill" />}
+            type='info'
+            msgInformation='Unidade de Medida excluida com sucesso!'
+            icon={
+              <CheckCircle size={90} className='text-success' weight='fill' />
+            }
             statusModal={modalInfo}
             closeModal={openCloseModalInfo}
           />

@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react";
-import ProductTypeService from "@/services/productTypeService";
-import ProductType from "@/types/models/ProductType";
-import Table from "@/components/Table";
-import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
-import SearchBar from "@/components/SearchBar";
-import Button from "@/components/Button";
-import Modal from "@/components/GenericModal";
+import { useEffect, useState } from 'react';
+import ProductTypeService from '@/services/productTypeService';
+import ProductType from '@/types/models/ProductType';
+import Table from '@/components/Table';
+import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
+import SearchBar from '@/components/SearchBar';
+import Button from '@/components/Button';
+import Modal from '@/components/GenericModal';
 
 const inputs = [
   {
-    label: "Id",
-    attribute: "id",
-    defaultValue: "",
+    label: 'Id',
+    attribute: 'id',
+    defaultValue: '',
     locked: true,
   },
   {
-    label: "Nome",
-    attribute: "Name",
-    defaultValue: "",
+    label: 'Nome',
+    attribute: 'Name',
+    defaultValue: '',
   },
 ];
 
 export default function ProductTypeRegistration() {
-  const columns = ["Nome"];
+  const columns = ['Nome'];
   const [data, setData] = useState<ProductType[]>([]);
   const [originalData, setOriginalData] = useState<ProductType[]>([]);
   const [modalRegister, setModalRegister] = useState(false);
@@ -38,7 +38,7 @@ export default function ProductTypeRegistration() {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error("Erro ao buscar dados:", res.message);
+      console.error('Erro ao buscar dados:', res.message);
     }
   };
 
@@ -74,10 +74,10 @@ export default function ProductTypeRegistration() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute]
+        input.defaultValue = rowValues[input.attribute];
       });
     } else {
-      alert("Registro não encontrado");
+      alert('Registro não encontrado');
       return;
     }
 
@@ -95,10 +95,10 @@ export default function ProductTypeRegistration() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute]
+        input.defaultValue = rowValues[input.attribute];
       });
     } else {
-      alert("Registro não encontrado");
+      alert('Registro não encontrado');
       return;
     }
 
@@ -141,7 +141,7 @@ export default function ProductTypeRegistration() {
     const res = await productType.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
-      setModalInfo(true)
+      setModalInfo(true);
       await fetchData();
     } else {
       alert(res.message);
@@ -153,62 +153,69 @@ export default function ProductTypeRegistration() {
     <>
       <button
         onClick={() => openCloseModalEdit(id)}
-        className="text-edit hover:text-hoverEdit"
+        className='text-edit hover:text-hoverEdit'
       >
-        <Pencil className="size-6" weight="fill" />
+        <Pencil className='size-6' weight='fill' />
       </button>
       <button
         onClick={() => openCloseModalDelete(id)}
-        className="text-danger hover:text-hoverDanger"
+        className='text-danger hover:text-hoverDanger'
       >
-        <Trash className="size-6" weight="fill" />
+        <Trash className='size-6' weight='fill' />
       </button>
     </>
   );
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Tipo de Produto" />
-      <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
-        <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Tipo de Produto..." />
+      <BreadcrumbPageTitle title='Cadastro de Tipo de Produto' />
+      <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
+        <div className='flex items-center justify-between mb-4'>
+          <SearchBar
+            action={handleSearch}
+            placeholder='Buscar Tipo de Produto...'
+          />
           <Button
-            label="Adicionar"
+            label='Adicionar'
             icon={<Plus />}
-            iconPosition="left"
-            color="success"
-            size="medium"
+            iconPosition='left'
+            color='success'
+            size='medium'
             onClick={openCloseModalRegister}
           />
           <Modal<ProductType>
-            title="Cadastrar Tipo de Produto"
+            title='Cadastrar Tipo de Produto'
             inputs={inputs}
             action={registerProductType}
             statusModal={modalRegister}
             closeModal={openCloseModalRegister}
-            type="create"
+            type='create'
           />
           <Modal<ProductType>
-            type="update"
-            title="Editar Tipo de Produto"
+            type='update'
+            title='Editar Tipo de Produto'
             inputs={inputs}
-            action={(productType) => editProductType(productType.id, productType)}
+            action={(productType) =>
+              editProductType(productType.id, productType)
+            }
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
           <Modal<ProductType>
-            type="delete"
-            title="Deseja realmente excluir esse Tipo de Produto?"
-            msgInformation="Ao excluir este Tipo de Produto, ela será removida permanentemente do sistema."
+            type='delete'
+            title='Deseja realmente excluir esse Tipo de Produto?'
+            msgInformation='Ao excluir este Tipo de Produto, ela será removida permanentemente do sistema.'
             action={(productType) => deleteProductType(productType.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}
           />
           <Modal<ProductType>
-            type="info"
-            msgInformation="Tipo de Produto excluida com sucesso!"
-            icon={<CheckCircle size={90} className="text-success" weight="fill" />}
+            type='info'
+            msgInformation='Tipo de Produto excluida com sucesso!'
+            icon={
+              <CheckCircle size={90} className='text-success' weight='fill' />
+            }
             statusModal={modalInfo}
             closeModal={openCloseModalInfo}
           />

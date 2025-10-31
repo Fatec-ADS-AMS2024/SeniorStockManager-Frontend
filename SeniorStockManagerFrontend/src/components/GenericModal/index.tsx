@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import Input from "../InputText";
-import Button from "../Button";
-import { Plus, X, Pencil } from "@phosphor-icons/react";
+import { useEffect, useState } from 'react';
+import Input from '../InputText';
+import Button from '../Button';
+import { Plus, X, Pencil } from '@phosphor-icons/react';
 
 interface ModalProps<T> {
   title?: string;
@@ -15,7 +15,7 @@ interface ModalProps<T> {
   optionalAction?: () => void;
   statusModal: boolean;
   closeModal: () => void;
-  type: "create" | "update" | "view" | "delete" | "info";
+  type: 'create' | 'update' | 'view' | 'delete' | 'info';
   msgInformation?: string;
   className?: string;
   icon?: JSX.Element;
@@ -23,21 +23,21 @@ interface ModalProps<T> {
 
 export default function Modal<T>({
   icon,
-  title = "Título",
+  title = 'Título',
   inputs = [],
   action,
   statusModal = true,
   closeModal,
   type,
   msgInformation,
-  className = "",
+  className = '',
   optionalAction,
 }: ModalProps<T>) {
   const [formData, setFormData] = useState<Record<string, string>>(
     inputs.reduce(
       (prev, input) => ({
         ...prev,
-        [input.attribute]: input.defaultValue || "",
+        [input.attribute]: input.defaultValue || '',
       }),
       {}
     )
@@ -50,7 +50,7 @@ export default function Modal<T>({
         inputs.reduce(
           (prev, input) => ({
             ...prev,
-            [input.attribute]: input.defaultValue ?? "",
+            [input.attribute]: input.defaultValue ?? '',
           }),
           {}
         )
@@ -72,9 +72,9 @@ export default function Modal<T>({
   const renderField = (input: any) => {
     if (input.render) {
       return (
-        <div key={input.attribute} className="mb-3">
+        <div key={input.attribute} className='mb-3'>
           {input.label && (
-            <label className="block text-sm font-medium text-textPrimary mb-1">
+            <label className='block text-sm font-medium text-textPrimary mb-1'>
               {input.label}
             </label>
           )}
@@ -85,21 +85,25 @@ export default function Modal<T>({
 
     if (input.options?.length) {
       return (
-        <div key={input.attribute} className="mb-3">
+        <div key={input.attribute} className='mb-3'>
           {input.label && (
-            <label className="block text-sm font-medium text-textPrimary mb-1">
+            <label className='block text-sm font-medium text-textPrimary mb-1'>
               {input.label}:
             </label>
           )}
           <select
-            className="w-full border rounded-[5px] p-2 outline-none text-textPrimary mb-1"
-            value={formData[input.attribute] ?? ""}
+            className='w-full border rounded-[5px] p-2 outline-none text-textPrimary mb-1'
+            value={formData[input.attribute] ?? ''}
             onChange={(e) => handleFormSubmit(input.attribute, e.target.value)}
             disabled={input.locked}
           >
-            <option value="" disabled>Selecione…</option>
+            <option value='' disabled>
+              Selecione…
+            </option>
             {input.options.map((opt: any) => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
             ))}
           </select>
         </div>
@@ -117,49 +121,48 @@ export default function Modal<T>({
     );
   };
 
-  if (!statusModal)
-    return null; 
+  if (!statusModal) return null;
   // Modal de Criação
-  if (type === "create") {
+  if (type === 'create') {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
+      <div className='fixed inset-0 flex items-center justify-center bg-transparent/50 z-50'>
         <form
           className={`rounded-[10px] shadow-lg w-full max-w-xl p-4 bg-neutralWhite ${className}`}
         >
           {/* Cabeçalho do Modal */}
-          <div className="flex items-center px-2">
-            <h2 className="text-xl font-semibold text-textPrimary">{title}</h2>
+          <div className='flex items-center px-2'>
+            <h2 className='text-xl font-semibold text-textPrimary'>{title}</h2>
           </div>
           {/* Separador */}
-          <hr className="border-t border-neutralDarker w-[99%] mx-auto my-4" />
+          <hr className='border-t border-neutralDarker w-[99%] mx-auto my-4' />
 
           {/* Corpo do Modal */}
-          <div className="mb-4 px-2">
+          <div className='mb-4 px-2'>
             {/* Alterado para usar renderField */}
             {inputs.map((input) => renderField(input))}
           </div>
 
           {/* Separador */}
-          <hr className="border-t border-neutralDarker w-[99%] mx-auto my-4" />
+          <hr className='border-t border-neutralDarker w-[99%] mx-auto my-4' />
 
           {/* Rodapé do Modal */}
-          <div className="flex justify-end px-4 py-2 gap-7">
+          <div className='flex justify-end px-4 py-2 gap-7'>
             <Button
-              icon={<X size={20} className="text-neutralWhite" />}
-              label="Cancelar"
+              icon={<X size={20} className='text-neutralWhite' />}
+              label='Cancelar'
               onClick={closeModal}
-              color="danger"
-              size="medium"
-              className="rounded-[5px] w-32"
+              color='danger'
+              size='medium'
+              className='rounded-[5px] w-32'
             />
             <Button
-              icon={<Plus size={20} className="text-neutralWhite" />}
-              label="Salvar"
+              icon={<Plus size={20} className='text-neutralWhite' />}
+              label='Salvar'
               onClick={handleSubmit}
-              color="success"
-              size="medium"
-              className="rounded-[5px] w-32"
-              type="button"
+              color='success'
+              size='medium'
+              className='rounded-[5px] w-32'
+              type='button'
             />
           </div>
         </form>
@@ -167,102 +170,104 @@ export default function Modal<T>({
     );
   }
   // Modal de Edit
-  else if (type === "update") {
+  else if (type === 'update') {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-        <form className="rounded-[10px] shadow-lg w-full max-w-xl p-4 bg-neutralWhite">
+      <div className='fixed inset-0 flex items-center justify-center bg-transparent/50 z-50'>
+        <form className='rounded-[10px] shadow-lg w-full max-w-xl p-4 bg-neutralWhite'>
           {/* Cabeçalho do Modal */}
-          <div className="flex items-center px-2">
-            <h2 className="text-xl font-semibold text-textPrimary">{title}</h2>
+          <div className='flex items-center px-2'>
+            <h2 className='text-xl font-semibold text-textPrimary'>{title}</h2>
           </div>
           {/* Separador */}
-          <hr className="border-t border-neutralDarker w-[99%] mx-auto my-4" />
+          <hr className='border-t border-neutralDarker w-[99%] mx-auto my-4' />
 
           {/* Corpo do Modal */}
-          <div className="mb-4 px-2">
+          <div className='mb-4 px-2'>
             {/* Alterado para usar renderField */}
             {inputs.map((input) => renderField(input))}
           </div>
 
           {/* Separador */}
-          <hr className="border-t border-neutralDarker w-[99%] mx-auto my-4" />
+          <hr className='border-t border-neutralDarker w-[99%] mx-auto my-4' />
 
           {/* Rodapé do Modal */}
-          <div className="flex justify-end px-4 py-2 gap-7">
+          <div className='flex justify-end px-4 py-2 gap-7'>
             <Button
-              icon={<X size={20} className="text-neutralWhite" />}
-              label="Cancelar"
+              icon={<X size={20} className='text-neutralWhite' />}
+              label='Cancelar'
               onClick={closeModal}
-              color="danger"
-              size="medium"
-              className="rounded-[5px] w-32"
+              color='danger'
+              size='medium'
+              className='rounded-[5px] w-32'
             />
             <Button
               icon={
-                <Pencil weight="fill" size={20} className="text-neutralWhite" />
+                <Pencil weight='fill' size={20} className='text-neutralWhite' />
               }
-              label="Salvar"
+              label='Salvar'
               onClick={handleSubmit}
-              color="edit"
-              size="medium"
-              className="rounded-[5px] w-32"
-              type="button"
+              color='edit'
+              size='medium'
+              className='rounded-[5px] w-32'
+              type='button'
             />
           </div>
         </form>
       </div>
     );
-  } else if (type === "delete") {
+  } else if (type === 'delete') {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50">
-        <form className="rounded-[10px] shadow-lg w-full max-w-xl p-3 bg-neutralWhite px-5 text-start py-7">
-          <h2 className="text-2xl font-semibold text-textPrimary">{title}</h2>
-          <div className="mb-4 px-2">
+      <div className='fixed inset-0 flex items-center justify-center bg-transparent/50 z-50'>
+        <form className='rounded-[10px] shadow-lg w-full max-w-xl p-3 bg-neutralWhite px-5 text-start py-7'>
+          <h2 className='text-2xl font-semibold text-textPrimary'>{title}</h2>
+          <div className='mb-4 px-2'>
             {inputs.map((input) => (
               <Input
                 key={input.attribute}
                 action={(value) => handleFormSubmit(input.attribute, value)}
                 value={formData[input.attribute]}
-                property={{ type: "hidden" }}
+                property={{ type: 'hidden' }}
               />
             ))}
           </div>
-          <p className="text-md text-textSecondary break-words text-xl mb-4">
+          <p className='text-md text-textSecondary break-words text-xl mb-4'>
             {msgInformation}
           </p>
-          <div className="flex justify-end px-4 py-2 gap-7">
+          <div className='flex justify-end px-4 py-2 gap-7'>
             <Button
-              label="Cancelar"
+              label='Cancelar'
               onClick={closeModal}
-              color="textSecondary"
-              size="medium"
-              className="w-32 font-semibold"
+              color='textSecondary'
+              size='medium'
+              className='w-32 font-semibold'
             />
             <Button
-              label="Sim, desejo excluir!"
+              label='Sim, desejo excluir!'
               onClick={() => {
                 handleSubmit();
                 closeModal();
                 if (optionalAction) optionalAction();
               }}
-              color="primary"
-              size="medium"
-              className="font-semibold"
-              type="button"
+              color='primary'
+              size='medium'
+              className='font-semibold'
+              type='button'
             />
           </div>
         </form>
       </div>
     );
-  } else if (type === "info") {
+  } else if (type === 'info') {
     return (
       <div
-        className="fixed inset-0 flex items-center justify-center bg-transparent/50 z-50"
+        className='fixed inset-0 flex items-center justify-center bg-transparent/50 z-50'
         onClick={closeModal}
       >
-        <div className="flex flex-col justify-center items-center rounded-[10px] shadow-lg w-full max-w-md bg-neutralWhite px-5 text-start py-5">
+        <div className='flex flex-col justify-center items-center rounded-[10px] shadow-lg w-full max-w-md bg-neutralWhite px-5 text-start py-5'>
           {icon}
-          <span className='text-textSecondary text-3xl font-semibold text-center'>{msgInformation}</span>
+          <span className='text-textSecondary text-3xl font-semibold text-center'>
+            {msgInformation}
+          </span>
           {/* Adicionado o map de inputs para o tipo 'info' */}
           {inputs.map((input) => renderField(input))}
         </div>

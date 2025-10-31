@@ -30,7 +30,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     document.documentElement.setAttribute('data-theme', savedTheme);
     document.documentElement.style.setProperty(
       '--font-size',
-      `${savedFontSize}px`,
+      `${savedFontSize}px`
     );
   }, []);
 
@@ -48,7 +48,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     // Atualiza a variável CSS do tamanho da fonte
     document.documentElement.style.setProperty(
       '--font-size',
-      `${newFontSize}px`,
+      `${newFontSize}px`
     );
   };
 

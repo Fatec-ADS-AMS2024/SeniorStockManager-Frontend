@@ -1,39 +1,39 @@
-import { useEffect, useState } from "react";
-import ManufacturerService from "../../services/manufacturerService";
-import Manufacturer from "../../types/models/Manufacturer";
-import Table from "../../components/Table";
-import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "../../components/BreadcrumbPageTitle";
-import SearchBar from "../../components/SearchBar";
-import Button from "../../components/Button";
-import Modal from "../../components/GenericModal";
+import { useEffect, useState } from 'react';
+import ManufacturerService from '../../services/manufacturerService';
+import Manufacturer from '../../types/models/Manufacturer';
+import Table from '../../components/Table';
+import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import BreadcrumbPageTitle from '../../components/BreadcrumbPageTitle';
+import SearchBar from '../../components/SearchBar';
+import Button from '../../components/Button';
+import Modal from '../../components/GenericModal';
 
 const inputs = [
   {
-    label: "Id",
-    attribute: "id",
-    defaultValue: "",
+    label: 'Id',
+    attribute: 'id',
+    defaultValue: '',
     locked: true,
   },
   {
-    label: "Nome Corporativo",
-    attribute: "abbreviation",
-    defaultValue: "",
+    label: 'Nome Corporativo',
+    attribute: 'abbreviation',
+    defaultValue: '',
   },
   {
-    label: "Nome Comercial",
-    attribute: "description",
-    defaultValue: "",
-},
+    label: 'Nome Comercial',
+    attribute: 'description',
+    defaultValue: '',
+  },
   {
-    label: "CpfCnpj",
-    attribute: "description",
-    defaultValue: "",
-},
+    label: 'CpfCnpj',
+    attribute: 'description',
+    defaultValue: '',
+  },
 ];
 
 export default function ManufacturerRegistration() {
-  const columns = ["Nome Corporativo", "Nome Comercial", "CpfCnpj"];
+  const columns = ['Nome Corporativo', 'Nome Comercial', 'CpfCnpj'];
   const [data, setData] = useState<Manufacturer[]>([]);
   const [originalData, setOriginalData] = useState<Manufacturer[]>([]);
   const [modalRegister, setModalRegister] = useState(false);
@@ -48,7 +48,7 @@ export default function ManufacturerRegistration() {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error("Erro ao buscar dados:", res.message);
+      console.error('Erro ao buscar dados:', res.message);
     }
   };
 
@@ -64,7 +64,9 @@ export default function ManufacturerRegistration() {
     }
 
     const filteredData = originalData.filter((manufacturer) =>
-      manufacturer.CorporateName.toLowerCase().includes(searchTerm.toLowerCase())
+      manufacturer.CorporateName.toLowerCase().includes(
+        searchTerm.toLowerCase()
+      )
     );
     setData(filteredData);
   };
@@ -89,10 +91,10 @@ export default function ManufacturerRegistration() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute]
+        input.defaultValue = rowValues[input.attribute];
       });
     } else {
-      alert("Registro não encontrado");
+      alert('Registro não encontrado');
       return;
     }
 
@@ -110,10 +112,10 @@ export default function ManufacturerRegistration() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute]
+        input.defaultValue = rowValues[input.attribute];
       });
     } else {
-      alert("Registro não encontrado");
+      alert('Registro não encontrado');
       return;
     }
 
@@ -156,7 +158,7 @@ export default function ManufacturerRegistration() {
     const res = await manufacturer.delete(id);
     if (res.code === 200) {
       setModalDelete(false);
-      setModalInfo(true)
+      setModalInfo(true);
       await fetchData();
     } else {
       alert(res.message);
@@ -168,62 +170,66 @@ export default function ManufacturerRegistration() {
     <>
       <button
         onClick={() => openCloseModalEdit(id)}
-        className="text-edit hover:text-hoverEdit"
+        className='text-edit hover:text-hoverEdit'
       >
-        <Pencil className="size-6" weight="fill" />
+        <Pencil className='size-6' weight='fill' />
       </button>
       <button
         onClick={() => openCloseModalDelete(id)}
-        className="text-danger hover:text-hoverDanger"
+        className='text-danger hover:text-hoverDanger'
       >
-        <Trash className="size-6" weight="fill" />
+        <Trash className='size-6' weight='fill' />
       </button>
     </>
   );
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Fabricante" />
-      <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
-        <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Fabricante..." />
+      <BreadcrumbPageTitle title='Cadastro de Fabricante' />
+      <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
+        <div className='flex items-center justify-between mb-4'>
+          <SearchBar action={handleSearch} placeholder='Buscar Fabricante...' />
           <Button
-            label="Adicionar"
+            label='Adicionar'
             icon={<Plus />}
-            iconPosition="left"
-            color="success"
-            size="medium"
+            iconPosition='left'
+            color='success'
+            size='medium'
             onClick={openCloseModalRegister}
           />
           <Modal<Manufacturer>
-            title="Cadastrar Fabricante"
+            title='Cadastrar Fabricante'
             inputs={inputs}
             action={registerManufacturer}
             statusModal={modalRegister}
             closeModal={openCloseModalRegister}
-            type="create"
+            type='create'
           />
           <Modal<Manufacturer>
-            type="update"
-            title="Editar Fabricante"
+            type='update'
+            title='Editar Fabricante'
             inputs={inputs}
-            action={(manufacturer) => editManufacturer(manufacturer.id, manufacturer)}
+            action={(manufacturer) =>
+              editManufacturer(manufacturer.id, manufacturer)
+            }
             statusModal={modalEdit}
             closeModal={() => openCloseModalEdit()}
           />
           <Modal<Manufacturer>
-            type="delete"
-            title="Deseja realmente excluir esse Fabricante?"
-            msgInformation="Ao excluir este Fabricante, ela será removida permanentemente do sistema."
+            type='delete'
+            title='Deseja realmente excluir esse Fabricante?'
+            msgInformation='Ao excluir este Fabricante, ela será removida permanentemente do sistema.'
             action={(manufacturer) => deleteManufacturer(manufacturer.id)}
             statusModal={modalDelete}
             closeModal={() => openCloseModalDelete()}
             inputs={inputs}
           />
           <Modal<Manufacturer>
-            type="info"
-            msgInformation="Fabricante excluido com sucesso!"
-            icon={<CheckCircle size={90} className="text-success" weight="fill" />}
+            type='info'
+            msgInformation='Fabricante excluido com sucesso!'
+            icon={
+              <CheckCircle size={90} className='text-success' weight='fill' />
+            }
             statusModal={modalInfo}
             closeModal={openCloseModalInfo}
           />

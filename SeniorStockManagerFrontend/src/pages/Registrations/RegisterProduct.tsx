@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
-import ProductService from "@/services/productService";
-import Product from "@/types/models/Product";
-import Table from "@/components/Table";
-import { CheckCircle, Pencil, Plus, Trash } from "@phosphor-icons/react";
-import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
-import SearchBar from "@/components/SearchBar";
-import Button from "@/components/Button";
-import Modal from "@/components/GenericModal";
-import { useNavigate } from "react-router-dom";
-import { routes } from "@/routes/routes";
+import { useEffect, useState } from 'react';
+import ProductService from '@/services/productService';
+import Product from '@/types/models/Product';
+import Table from '@/components/Table';
+import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
+import SearchBar from '@/components/SearchBar';
+import Button from '@/components/Button';
+import Modal from '@/components/GenericModal';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '@/routes/routes';
 
 export default function ProductRegistration() {
-  const columns = ["Descrição", "Tipo", "Grupo"];
+  const columns = ['Descrição', 'Tipo', 'Grupo'];
   const [data, setData] = useState<Product[]>([]);
   const [originalData, setOriginalData] = useState<Product[]>([]);
   const [modalDelete, setModalDelete] = useState(false);
@@ -27,7 +27,7 @@ export default function ProductRegistration() {
       setData([...res.data.data]);
       setOriginalData([...res.data.data]); // Salva os dados originais
     } else {
-      console.error("Erro ao buscar dados:", res.message);
+      console.error('Erro ao buscar dados:', res.message);
     }
   };
 
@@ -72,7 +72,7 @@ export default function ProductRegistration() {
         setModalInfo(true);
         await fetchData(); // Recarrega a lista
       } else {
-        console.error("Erro ao deletar:", res.message);
+        console.error('Erro ao deletar:', res.message);
       }
     }
   };
@@ -81,32 +81,34 @@ export default function ProductRegistration() {
   const Actions = ({ id }: { id: number }) => (
     <>
       <button
-        onClick={() => navigate(`${routes.FORM_PRODUCT.replace(':id', String(id))}`)}
-        className="text-edit hover:text-hoverEdit"
+        onClick={() =>
+          navigate(`${routes.FORM_PRODUCT.replace(':id', String(id))}`)
+        }
+        className='text-edit hover:text-hoverEdit'
       >
-        <Pencil className="size-6" weight="fill" />
+        <Pencil className='size-6' weight='fill' />
       </button>
       <button
         onClick={() => openCloseModalDelete(id)}
-        className="text-danger hover:text-hoverDanger"
+        className='text-danger hover:text-hoverDanger'
       >
-        <Trash className="size-6" weight="fill" />
+        <Trash className='size-6' weight='fill' />
       </button>
     </>
   );
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Cadastro de Produtos" />
-      <div className="bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10">
-        <div className="flex items-center justify-between mb-4">
-          <SearchBar action={handleSearch} placeholder="Buscar Produtos..." />
+      <BreadcrumbPageTitle title='Cadastro de Produtos' />
+      <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
+        <div className='flex items-center justify-between mb-4'>
+          <SearchBar action={handleSearch} placeholder='Buscar Produtos...' />
           <Button
-            label="Adicionar Produto"
+            label='Adicionar Produto'
             icon={<Plus />}
-            iconPosition="left"
-            color="success"
-            size="medium"
+            iconPosition='left'
+            color='success'
+            size='medium'
             onClick={() => navigate(routes.FORM_PRODUCT.replace(':id', '0'))}
           />
         </div>
@@ -118,21 +120,21 @@ export default function ProductRegistration() {
       </div>
 
       <Modal
-        title="Confirmar Exclusão"
-        msgInformation="Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita."
+        title='Confirmar Exclusão'
+        msgInformation='Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.'
         statusModal={modalDelete}
         closeModal={() => openCloseModalDelete()}
         action={deleteProduct} // Chama a função de exclusão
-        type="delete"
+        type='delete'
       />
 
       <Modal
-        title="Sucesso"
-        msgInformation="Produto excluído com sucesso!"
+        title='Sucesso'
+        msgInformation='Produto excluído com sucesso!'
         icon={<CheckCircle size={32} />}
         statusModal={modalInfo}
         closeModal={() => openCloseModalInfo()}
-        type="info"
+        type='info'
       />
     </div>
   );

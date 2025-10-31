@@ -1,7 +1,7 @@
-import TableFooter from "./TableFooter";
-import TableHeader from "./TableHeader";
-import TableRow from "./TableRow";
-import { JSX, useState } from "react";
+import TableFooter from './TableFooter';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
+import { JSX, useState } from 'react';
 
 interface TableProps {
   columns: string[];
@@ -20,7 +20,7 @@ export default function Table({
 }: TableProps) {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const startIndex = (currentPage - 1) * rowsPerPage;
   const totalPages = Math.ceil(data.length / rowsPerPage);
   const paginatedData = data.slice(startIndex, startIndex + rowsPerPage);
@@ -44,7 +44,7 @@ export default function Table({
   };
 
   return (
-    <table className="w-full bg-neutralWhite rounded-lg shadow-md overflow-hidden">
+    <table className='w-full bg-neutralWhite rounded-lg shadow-md overflow-hidden'>
       {/* Cabeçalho da tabela */}
       <TableHeader columns={columns} actions={!!actions} />
       {/* Corpo da tabela */}

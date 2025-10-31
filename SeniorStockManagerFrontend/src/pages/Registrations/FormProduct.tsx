@@ -1,26 +1,26 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
-import BreadcrumbPageTitle from "@/components/BreadcrumbPageTitle";
-import InputText from "@/components/InputText";
-import Product from "@/types/models/Product";
-import Button from "@/components/Button";
-import Modal from "@/components/GenericModal";
-import { YesNo } from "@/types/enums/YesNo";
-import ProductType from "@/types/models/ProductType";
-import ProductTypeService from "@/services/productTypeService";
-import ProductGroup from "@/types/models/ProductGroup";
-import ProductGroupService from "@/services/productGroupService";
-import UnitOfMeasureService from "@/services/unitOfMeasureService";
-import UnitOfMeasure from "@/types/models/UnitOfMeasure";
-import ProductService from "@/services/productService";
-import { routes } from "@/routes/routes";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
+import InputText from '@/components/InputText';
+import Product from '@/types/models/Product';
+import Button from '@/components/Button';
+import Modal from '@/components/GenericModal';
+import { YesNo } from '@/types/enums/YesNo';
+import ProductType from '@/types/models/ProductType';
+import ProductTypeService from '@/services/productTypeService';
+import ProductGroup from '@/types/models/ProductGroup';
+import ProductGroupService from '@/services/productGroupService';
+import UnitOfMeasureService from '@/services/unitOfMeasureService';
+import UnitOfMeasure from '@/types/models/UnitOfMeasure';
+import ProductService from '@/services/productService';
+import { routes } from '@/routes/routes';
 
 export default function FormProduct() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  const [genericName, setGenericName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [genericName, setGenericName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [minimumStock, setMinimumStock] = useState<number>(0);
   const [currentStock, setCurrentStock] = useState<number>(0);
   const [unitPrice, setUnitPrice] = useState<number>(0);
@@ -33,7 +33,7 @@ export default function FormProduct() {
   const [modalGroup, setModalGroup] = useState<boolean>(false);
   const [modalUnit, setModalUnit] = useState<boolean>(false);
 
-  const isEditing = id !== undefined && id !== "0";
+  const isEditing = id !== undefined && id !== '0';
 
   const fetchProduct = useCallback(
     async (productId: string) => {
@@ -49,7 +49,7 @@ export default function FormProduct() {
         setHighCost(p.HighCost === YesNo.YES);
         setExpirationControlled(p.ExpirationControlled === YesNo.YES);
       } else {
-        alert("Produto não encontrado!");
+        alert('Produto não encontrado!');
         navigate(routes.REGISTER_PRODUCT);
       }
     },
@@ -148,33 +148,33 @@ export default function FormProduct() {
 
   const inputsType = [
     {
-      label: "Nome do Tipo",
-      attribute: "name",
-      type: "text",
+      label: 'Nome do Tipo',
+      attribute: 'name',
+      type: 'text',
       required: true,
     },
   ];
 
   const inputsGroup = [
     {
-      label: "Nome do Grupo",
-      attribute: "groupName",
-      type: "text",
+      label: 'Nome do Grupo',
+      attribute: 'groupName',
+      type: 'text',
       required: true,
     },
   ];
 
   const inputsUnit = [
     {
-      label: "Nome da Unidade",
-      attribute: "unitName",
-      type: "text",
+      label: 'Nome da Unidade',
+      attribute: 'unitName',
+      type: 'text',
       required: true,
     },
     {
-      label: "Abreviação",
-      attribute: "abbreviation",
-      type: "text",
+      label: 'Abreviação',
+      attribute: 'abbreviation',
+      type: 'text',
       required: true,
     },
   ];
@@ -203,7 +203,7 @@ export default function FormProduct() {
     }
 
     if (res.code === 200 || res.code === 201) {
-      alert(`Produto ${isEditing ? "atualizado" : "cadastrado"} com sucesso!`);
+      alert(`Produto ${isEditing ? 'atualizado' : 'cadastrado'} com sucesso!`);
       navigate(routes.REGISTER_PRODUCT);
     } else {
       alert(res.message);
@@ -212,52 +212,52 @@ export default function FormProduct() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title="Produto" />
-      <div className="w-full h-full flex flex-col items-center py-10">
+      <BreadcrumbPageTitle title='Produto' />
+      <div className='w-full h-full flex flex-col items-center py-10'>
         <form
-          className="w-[95%] h-full bg-white shadow-md p-8 flex flex-col justify-center items-center rounded-lg"
+          className='w-[95%] h-full bg-white shadow-md p-8 flex flex-col justify-center items-center rounded-lg'
           onSubmit={handleSubmit}
         >
-          <h1 className="text-textPrimary font-bold text-2xl w-full mb-6">
+          <h1 className='text-textPrimary font-bold text-2xl w-full mb-6'>
             Produto
           </h1>
 
-          <div className="w-full">
-            <div className="flex flex-row gap-4">
-              <div className="flex-1">
+          <div className='w-full'>
+            <div className='flex flex-row gap-4'>
+              <div className='flex-1'>
                 <InputText
-                  label="Nome Genérico"
+                  label='Nome Genérico'
                   value={genericName}
                   action={setGenericName}
                   defaultDisable={false}
-                  property={{ type: "text" }}
+                  property={{ type: 'text' }}
                 />
               </div>
-              <div className="flex-1">
+              <div className='flex-1'>
                 <InputText
-                  label="Descrição"
+                  label='Descrição'
                   value={description}
                   action={setDescription}
                   defaultDisable={false}
-                  property={{ type: "text" }}
+                  property={{ type: 'text' }}
                 />
               </div>
             </div>
           </div>
 
-          <div className="w-full mt-4">
-            <div className="flex flex-row gap-4">
-              <div className="flex-1">
+          <div className='w-full mt-4'>
+            <div className='flex flex-row gap-4'>
+              <div className='flex-1'>
                 <label
-                  htmlFor="category"
-                  className="block text-sm font-medium text-textPrimary"
+                  htmlFor='category'
+                  className='block text-sm font-medium text-textPrimary'
                 >
                   Tipo:
                 </label>
                 <select
-                  id="category"
-                  name="category"
-                  className="p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm"
+                  id='category'
+                  name='category'
+                  className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
                 >
                   {productTypes.map((productType) => (
                     <option key={productType.id} value={productType.id}>
@@ -266,36 +266,36 @@ export default function FormProduct() {
                   ))}
                 </select>
                 <a
-                  href="#"
+                  href='#'
                   onClick={(e) => {
                     e.preventDefault();
                     openModalType();
                   }}
-                  className="mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2"
+                  className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
                 >
                   Tipo não encontrado
                 </a>
                 <Modal
-                  title="Cadastrar Tipo"
+                  title='Cadastrar Tipo'
                   inputs={inputsType}
                   action={registerProductType}
                   statusModal={modalType}
                   closeModal={closeModalType}
-                  type="create"
+                  type='create'
                 />
               </div>
 
-              <div className="flex-1">
+              <div className='flex-1'>
                 <label
-                  htmlFor="group"
-                  className="block text-sm font-medium text-textPrimary"
+                  htmlFor='group'
+                  className='block text-sm font-medium text-textPrimary'
                 >
                   Grupo:
                 </label>
                 <select
-                  id="group"
-                  name="group"
-                  className="p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm"
+                  id='group'
+                  name='group'
+                  className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
                 >
                   {productGroups.map((productGroup) => (
                     <option key={productGroup.id} value={productGroup.id}>
@@ -304,40 +304,40 @@ export default function FormProduct() {
                   ))}
                 </select>
                 <a
-                  href="#"
+                  href='#'
                   onClick={(e) => {
                     e.preventDefault();
                     openModalGroup();
                   }}
-                  className="mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2"
+                  className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
                 >
                   Grupo não encontrado
                 </a>
                 <Modal
-                  title="Cadastrar Grupo"
+                  title='Cadastrar Grupo'
                   inputs={inputsGroup}
                   action={registerProductGroup}
                   statusModal={modalGroup}
                   closeModal={closeModalGroup}
-                  type="create"
+                  type='create'
                 />
               </div>
             </div>
           </div>
 
-          <div className="w-full mt-4">
-            <div className="flex flex-row gap-4">
-              <div className="flex-1">
+          <div className='w-full mt-4'>
+            <div className='flex flex-row gap-4'>
+              <div className='flex-1'>
                 <label
-                  htmlFor="unit"
-                  className="block text-sm font-medium text-textPrimary"
+                  htmlFor='unit'
+                  className='block text-sm font-medium text-textPrimary'
                 >
                   Unidade de medida:
                 </label>
                 <select
-                  id="unit"
-                  name="unit"
-                  className="p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm"
+                  id='unit'
+                  name='unit'
+                  className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
                 >
                   {unitOfMeasures.map((unitOfMeasure) => (
                     <option key={unitOfMeasure.id} value={unitOfMeasure.id}>
@@ -346,56 +346,56 @@ export default function FormProduct() {
                   ))}
                 </select>
                 <a
-                  href="#"
+                  href='#'
                   onClick={(e) => {
                     e.preventDefault();
                     openModalUnit();
                   }}
-                  className="mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2"
+                  className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
                 >
                   Unidade de medida não encontrada
                 </a>
                 <Modal
-                  title="Cadastrar Unidade de Medida"
+                  title='Cadastrar Unidade de Medida'
                   inputs={inputsUnit}
                   action={registerUnitOfMeasure}
                   statusModal={modalUnit}
                   closeModal={closeModalUnit}
-                  type="create"
+                  type='create'
                 />
               </div>
-              <div className="flex-1">
-                <div className="flex flex-col gap-y-4">
-                  <div className="flex items-center">
+              <div className='flex-1'>
+                <div className='flex flex-col gap-y-4'>
+                  <div className='flex items-center'>
                     <input
-                      type="checkbox"
-                      id="validityCheckbox"
-                      name="validityCheckbox"
-                      className="h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded"
+                      type='checkbox'
+                      id='validityCheckbox'
+                      name='validityCheckbox'
+                      className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
                       checked={expirationControlled}
                       onChange={(e) =>
                         setExpirationControlled(e.target.checked)
                       }
                     />
                     <label
-                      htmlFor="validityCheckbox"
-                      className="ml-2 text-sm font-medium text-textSecondary whitespace-nowrap"
+                      htmlFor='validityCheckbox'
+                      className='ml-2 text-sm font-medium text-textSecondary whitespace-nowrap'
                     >
                       Possui controle de validade
                     </label>
                   </div>
-                  <div className="flex items-center">
+                  <div className='flex items-center'>
                     <input
-                      type="checkbox"
-                      id="highCostCheckbox"
-                      name="highCostCheckbox"
-                      className="h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded"
+                      type='checkbox'
+                      id='highCostCheckbox'
+                      name='highCostCheckbox'
+                      className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
                       checked={highCost}
                       onChange={(e) => setHighCost(e.target.checked)}
                     />
                     <label
-                      htmlFor="highCostCheckbox"
-                      className="ml-2 text-sm font-medium text-textSecondary whitespace-nowrap"
+                      htmlFor='highCostCheckbox'
+                      className='ml-2 text-sm font-medium text-textSecondary whitespace-nowrap'
                     >
                       Alto Custo
                     </label>
@@ -405,75 +405,75 @@ export default function FormProduct() {
             </div>
           </div>
 
-          <div className="w-full border border-neutralDarker mt-8 mb-8"></div>
-          <div className="w-full flex">
-            <div className="flex flex-row gap-8 items-center">
-              <div className="flex flex-1 items-center">
+          <div className='w-full border border-neutralDarker mt-8 mb-8'></div>
+          <div className='w-full flex'>
+            <div className='flex flex-row gap-8 items-center'>
+              <div className='flex flex-1 items-center'>
                 <input
-                  type="checkbox"
-                  id="stockCheckbox"
-                  name="stockCheckbox"
-                  className="h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded"
+                  type='checkbox'
+                  id='stockCheckbox'
+                  name='stockCheckbox'
+                  className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
                   checked={hasMinimumStock}
                   onChange={(e) => setHasMinimumStock(e.target.checked)}
                 />
                 <label
-                  htmlFor="stockCheckbox"
-                  className="ml-2 text-sm font-medium text-textSecondary whitespace-nowrap"
+                  htmlFor='stockCheckbox'
+                  className='ml-2 text-sm font-medium text-textSecondary whitespace-nowrap'
                 >
                   Possui estoque mínimo
                 </label>
               </div>
-              <div className="w-full">
+              <div className='w-full'>
                 <InputText
-                  label="Estoque Mínimo"
+                  label='Estoque Mínimo'
                   value={String(minimumStock)}
                   action={(value) => setMinimumStock(Number(value))}
                   defaultDisable={!hasMinimumStock}
-                  property={{ type: "number" }}
+                  property={{ type: 'number' }}
                 />
               </div>
-              <div className="w-full">
+              <div className='w-full'>
                 <InputText
-                  label="Estoque Atual"
+                  label='Estoque Atual'
                   value={String(currentStock)}
                   action={(value) => setCurrentStock(Number(value))}
                   defaultDisable={false}
-                  property={{ type: "number" }}
+                  property={{ type: 'number' }}
                 />
               </div>
             </div>
           </div>
 
-          <div className="w-full border border-neutralDarker mt-4 mb-8"></div>
-          <div className="w-full flex">
+          <div className='w-full border border-neutralDarker mt-4 mb-8'></div>
+          <div className='w-full flex'>
             <InputText
-              label="Preço por Unidade"
+              label='Preço por Unidade'
               value={String(unitPrice)}
               action={(value) => setUnitPrice(Number(value))}
               defaultDisable={false}
-              property={{ type: "number" }}
+              property={{ type: 'number' }}
             />
           </div>
 
-          <div className="w-full border border-neutralDarker mt-4 mb-8"></div>
-          <div className="flex justify-end w-full gap-4">
+          <div className='w-full border border-neutralDarker mt-4 mb-8'></div>
+          <div className='flex justify-end w-full gap-4'>
             <Button
-              label={isEditing ? "Salvar Alterações" : "Cadastrar Produto"}
-              color="primary"
-              size="medium"
-              type="submit"
+              label={isEditing ? 'Salvar Alterações' : 'Cadastrar Produto'}
+              color='primary'
+              size='medium'
+              type='submit'
             />
           </div>
         </form>
       </div>
       <Modal
-        title="Cadastrar Unidade de Medida"
+        title='Cadastrar Unidade de Medida'
         inputs={inputsUnit}
         action={registerUnitOfMeasure}
         statusModal={modalUnit}
         closeModal={closeModalUnit}
-        type="create"
+        type='create'
       />
     </div>
   );

@@ -1,10 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
-import InputText from '@/components/InputText';
 import Product from '@/types/models/Product';
 import Button from '@/components/Button';
-import Modal from '@/components/GenericModal';
+import { SelectInput, TextInput } from '@/components/FormControls';
 import { YesNo } from '@/types/enums/YesNo';
 import ProductType from '@/types/models/ProductType';
 import { ProductTypeService } from '@/features/productType';
@@ -14,46 +13,45 @@ import { UnitOfMeasureService } from '@/features/unitOfMeasure';
 import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import ProductService from '../services/productService';
 import useAppRoutes from '@/hooks/useAppRoutes';
+import useFormData from '@/hooks/useFormData';
 
 export default function ProductForm() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const isEditing = id !== undefined && id !== '0';
   const routes = useAppRoutes();
-
-  const [genericName, setGenericName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [minimumStock, setMinimumStock] = useState<number>(0);
-  const [currentStock, setCurrentStock] = useState<number>(0);
-  const [unitPrice, setUnitPrice] = useState<number>(0);
-  const [highCost, setHighCost] = useState<boolean>(false);
-  const [expirationControlled, setExpirationControlled] =
-    useState<boolean>(false);
-  const [hasMinimumStock, setHasMinimumStock] = useState<boolean>(false);
+  const [selectedProductGroup, setSelectedProductGroup] = useState<number>(0);
+  const { data, reset, setData, updateField } = useFormData<Product>({
+    id: 0,
+    currentStock: 0,
+    description: '',
+    expirationControlled: YesNo.NO,
+    genericName: '',
+    highCost: YesNo.NO,
+    minimumStock: 0,
+    unitPrice: 0,
+    averageCost: undefined,
+    lastPurchasePrice: undefined,
+    stockValue: undefined,
+    productTypeId: 0,
+    unitOfMeasureId: 0,
+  });
 
   const [modalType, setModalType] = useState<boolean>(false);
   const [modalGroup, setModalGroup] = useState<boolean>(false);
   const [modalUnit, setModalUnit] = useState<boolean>(false);
 
-  const isEditing = id !== undefined && id !== '0';
-
   const fetchProduct = useCallback(
     async (productId: string) => {
       const res = await ProductService.getById(Number(productId));
       if (res.success && res.data) {
-        const p = res.data;
-        setGenericName(p.genericName);
-        setDescription(p.description);
-        setMinimumStock(p.minimumStock);
-        setCurrentStock(p.currentStock);
-        setUnitPrice(p.unitPrice);
-        setHighCost(p.highCost === YesNo.YES);
-        setExpirationControlled(p.expirationControlled === YesNo.YES);
+        setData(res.data);
       } else {
         alert('Produto não encontrado!');
         navigate(routes.PRODUCT.path);
       }
     },
-    [navigate, routes.PRODUCT.path]
+    [navigate, routes.PRODUCT.path, setData]
   );
 
   useEffect(() => {
@@ -62,8 +60,10 @@ export default function ProductForm() {
     getUnitOfMeasure();
     if (isEditing) {
       fetchProduct(id);
+    } else {
+      reset();
     }
-  }, [id, fetchProduct, isEditing]);
+  }, [fetchProduct, id, isEditing, reset]);
 
   const openModalType = () => setModalType(true);
   const openModalGroup = () => setModalGroup(true);
@@ -179,24 +179,11 @@ export default function ProductForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const productData: Product = {
-      id: isEditing ? Number(id) : 0,
-      description,
-      genericName,
-      minimumStock,
-      currentStock,
-      unitPrice,
-      highCost: highCost ? YesNo.YES : YesNo.NO,
-      expirationControlled: expirationControlled ? YesNo.YES : YesNo.NO,
-    };
+    const productData: Product = data;
 
-    let res;
-
-    if (isEditing) {
-      res = await ProductService.update(productData.id, productData);
-    } else {
-      res = await ProductService.create(productData);
-    }
+    const res = isEditing
+      ? await ProductService.update(productData.id, productData)
+      : await ProductService.create(productData);
 
     if (res.success) {
       alert(`Produto ${isEditing ? 'atualizado' : 'cadastrado'} com sucesso!`);
@@ -221,21 +208,21 @@ export default function ProductForm() {
           <div className='w-full'>
             <div className='flex flex-row gap-4'>
               <div className='flex-1'>
-                <InputText
+                <TextInput<Product>
                   label='Nome Genérico'
-                  value={genericName}
-                  action={setGenericName}
-                  defaultDisable={false}
-                  property={{ type: 'text' }}
+                  value={data.genericName}
+                  onChange={updateField}
+                  name='genericName'
+                  required
                 />
               </div>
               <div className='flex-1'>
-                <InputText
+                <TextInput<Product>
                   label='Descrição'
-                  value={description}
-                  action={setDescription}
-                  defaultDisable={false}
-                  property={{ type: 'text' }}
+                  value={data.description}
+                  onChange={updateField}
+                  name='description'
+                  required
                 />
               </div>
             </div>
@@ -244,61 +231,18 @@ export default function ProductForm() {
           <div className='w-full mt-4'>
             <div className='flex flex-row gap-4'>
               <div className='flex-1'>
-                <label
-                  htmlFor='category'
-                  className='block text-sm font-medium text-textPrimary'
-                >
-                  Tipo:
-                </label>
-                <select
-                  id='category'
-                  name='category'
-                  className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
-                >
-                  {productTypes.map((productType) => (
-                    <option key={productType.id} value={productType.id}>
-                      {productType.name}
-                    </option>
-                  ))}
-                </select>
-                <a
-                  href='#'
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openModalType();
-                  }}
-                  className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
-                >
-                  Tipo não encontrado
-                </a>
-                <Modal
-                  title='Cadastrar Tipo'
-                  inputs={inputsType}
-                  action={registerProductType}
-                  statusModal={modalType}
-                  closeModal={closeModalType}
-                  type='create'
+                <SelectInput<ProductGroup>
+                  name='id'
+                  label='Grupo'
+                  onChange={(_, value) =>
+                    setSelectedProductGroup(Number(value))
+                  }
+                  options={productGroups.map((group) => ({
+                    label: group.name,
+                    value: group.id,
+                  }))}
+                  required
                 />
-              </div>
-
-              <div className='flex-1'>
-                <label
-                  htmlFor='group'
-                  className='block text-sm font-medium text-textPrimary'
-                >
-                  Grupo:
-                </label>
-                <select
-                  id='group'
-                  name='group'
-                  className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
-                >
-                  {productGroups.map((productGroup) => (
-                    <option key={productGroup.id} value={productGroup.id}>
-                      {productGroup.name}
-                    </option>
-                  ))}
-                </select>
                 <a
                   href='#'
                   onClick={(e) => {
@@ -318,29 +262,56 @@ export default function ProductForm() {
                   type='create'
                 />
               </div>
+              <div className='flex-1'>
+                <SelectInput<Product>
+                  name='productTypeId'
+                  label='Tipo'
+                  onChange={updateField}
+                  options={productTypes
+                    .filter(
+                      (type) => type.productGroupId === selectedProductGroup
+                    )
+                    .map((type) => ({
+                      label: type.name,
+                      value: type.id,
+                    }))}
+                  required
+                />
+                <a
+                  href='#'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openModalType();
+                  }}
+                  className='mt-2 text-[12px] text-textSecondary underline hover:text-primary pl-2'
+                >
+                  Tipo não encontrado
+                </a>
+                <Modal
+                  title='Cadastrar Tipo'
+                  inputs={inputsType}
+                  action={registerProductType}
+                  statusModal={modalType}
+                  closeModal={closeModalType}
+                  type='create'
+                />
+              </div>
             </div>
           </div>
 
           <div className='w-full mt-4'>
             <div className='flex flex-row gap-4'>
               <div className='flex-1'>
-                <label
-                  htmlFor='unit'
-                  className='block text-sm font-medium text-textPrimary'
-                >
-                  Unidade de medida:
-                </label>
-                <select
-                  id='unit'
-                  name='unit'
-                  className='p-2 mt-1 block w-full border border-neutral rounded-sm focus:border-neutralDarker sm:text-sm'
-                >
-                  {unitOfMeasures.map((unitOfMeasure) => (
-                    <option key={unitOfMeasure.id} value={unitOfMeasure.id}>
-                      {unitOfMeasure.abbreviation}
-                    </option>
-                  ))}
-                </select>
+                <SelectInput<Product>
+                  name='unitOfMeasureId'
+                  label='Unidade de medida'
+                  onChange={updateField}
+                  options={unitOfMeasures.map((unit) => ({
+                    label: unit.abbreviation,
+                    value: unit.id,
+                  }))}
+                  required
+                />
                 <a
                   href='#'
                   onClick={(e) => {
@@ -368,10 +339,10 @@ export default function ProductForm() {
                       id='validityCheckbox'
                       name='validityCheckbox'
                       className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
-                      checked={expirationControlled}
-                      onChange={(e) =>
-                        setExpirationControlled(e.target.checked)
-                      }
+                      // checked={expirationControlled}
+                      // onChange={(e) =>
+                      //   setExpirationControlled(e.target.checked)
+                      // }
                     />
                     <label
                       htmlFor='validityCheckbox'
@@ -386,8 +357,8 @@ export default function ProductForm() {
                       id='highCostCheckbox'
                       name='highCostCheckbox'
                       className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
-                      checked={highCost}
-                      onChange={(e) => setHighCost(e.target.checked)}
+                      // checked={highCost}
+                      // onChange={(e) => setHighCost(e.target.checked)}
                     />
                     <label
                       htmlFor='highCostCheckbox'
@@ -410,8 +381,8 @@ export default function ProductForm() {
                   id='stockCheckbox'
                   name='stockCheckbox'
                   className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
-                  checked={hasMinimumStock}
-                  onChange={(e) => setHasMinimumStock(e.target.checked)}
+                  // checked={hasMinimumStock}
+                  // onChange={(e) => setHasMinimumStock(e.target.checked)}
                 />
                 <label
                   htmlFor='stockCheckbox'
@@ -421,21 +392,22 @@ export default function ProductForm() {
                 </label>
               </div>
               <div className='w-full'>
-                <InputText
+                <TextInput<Product>
                   label='Estoque Mínimo'
-                  value={String(minimumStock)}
-                  action={(value) => setMinimumStock(Number(value))}
-                  defaultDisable={!hasMinimumStock}
-                  property={{ type: 'number' }}
+                  value={data.minimumStock}
+                  onChange={updateField}
+                  name='minimumStock'
+                  required
+                  // disabled={!hasMinimumStock}
                 />
               </div>
               <div className='w-full'>
-                <InputText
+                <TextInput<Product>
                   label='Estoque Atual'
-                  value={String(currentStock)}
-                  action={(value) => setCurrentStock(Number(value))}
-                  defaultDisable={false}
-                  property={{ type: 'number' }}
+                  value={data.currentStock}
+                  onChange={updateField}
+                  name='currentStock'
+                  required
                 />
               </div>
             </div>
@@ -443,12 +415,12 @@ export default function ProductForm() {
 
           <div className='w-full border border-neutralDarker mt-4 mb-8'></div>
           <div className='w-full flex'>
-            <InputText
+            <TextInput<Product>
               label='Preço por Unidade'
-              value={String(unitPrice)}
-              action={(value) => setUnitPrice(Number(value))}
-              defaultDisable={false}
-              property={{ type: 'number' }}
+              value={data.unitPrice}
+              onChange={updateField}
+              name='unitPrice'
+              required
             />
           </div>
 

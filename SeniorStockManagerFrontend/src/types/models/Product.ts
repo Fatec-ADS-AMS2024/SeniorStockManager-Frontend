@@ -1,4 +1,4 @@
-import YesNo from '../enums/YesNo';
+import { YesNo } from '../enums/YesNo';
 
 export default interface Product {
   id: number;
@@ -12,4 +12,6 @@ export default interface Product {
   lastPurchasePrice?: number;
   highCost: YesNo;
   expirationControlled: YesNo;
+  productTypeId: number;
+  unitOfMeasureId: number;
 }

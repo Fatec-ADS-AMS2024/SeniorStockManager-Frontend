@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
-import InputText from '@/components/InputText';
 import Button from '@/components/Button';
 import Carrier from '@/types/models/Carrier';
 import useAppRoutes from '@/hooks/useAppRoutes';
 import CarrierService from '../services/carrierService';
+import { TextInput } from '@/components/FormControls';
+import useFormData from '@/hooks/useFormData';
 
 export default function CarrierForm() {
   const navigate = useNavigate();
@@ -13,70 +14,49 @@ export default function CarrierForm() {
   const routes = useAppRoutes();
   const isEditing = id !== undefined && id !== '0';
 
-  const [corporateName, setCorporateName] = useState<string>('');
-  const [tradeName, setTradeName] = useState<string>('');
-  const [cpfCnpj, setCpfcnpj] = useState<string>('');
-  const [street, setStreet] = useState<string>('');
-  const [number, setNumber] = useState<string>('');
-  const [district, setDistrict] = useState<string>('');
-  const [addressComplement, setAddressComplement] = useState<string>('');
-  const [city, setCity] = useState<string>('');
-  const [state, setState] = useState<string>('');
-  const [postalCode, setPostalCode] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const { data, updateField, setData, reset } = useFormData<Carrier>({
+    id: isEditing ? Number(id) : 0,
+    addressComplement: '',
+    city: '',
+    corporateName: '',
+    cpfCnpj: '',
+    district: '',
+    email: '',
+    number: '',
+    phone: '',
+    postalCode: '',
+    state: '',
+    street: '',
+    tradeName: '',
+  });
 
   // Função para buscar dados de um Carrier para edição
   const fetchCarrier = useCallback(
     async (carrierId: string) => {
       const res = await CarrierService.getById(Number(carrierId));
       if (res.success && res.data) {
-        const c = res.data; // 'c' de carrier
-        setCorporateName(c.corporateName);
-        setTradeName(c.tradeName);
-        setCpfcnpj(c.cpfCnpj);
-        setStreet(c.street);
-        setNumber(c.number);
-        setDistrict(c.district);
-        setAddressComplement(c.addressComplement);
-        setCity(c.city);
-        setState(c.state);
-        setPostalCode(c.postalCode);
-        setPhone(c.phone);
-        setEmail(c.email);
+        setData(res.data);
       } else {
         alert('Transportadora não encontrada!');
         navigate(routes.CARRIER.path);
       }
     },
-    [navigate, routes.CARRIER.path]
+    [navigate, routes.CARRIER.path, setData]
   );
 
   useEffect(() => {
     if (isEditing) {
       fetchCarrier(id);
+    } else {
+      reset();
     }
-  }, [id, fetchCarrier, isEditing]);
+  }, [fetchCarrier, id, isEditing, reset]);
 
   // Função para submeter o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const carrierData: Carrier = {
-      id: isEditing ? Number(id) : 0,
-      corporateName,
-      tradeName,
-      cpfCnpj,
-      street,
-      number,
-      district,
-      addressComplement,
-      city,
-      state,
-      postalCode,
-      phone,
-      email,
-    };
+    const carrierData = data;
 
     const res = isEditing
       ? await CarrierService.update(carrierData.id, carrierData)
@@ -107,23 +87,26 @@ export default function CarrierForm() {
           </h1>
 
           <div className='w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'>
-            <InputText
+            <TextInput<Carrier>
               label='Razão Social'
-              value={corporateName}
-              action={setCorporateName}
-              property={{ type: 'text', required: true }}
+              value={data.corporateName}
+              onChange={updateField}
+              name='corporateName'
+              required
             />
-            <InputText
+            <TextInput<Carrier>
               label='Nome Fantasia'
-              value={tradeName}
-              action={setTradeName}
-              property={{ type: 'text' }}
+              value={data.tradeName}
+              onChange={updateField}
+              name='tradeName'
+              required
             />
-            <InputText
+            <TextInput<Carrier>
               label='CPF / CNPJ'
-              value={cpfCnpj}
-              action={setCpfcnpj}
-              property={{ type: 'text', required: true }}
+              value={data.cpfCnpj}
+              onChange={updateField}
+              name='cpfCnpj'
+              required
             />
           </div>
 
@@ -133,52 +116,59 @@ export default function CarrierForm() {
           </h2>
           <div className='w-full grid grid-cols-1 md:grid-cols-4 gap-4 mb-4'>
             <div className='md:col-span-3'>
-              <InputText
+              <TextInput<Carrier>
                 label='Logradouro (Rua, Av.)'
-                value={street}
-                action={setStreet}
-                property={{ type: 'text' }}
+                value={data.street}
+                onChange={updateField}
+                name='street'
+                required
               />
             </div>
-            <InputText
+            <TextInput<Carrier>
               label='Número'
-              value={number}
-              action={setNumber}
-              property={{ type: 'text' }}
+              value={data.number}
+              onChange={updateField}
+              name='number'
+              required
             />
           </div>
           <div className='w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'>
-            <InputText
+            <TextInput<Carrier>
               label='Complemento'
-              value={addressComplement}
-              action={setAddressComplement}
-              property={{ type: 'text' }}
+              value={data.addressComplement}
+              onChange={updateField}
+              name='addressComplement'
+              required
             />
-            <InputText
+            <TextInput<Carrier>
               label='Bairro'
-              value={district}
-              action={setDistrict}
-              property={{ type: 'text' }}
+              value={data.district}
+              onChange={updateField}
+              name='district'
+              required
             />
-            <InputText
+            <TextInput<Carrier>
               label='CEP'
-              value={postalCode}
-              action={setPostalCode}
-              property={{ type: 'text' }}
+              value={data.postalCode}
+              onChange={updateField}
+              name='postalCode'
+              required
             />
           </div>
           <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
-            <InputText
+            <TextInput<Carrier>
               label='Cidade'
-              value={city}
-              action={setCity}
-              property={{ type: 'text' }}
+              value={data.city}
+              onChange={updateField}
+              name='city'
+              required
             />
-            <InputText
+            <TextInput<Carrier>
               label='Estado (UF)'
-              value={state}
-              action={setState}
-              property={{ type: 'text' }}
+              value={data.state}
+              onChange={updateField}
+              name='state'
+              required
             />
           </div>
 
@@ -187,17 +177,20 @@ export default function CarrierForm() {
             Contato e Classificação
           </h2>
           <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
-            <InputText
+            <TextInput<Carrier>
               label='Telefone'
-              value={phone}
-              action={setPhone}
-              property={{ type: 'tel' }}
+              value={data.phone}
+              onChange={updateField}
+              name='phone'
+              required
             />
-            <InputText
+            <TextInput<Carrier>
               label='E-mail'
-              value={email}
-              action={setEmail}
-              property={{ type: 'email' }}
+              type='email'
+              value={data.email}
+              onChange={updateField}
+              name='email'
+              required
             />
           </div>
 

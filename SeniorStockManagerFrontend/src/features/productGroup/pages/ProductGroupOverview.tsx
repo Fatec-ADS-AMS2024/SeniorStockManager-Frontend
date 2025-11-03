@@ -39,13 +39,12 @@ export default function ProductGroupOverview() {
   const [infoIcon, setInfoIcon] = useState<JSX.Element | undefined>(undefined);
 
   const fetchData = async () => {
-    const productGroupService = new ProductGroupService();
-    const res = await productGroupService.getAll();
-    if (res.code === 200 && res.data) {
+    const res = await ProductGroupService.getAll();
+    if (res.success && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]);
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -126,8 +125,6 @@ export default function ProductGroupOverview() {
   };
 
   const registerProductGroup = async (model: ProductGroup) => {
-    const productGroupService = new ProductGroupService();
-
     if (
       !model.name ||
       model.name.trim().length < 3 ||
@@ -149,8 +146,8 @@ export default function ProductGroupOverview() {
       return;
     }
 
-    const res = await productGroupService.create(model);
-    if (res.code >= 200 && res.code < 300) {
+    const res = await ProductGroupService.create(model);
+    if (res.success) {
       setModalRegister(false);
       await fetchData();
       showInfoModal(
@@ -166,8 +163,6 @@ export default function ProductGroupOverview() {
   };
 
   const editProductGroup = async (id: number, model: ProductGroup) => {
-    const productGroupService = new ProductGroupService();
-
     if (
       !model.name ||
       model.name.trim().length < 3 ||
@@ -191,8 +186,8 @@ export default function ProductGroupOverview() {
       return;
     }
 
-    const res = await productGroupService.update(id, model);
-    if (res.code >= 200 && res.code < 300) {
+    const res = await ProductGroupService.update(id, model);
+    if (res.success) {
       setModalEdit(false);
       await fetchData();
       showInfoModal(
@@ -208,29 +203,23 @@ export default function ProductGroupOverview() {
   };
 
   const deleteProductGroup = async (id: number) => {
-    const productGroupService = new ProductGroupService();
-
-    try {
-      const res = await productGroupService.delete(id);
-      if (res.code >= 200 && res.code < 300) {
-        setModalDelete(false);
-        setCurrentId(null);
-        const itemName = data.find((item) => item.id === id)?.name || '';
-        await fetchData();
-        showInfoModal(
-          `Grupo de Produto "${itemName}" excluído com sucesso!`,
-          'success'
-        );
-      } else {
-        showInfoModal(
-          res.message || 'Erro inesperado ao excluir o Grupo de Produto.',
-          'error'
-        );
-      }
-    } catch (error) {
-      console.error('Erro ao tentar excluir o Grupo de Produto:', error);
-      showInfoModal('Erro inesperado ao excluir o Grupo de Produto.', 'error');
+    const res = await ProductGroupService.deleteById(id);
+    if (res.success) {
+      setModalDelete(false);
+      setCurrentId(null);
+      const itemName = data.find((item) => item.id === id)?.name || '';
+      await fetchData();
+      showInfoModal(
+        `Grupo de Produto "${itemName}" excluído com sucesso!`,
+        'success'
+      );
+    } else {
+      showInfoModal(
+        res.message || 'Erro inesperado ao excluir o Grupo de Produto.',
+        'error'
+      );
     }
+    showInfoModal('Erro inesperado ao excluir o Grupo de Produto.', 'error');
   };
 
   const Actions = ({ id }: { id: number }) => (

@@ -32,13 +32,12 @@ export default function ProductTypeOverview() {
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const productType = new ProductTypeService();
-    const res = await productType.getAll();
-    if (res.code === 200 && res.data) {
+    const res = await ProductTypeService.getAll();
+    if (res.success && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -74,7 +73,9 @@ export default function ProductTypeOverview() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute];
+        input.defaultValue = String(
+          rowValues[input.attribute as keyof ProductType]
+        );
       });
     } else {
       alert('Registro não encontrado');
@@ -95,7 +96,9 @@ export default function ProductTypeOverview() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute];
+        input.defaultValue = String(
+          rowValues[input.attribute as keyof ProductType]
+        );
       });
     } else {
       alert('Registro não encontrado');
@@ -110,12 +113,11 @@ export default function ProductTypeOverview() {
   };
 
   const registerProductType = async (model: ProductType) => {
-    const productType = new ProductTypeService();
-    const res = await productType.create({
+    const res = await ProductTypeService.create({
       ...model,
       id: Number(model.id),
     });
-    if (res.code === 200) {
+    if (res.success) {
       alert(`Tipo de produto ${res.data?.name} criada com sucesso!`);
       setModalRegister(false);
       await fetchData();
@@ -125,9 +127,8 @@ export default function ProductTypeOverview() {
   };
 
   const editProductType = async (id: number, model: ProductType) => {
-    const productType = new ProductTypeService();
-    const res = await productType.update(id, model);
-    if (res.code === 200) {
+    const res = await ProductTypeService.update(id, model);
+    if (res.success) {
       alert(`Tipo de produto ${res.data?.name} atualizada com sucesso!`);
       setModalEdit(false);
       await fetchData();
@@ -137,9 +138,8 @@ export default function ProductTypeOverview() {
   };
 
   const deleteProductType = async (id: number) => {
-    const productType = new ProductTypeService();
-    const res = await productType.delete(id);
-    if (res.code === 200) {
+    const res = await ProductTypeService.deleteById(id);
+    if (res.success) {
       setModalDelete(false);
       setModalInfo(true);
       await fetchData();

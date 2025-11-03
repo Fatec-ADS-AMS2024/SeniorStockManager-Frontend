@@ -39,7 +39,7 @@ const isValidCNPJ = (cnpj: string): boolean => {
   if (cnpj.length !== 14 || !!cnpj.match(/(\d)\1{13}/)) return false;
   let tamanho = cnpj.length - 2;
   let numeros = cnpj.substring(0, tamanho);
-  let digitos = cnpj.substring(tamanho);
+  const digitos = cnpj.substring(tamanho);
   let soma = 0;
   let pos = tamanho - 7;
   for (let i = tamanho; i >= 1; i--) {
@@ -196,13 +196,12 @@ const SupplierList = () => {
   const [infoIcon, setInfoIcon] = useState<JSX.Element | undefined>(undefined);
 
   const fetchData = async () => {
-    const supplierService = new SupplierService();
-    const res = await supplierService.getAll();
-    if (res.code === 200 && res.data) {
+    const res = await SupplierService.getAll();
+    if (res.success && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]);
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -258,29 +257,23 @@ const SupplierList = () => {
   };
 
   const deleteSupplier = async (id: number) => {
-    const supplierService = new SupplierService();
-
-    try {
-      const res = await supplierService.delete(id);
-      if (res.code >= 200 && res.code < 300) {
-        setModalDelete(false);
-        setCurrentId(null);
-        const itemName = data.find((item) => item.id === id)?.tradeName || '';
-        await fetchData();
-        showInfoModal(
-          `Fornecedor "${itemName}" excluído com sucesso!`,
-          'success'
-        );
-      } else {
-        showInfoModal(
-          res.message || 'Erro inesperado ao excluir o Fornecedor.',
-          'error'
-        );
-      }
-    } catch (error) {
-      console.error('Erro ao tentar excluir o Fornecedor:', error);
-      showInfoModal('Erro inesperado ao excluir o Fornecedor.', 'error');
+    const res = await SupplierService.deleteById(id);
+    if (res.success) {
+      setModalDelete(false);
+      setCurrentId(null);
+      const itemName = data.find((item) => item.id === id)?.tradeName || '';
+      await fetchData();
+      showInfoModal(
+        `Fornecedor "${itemName}" excluído com sucesso!`,
+        'success'
+      );
+    } else {
+      showInfoModal(
+        res.message || 'Erro inesperado ao excluir o Fornecedor.',
+        'error'
+      );
     }
+    showInfoModal('Erro inesperado ao excluir o Fornecedor.', 'error');
   };
 
   const Actions = ({ id }: { id: number }) => (
@@ -364,10 +357,9 @@ interface SupplierFormProps {
 const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const supplierService = new SupplierService();
 
   const [supplier, setSupplier] = useState<Partial<Supplier>>({
-    addresscomplement: '',
+    addressComplement: '',
   });
   const [allSuppliers, setAllSuppliers] = useState<Supplier[]>([]);
   const [states, setStates] = useState<IbgeState[]>([]);
@@ -418,6 +410,7 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
           setCities(data);
         } catch (error) {
           console.error('Erro ao buscar cidades:', error);
+          alert('Erro ao buscar cidades');
         }
       };
       fetchCities();
@@ -434,18 +427,18 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
 
   useEffect(() => {
     const fetchDependencies = async () => {
-      const allRes = await supplierService.getAll();
+      const allRes = await SupplierService.getAll();
       if (allRes.data) setAllSuppliers(allRes.data);
 
       if (isEdit && id) {
-        const res = await supplierService.getById(Number(id));
+        const res = await SupplierService.getById(Number(id));
         if (res.data) {
           setSupplier({
             ...res.data,
             cpfCnpj: formatCPFCNPJ(res.data.cpfCnpj || ''),
             phone: formatPhone(res.data.phone || ''),
             postalCode: formatCEP(res.data.postalCode || ''),
-            addresscomplement: res.data.addresscomplement || '',
+            addressComplement: res.data.addressComplement || '',
           });
         } else {
           showInfoModal('Fornecedor não encontrado!', 'error');
@@ -473,7 +466,7 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
         district: data.bairro,
         city: data.localidade,
         state: data.uf,
-        addresscomplement: data.complemento || prev.addresscomplement || '',
+        addressComplement: data.complemento || prev.addressComplement || '',
       }));
     } catch (error) {
       console.error('Erro ao buscar o CEP:', error);
@@ -487,20 +480,21 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    let { name, value } = e.target;
+    const { name, value } = e.target;
+    let formattedValue = value;
 
     if (name === 'cpfCnpj') {
-      value = formatCPFCNPJ(value);
+      formattedValue = formatCPFCNPJ(formattedValue);
     } else if (name === 'phone') {
-      value = formatPhone(value);
+      formattedValue = formatPhone(formattedValue);
     } else if (name === 'postalCode') {
-      value = formatCEP(value);
+      formattedValue = formatCEP(formattedValue);
     }
 
     if (name === 'state') {
-      setSupplier((prev) => ({ ...prev, state: value, city: '' }));
+      setSupplier((prev) => ({ ...prev, state: formattedValue, city: '' }));
     } else {
-      setSupplier((prev) => ({ ...prev, [name]: value }));
+      setSupplier((prev) => ({ ...prev, [name]: formattedValue }));
     }
   };
 
@@ -522,14 +516,14 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
       cpfCnpj: cleanedCpfCnpj,
       phone: cleanedPhone,
       postalCode: cleanedPostalCode,
-      addresscomplement: supplier.addresscomplement || '',
+      addressComplement: supplier.addressComplement || '',
     };
 
     const res = isEdit
-      ? await supplierService.update(Number(id), payload as Supplier)
-      : await supplierService.create(payload as Supplier);
+      ? await SupplierService.update(Number(id), payload as Supplier)
+      : await SupplierService.create(payload as Supplier);
 
-    if (res.code >= 200 && res.code < 300) {
+    if (res.success) {
       const action = isEdit ? 'atualizado' : 'criado';
       const successMessage = `Fornecedor "${supplier.tradeName}" ${action} com sucesso!`;
       navigate('/registrations/supplier', {
@@ -554,7 +548,7 @@ const SupplierForm = ({ isEdit = false }: SupplierFormProps) => {
     { label: 'CEP', name: 'postalCode', type: 'text', maxLength: 9 },
     { label: 'Rua/Avenida', name: 'street', type: 'text' },
     { label: 'Nº', name: 'number', type: 'text' },
-    { label: 'Complemento', name: 'addresscomplement', type: 'text' },
+    { label: 'Complemento', name: 'addressComplement', type: 'text' },
     { label: 'Bairro', name: 'district', type: 'text' },
     { label: 'Estado', name: 'state', type: 'text' },
     { label: 'Cidade', name: 'city', type: 'text' },

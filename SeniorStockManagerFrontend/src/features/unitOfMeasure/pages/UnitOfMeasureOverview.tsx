@@ -37,13 +37,12 @@ export default function UnitOfMeasureOverview() {
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.getAll();
-    if (res.code === 200 && res.data) {
+    const res = await UnitOfMeasureService.getAll();
+    if (res.success && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -84,7 +83,9 @@ export default function UnitOfMeasureOverview() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute];
+        input.defaultValue = String(
+          rowValues[input.attribute as keyof UnitOfMeasure]
+        );
       });
     } else {
       alert('Registro não encontrado');
@@ -125,7 +126,9 @@ export default function UnitOfMeasureOverview() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute];
+        input.defaultValue = String(
+          rowValues[input.attribute as keyof UnitOfMeasure]
+        );
       });
     } else {
       alert('Registro não encontrado');
@@ -142,12 +145,11 @@ export default function UnitOfMeasureOverview() {
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
     if (!validate(model)) return;
 
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.create({
+    const res = await UnitOfMeasureService.create({
       ...model,
       id: Number(model.id),
     });
-    if (res.code === 200) {
+    if (res.success) {
       alert(`Unidade de medida ${res.data?.description} criada com sucesso!`);
       setModalRegister(false);
       await fetchData();
@@ -159,9 +161,8 @@ export default function UnitOfMeasureOverview() {
   const editUnitOfMeasure = async (id: number, model: UnitOfMeasure) => {
     if (!validate(model)) return;
 
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.update(id, model);
-    if (res.code === 200) {
+    const res = await UnitOfMeasureService.update(id, model);
+    if (res.success) {
       alert(
         `Unidade de medida ${res.data?.description} atualizada com sucesso!`
       );
@@ -173,9 +174,8 @@ export default function UnitOfMeasureOverview() {
   };
 
   const deleteUnitOfMeasure = async (id: number) => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.delete(id);
-    if (res.code === 200) {
+    const res = await UnitOfMeasureService.deleteById(id);
+    if (res.success) {
       setModalDelete(false);
       setModalInfo(true);
       await fetchData();

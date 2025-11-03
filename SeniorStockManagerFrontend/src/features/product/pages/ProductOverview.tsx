@@ -22,13 +22,12 @@ export default function ProductOverview() {
 
   // Pega os dados já cadastrados para mostrar na tabela
   const fetchData = async () => {
-    const product = new ProductService();
-    const res = await product.getAll();
-    if (res.code === 200 && res.data) {
-      setData([...res.data.data]);
-      setOriginalData([...res.data.data]); // Salva os dados originais
+    const res = await ProductService.getAll();
+    if (res.success && res.data) {
+      setData([...res.data]);
+      setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -66,9 +65,8 @@ export default function ProductOverview() {
   // Lógica para excluir o produto
   const deleteProduct = async () => {
     if (productToDelete) {
-      const product = new ProductService();
-      const res = await product.delete(productToDelete);
-      if (res.code === 200) {
+      const res = await ProductService.deleteById(productToDelete);
+      if (res.success) {
         setModalDelete(false);
         setModalInfo(true);
         await fetchData(); // Recarrega a lista

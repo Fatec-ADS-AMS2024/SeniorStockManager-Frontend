@@ -42,13 +42,12 @@ export default function ManufacturerOverview() {
   const [modalInfo, setModalInfo] = useState(false);
 
   const fetchData = async () => {
-    const manufacturer = new ManufacturerService();
-    const res = await manufacturer.getAll();
-    if (res.code === 200 && res.data) {
+    const res = await ManufacturerService.getAll();
+    if (res.success && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -91,7 +90,9 @@ export default function ManufacturerOverview() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute];
+        input.defaultValue = String(
+          rowValues[input.attribute as keyof Manufacturer]
+        );
       });
     } else {
       alert('Registro não encontrado');
@@ -112,7 +113,9 @@ export default function ManufacturerOverview() {
     const rowValues = getRowValues(id);
     if (rowValues) {
       inputs.forEach((input) => {
-        input.defaultValue = rowValues[input.attribute];
+        input.defaultValue = String(
+          rowValues[input.attribute as keyof Manufacturer]
+        );
       });
     } else {
       alert('Registro não encontrado');
@@ -127,12 +130,11 @@ export default function ManufacturerOverview() {
   };
 
   const registerManufacturer = async (model: Manufacturer) => {
-    const manufacturer = new ManufacturerService();
-    const res = await manufacturer.create({
+    const res = await ManufacturerService.create({
       ...model,
       id: Number(model.id),
     });
-    if (res.code === 200) {
+    if (res.success) {
       alert(`Fabricante ${res.data?.CorporateName} cadastrado com sucesso!`);
       setModalRegister(false);
       await fetchData();
@@ -142,9 +144,8 @@ export default function ManufacturerOverview() {
   };
 
   const editManufacturer = async (id: number, model: Manufacturer) => {
-    const manufacturer = new ManufacturerService();
-    const res = await manufacturer.update(id, model);
-    if (res.code === 200) {
+    const res = await ManufacturerService.update(id, model);
+    if (res.success) {
       alert(`Fabricante ${res.data?.CorporateName} atualizado com sucesso!`);
       setModalEdit(false);
       await fetchData();
@@ -154,9 +155,8 @@ export default function ManufacturerOverview() {
   };
 
   const deleteManufacturer = async (id: number) => {
-    const manufacturer = new ManufacturerService();
-    const res = await manufacturer.delete(id);
-    if (res.code === 200) {
+    const res = await ManufacturerService.deleteById(id);
+    if (res.success) {
       setModalDelete(false);
       setModalInfo(true);
       await fetchData();

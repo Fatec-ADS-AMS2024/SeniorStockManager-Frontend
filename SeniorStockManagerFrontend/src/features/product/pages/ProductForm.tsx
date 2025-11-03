@@ -38,24 +38,23 @@ export default function ProductForm() {
 
   const fetchProduct = useCallback(
     async (productId: string) => {
-      const productService = new ProductService();
-      const res = await productService.getById(Number(productId));
-      if (res.code === 200 && res.data) {
-        const p = res.data.data;
+      const res = await ProductService.getById(Number(productId));
+      if (res.success && res.data) {
+        const p = res.data;
         setGenericName(p.genericName);
         setDescription(p.description);
         setMinimumStock(p.minimumStock);
         setCurrentStock(p.currentStock);
         setUnitPrice(p.unitPrice);
-        setHighCost(p.HighCost === YesNo.YES);
-        setExpirationControlled(p.ExpirationControlled === YesNo.YES);
+        setHighCost(p.highCost === YesNo.YES);
+        setExpirationControlled(p.expirationControlled === YesNo.YES);
       } else {
         alert('Produto não encontrado!');
         navigate(routes.PRODUCT.path);
       }
     },
     [navigate, routes.PRODUCT.path]
-  ); // navigate é uma dependência que não muda, mas é boa prática incluir
+  );
 
   useEffect(() => {
     getProductTypes();
@@ -74,11 +73,10 @@ export default function ProductForm() {
   const closeModalUnit = () => setModalUnit(false);
 
   const registerProductType = async (model: ProductType) => {
-    const productTypeService = new ProductTypeService();
     const newProductType = { ...model, id: 0 };
-    const res = await productTypeService.create(newProductType);
+    const res = await ProductTypeService.create(newProductType);
 
-    if (res.code === 200) {
+    if (res.success) {
       alert(`Tipo de produto ${res.data?.name} criado com sucesso!`);
       setModalType(false);
     } else {
@@ -89,20 +87,20 @@ export default function ProductForm() {
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
   const getProductTypes = async () => {
-    try {
-      const productTypeService = new ProductTypeService();
-      const res = await productTypeService.getAll();
-      const productTypes: ProductType[] = res.data;
-      setProductTypes(productTypes);
-    } catch (error) {
-      console.log(error);
+    const res = await ProductTypeService.getAll();
+    if (res.success && res.data) {
+      setProductTypes(res.data);
+    } else {
+      alert(res.message);
     }
   };
 
   const registerProductGroup = async (model: ProductGroup) => {
-    const productGroup = new ProductGroupService();
-    const res = await productGroup.create({ ...model, id: Number(model.id) });
-    if (res.code === 200) {
+    const res = await ProductGroupService.create({
+      ...model,
+      id: Number(model.id),
+    });
+    if (res.success) {
       alert(`Grupo de produto ${res.data?.name} criado com sucesso!`);
       setModalGroup(false);
     } else {
@@ -113,20 +111,20 @@ export default function ProductForm() {
   const [productGroups, setProductGroups] = useState<ProductGroup[]>([]);
 
   const getProductGroups = async () => {
-    try {
-      const productGroupService = new ProductGroupService();
-      const res = await productGroupService.getAll();
-      const productGroups: ProductGroup[] = res.data;
-      setProductGroups(productGroups);
-    } catch (error) {
-      console.log(error);
+    const res = await ProductGroupService.getAll();
+    if (res.success && res.data) {
+      setProductGroups(res.data);
+    } else {
+      alert(res.message);
     }
   };
 
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
-    const unitOfMeasure = new UnitOfMeasureService();
-    const res = await unitOfMeasure.create({ ...model, id: Number(model.id) });
-    if (res.code === 200) {
+    const res = await UnitOfMeasureService.create({
+      ...model,
+      id: Number(model.id),
+    });
+    if (res.success) {
       alert(`Unidade de medida ${res.data?.description} criada com sucesso!`);
       setModalUnit(false);
     } else {
@@ -137,13 +135,11 @@ export default function ProductForm() {
   const [unitOfMeasures, setUnitOfMeasures] = useState<UnitOfMeasure[]>([]);
 
   const getUnitOfMeasure = async () => {
-    try {
-      const unitOfMeasureService = new UnitOfMeasureService();
-      const res = await unitOfMeasureService.getAll();
-      const unitOfMeasures: UnitOfMeasure[] = res.data;
-      setUnitOfMeasures(unitOfMeasures);
-    } catch (error) {
-      console.log(error);
+    const res = await UnitOfMeasureService.getAll();
+    if (res.success && res.data) {
+      setUnitOfMeasures(res.data);
+    } else {
+      alert(res.message);
     }
   };
 
@@ -194,16 +190,15 @@ export default function ProductForm() {
       expirationControlled: expirationControlled ? YesNo.YES : YesNo.NO,
     };
 
-    const productService = new ProductService();
     let res;
 
     if (isEditing) {
-      res = await productService.update(productData.id, productData);
+      res = await ProductService.update(productData.id, productData);
     } else {
-      res = await productService.create(productData);
+      res = await ProductService.create(productData);
     }
 
-    if (res.code === 200 || res.code === 201) {
+    if (res.success) {
       alert(`Produto ${isEditing ? 'atualizado' : 'cadastrado'} com sucesso!`);
       navigate(routes.PRODUCT.path);
     } else {

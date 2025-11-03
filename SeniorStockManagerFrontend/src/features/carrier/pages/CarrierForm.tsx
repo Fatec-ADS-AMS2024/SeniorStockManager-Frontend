@@ -13,7 +13,6 @@ export default function CarrierForm() {
   const routes = useAppRoutes();
   const isEditing = id !== undefined && id !== '0';
 
-  // --- ESTADOS PARA OS CAMPOS DE CARRIER ---
   const [corporateName, setCorporateName] = useState<string>('');
   const [tradeName, setTradeName] = useState<string>('');
   const [cpfCnpj, setCpfcnpj] = useState<string>('');
@@ -30,17 +29,16 @@ export default function CarrierForm() {
   // Função para buscar dados de um Carrier para edição
   const fetchCarrier = useCallback(
     async (carrierId: string) => {
-      const carrierService = new CarrierService();
-      const res = await carrierService.getById(Number(carrierId));
-      if (res.code === 200 && res.data) {
-        const c = res.data.data; // 'c' de carrier
+      const res = await CarrierService.getById(Number(carrierId));
+      if (res.success && res.data) {
+        const c = res.data; // 'c' de carrier
         setCorporateName(c.corporateName);
         setTradeName(c.tradeName);
         setCpfcnpj(c.cpfCnpj);
         setStreet(c.street);
         setNumber(c.number);
         setDistrict(c.district);
-        setAddressComplement(c.adressComplement);
+        setAddressComplement(c.addressComplement);
         setCity(c.city);
         setState(c.state);
         setPostalCode(c.postalCode);
@@ -80,12 +78,11 @@ export default function CarrierForm() {
       email,
     };
 
-    const carrierService = new CarrierService();
     const res = isEditing
-      ? await carrierService.update(carrierData.id, carrierData)
-      : await carrierService.create(carrierData);
+      ? await CarrierService.update(carrierData.id, carrierData)
+      : await CarrierService.create(carrierData);
 
-    if (res.code === 200 || res.code === 201) {
+    if (res.success) {
       alert(
         `Transportadora ${isEditing ? 'atualizada' : 'cadastrada'} com sucesso!`
       );
@@ -109,7 +106,6 @@ export default function CarrierForm() {
             Dados da Transportadora
           </h1>
 
-          {/* --- DADOS BÁSICOS --- */}
           <div className='w-full grid grid-cols-1 md:grid-cols-3 gap-4 mb-4'>
             <InputText
               label='Razão Social'
@@ -131,7 +127,6 @@ export default function CarrierForm() {
             />
           </div>
 
-          {/* --- ENDEREÇO --- */}
           <div className='w-full border-t my-4'></div>
           <h2 className='text-textPrimary font-bold text-xl w-full mb-4'>
             Endereço
@@ -187,7 +182,6 @@ export default function CarrierForm() {
             />
           </div>
 
-          {/* --- CONTATO E GRUPOS --- */}
           <div className='w-full border-t my-4'></div>
           <h2 className='text-textPrimary font-bold text-xl w-full mb-4'>
             Contato e Classificação
@@ -207,7 +201,6 @@ export default function CarrierForm() {
             />
           </div>
 
-          {/* --- BOTÃO DE SUBMISSÃO --- */}
           <div className='flex justify-end w-full gap-4 mt-8'>
             <Button
               label={

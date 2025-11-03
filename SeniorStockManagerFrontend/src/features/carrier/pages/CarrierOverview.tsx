@@ -20,13 +20,12 @@ export default function CarrierOverview() {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const carrier = new CarrierService();
-    const res = await carrier.getAll();
-    if (res.code === 200 && res.data) {
+    const res = await CarrierService.getAll();
+    if (res.success && res.data) {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      console.error('Erro ao buscar dados:', res.message);
+      alert(`Erro ao buscar dados: ${res.message}`);
     }
   };
 
@@ -42,7 +41,7 @@ export default function CarrierOverview() {
     }
 
     const filteredData = originalData.filter((carrier) =>
-      carrier.description.toLowerCase().includes(searchTerm.toLowerCase())
+      carrier.tradeName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setData(filteredData);
   };
@@ -62,9 +61,8 @@ export default function CarrierOverview() {
   };
 
   const deleteCarrier = async (id: number) => {
-    const carrier = new CarrierService();
-    const res = await carrier.delete(id);
-    if (res.code === 200) {
+    const res = await CarrierService.deleteById(id);
+    if (res.success) {
       setModalDelete(false);
       setModalInfo(true);
       await fetchData();

@@ -56,7 +56,7 @@ export default function Modal<T>({
         )
       );
     }
-  }, [statusModal]);
+  }, [inputs, statusModal]);
 
   const handleFormSubmit = (attribute: string, value: string) => {
     setFormData((prev) => ({ ...prev, [attribute]: value }));

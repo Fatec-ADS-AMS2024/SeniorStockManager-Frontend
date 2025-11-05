@@ -2,39 +2,26 @@ import { useEffect, useState } from 'react';
 import UnitOfMeasureService from '../services/unitOfMeasureService';
 import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import Table from '@/components/Table';
-import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
-import Modal from '@/components/GenericModal';
-
-const inputs = [
-  {
-    label: 'Id',
-    attribute: 'id',
-    defaultValue: '',
-    locked: true,
-  },
-  {
-    label: 'Abreviação',
-    attribute: 'abbreviation',
-    defaultValue: '',
-  },
-  {
-    label: 'Descrição',
-    attribute: 'description',
-    defaultValue: '',
-  },
-];
+import { AlertModal, ConfirmModal } from '@/components/Modal';
+import UnitOfMeasureFormModal from '../components/UnitOfMeasureFormModal';
 
 export default function UnitOfMeasureOverview() {
   const columns = ['Descrição', 'Abreviação'];
   const [data, setData] = useState<UnitOfMeasure[]>([]);
   const [originalData, setOriginalData] = useState<UnitOfMeasure[]>([]);
-  const [modalRegister, setModalRegister] = useState(false);
-  const [modalEdit, setModalEdit] = useState(false);
-  const [modalDelete, setModalDelete] = useState(false);
-  const [modalInfo, setModalInfo] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'info' | 'success' | 'error'>(
+    'info'
+  );
+  const [currentId, setCurrentId] = useState<number | null>(null);
+  const [editingItem, setEditingItem] = useState<UnitOfMeasure | undefined>();
 
   const fetchData = async () => {
     const res = await UnitOfMeasureService.getAll();
@@ -63,124 +50,125 @@ export default function UnitOfMeasureOverview() {
     setData(filteredData);
   };
 
-  // Pega os valores de uma linha baseado em seu id
-  const getRowValues = (id: number) => {
-    const existingRow = data.find((row) => row.id === id);
-    return existingRow;
+  const openCreateModal = () => {
+    setEditingItem(undefined);
+    setCurrentId(null);
+    setIsFormModalOpen(true);
   };
 
-  const openCloseModalRegister = () => {
-    setModalRegister((isOpen) => !isOpen);
-  };
-
-  // Abre a modal para edição pegando os dados da linha
-  const openCloseModalEdit = (id?: number) => {
-    if (!id) {
-      setModalEdit((isOpen) => !isOpen);
-      return;
-    }
-
-    const rowValues = getRowValues(id);
-    if (rowValues) {
-      inputs.forEach((input) => {
-        input.defaultValue = String(
-          rowValues[input.attribute as keyof UnitOfMeasure]
-        );
-      });
+  const openEditModal = (id: number) => {
+    const item = data.find((row) => row.id === id);
+    if (item) {
+      setEditingItem(item);
+      setCurrentId(id);
+      setIsFormModalOpen(true);
     } else {
-      alert('Registro não encontrado');
-      return;
+      showAlert('Registro não encontrado', 'error');
     }
-
-    setModalEdit((isOpen) => !isOpen);
   };
-  const validate = (unitOfMeasure: UnitOfMeasure) => {
+
+  const openDeleteModal = (id: number) => {
+    setCurrentId(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setIsAlertModalOpen(true);
+  };
+
+  const validateUnitOfMeasure = (unitOfMeasure: UnitOfMeasure) => {
     if (unitOfMeasure.abbreviation.trim() === '') {
-      alert('Abreviação não pode ser nula ou vazia');
-      return false;
+      return 'Abreviação não pode ser nula ou vazia';
     }
     if (unitOfMeasure.description.trim() === '') {
-      alert('Descrição não pode ser nula ou vazia');
-      return false;
+      return 'Descrição não pode ser nula ou vazia';
     }
     if (unitOfMeasure.description.trim().length > 50) {
-      alert('Campo descrição deve conter menos de 50 caracteres');
-      return false;
+      return 'Campo descrição deve conter menos de 50 caracteres';
     }
     if (unitOfMeasure.abbreviation.trim().length > 50) {
-      alert('Campo abreviação deve conter menos de 50 caracteres');
-      return false;
+      return 'Campo abreviação deve conter menos de 50 caracteres';
     }
-
-    return true;
   };
 
-  // Abre a modal para deleção pegando os dados da linha
-  const openCloseModalDelete = (id?: number) => {
-    if (!id) {
-      setModalDelete((isOpen) => !isOpen);
-      return;
-    }
-
-    // Necessário para funcionar
-    const rowValues = getRowValues(id);
-    if (rowValues) {
-      inputs.forEach((input) => {
-        input.defaultValue = String(
-          rowValues[input.attribute as keyof UnitOfMeasure]
-        );
-      });
+  const handleSave = async (model: UnitOfMeasure) => {
+    if (currentId !== null) {
+      await editUnitOfMeasure(currentId, model);
     } else {
-      alert('Registro não encontrado');
-      return;
+      await registerUnitOfMeasure(model);
     }
-
-    setModalDelete((isOpen) => !isOpen);
-  };
-
-  const openCloseModalInfo = () => {
-    setModalInfo((isOpen) => !isOpen);
   };
 
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
-    if (!validate(model)) return;
+    const errorMessage = validateUnitOfMeasure(model);
 
-    const res = await UnitOfMeasureService.create({
-      ...model,
-      id: Number(model.id),
-    });
+    if (errorMessage) {
+      showAlert(errorMessage, 'error');
+      return;
+    }
+    const res = await UnitOfMeasureService.create(model);
+
     if (res.success) {
-      alert(`Unidade de medida ${res.data?.description} criada com sucesso!`);
-      setModalRegister(false);
       await fetchData();
+      showAlert(
+        `Unidade de Medida "${res.data?.description}" criado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao criar o Unidade de Medida.',
+        'error'
+      );
+      throw new Error(res.message);
     }
   };
 
   const editUnitOfMeasure = async (id: number, model: UnitOfMeasure) => {
-    if (!validate(model)) return;
+    const errorMessage = validateUnitOfMeasure(model);
 
+    if (errorMessage) {
+      showAlert(errorMessage, 'error');
+      return;
+    }
     const res = await UnitOfMeasureService.update(id, model);
+
     if (res.success) {
-      alert(
-        `Unidade de medida ${res.data?.description} atualizada com sucesso!`
-      );
-      setModalEdit(false);
       await fetchData();
+      showAlert(
+        `Unidade de Medida "${res.data?.description}" atualizado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao atualizar o Unidade de Medida.',
+        'error'
+      );
+      throw new Error(res.message);
     }
   };
 
-  const deleteUnitOfMeasure = async (id: number) => {
-    const res = await UnitOfMeasureService.deleteById(id);
+  const deleteUnitOfMeasure = async () => {
+    if (!currentId) return;
+
+    const res = await UnitOfMeasureService.deleteById(currentId);
     if (res.success) {
-      setModalDelete(false);
-      setModalInfo(true);
+      setIsDeleteModalOpen(false);
+      const itemName =
+        data.find((item) => item.id === currentId)?.description || '';
+      setCurrentId(null);
+
       await fetchData();
+      showAlert(
+        `Unidade de Medida "${itemName}" excluído com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao excluir o Unidade de Medida.',
+        'error'
+      );
     }
   };
 
@@ -188,13 +176,13 @@ export default function UnitOfMeasureOverview() {
   const Actions = ({ id }: { id: number }) => (
     <>
       <button
-        onClick={() => openCloseModalEdit(id)}
+        onClick={() => openEditModal(id)}
         className='text-edit hover:text-hoverEdit'
       >
         <Pencil className='size-6' weight='fill' />
       </button>
       <button
-        onClick={() => openCloseModalDelete(id)}
+        onClick={() => openDeleteModal(id)}
         className='text-danger hover:text-hoverDanger'
       >
         <Trash className='size-6' weight='fill' />
@@ -217,43 +205,29 @@ export default function UnitOfMeasureOverview() {
             iconPosition='left'
             color='success'
             size='medium'
-            onClick={openCloseModalRegister}
+            onClick={openCreateModal}
           />
-          <Modal<UnitOfMeasure>
-            title='Cadastrar Unidade de Medida'
-            inputs={inputs}
-            action={registerUnitOfMeasure}
-            statusModal={modalRegister}
-            closeModal={openCloseModalRegister}
-            type='create'
+          <UnitOfMeasureFormModal
+            isOpen={isFormModalOpen}
+            onClose={() => {
+              setIsFormModalOpen(false);
+              setEditingItem(undefined);
+            }}
+            onSubmit={handleSave}
+            objectData={editingItem}
           />
-          <Modal<UnitOfMeasure>
-            type='update'
-            title='Editar Unidade de Medida'
-            inputs={inputs}
-            action={(unitOfMeasure) =>
-              editUnitOfMeasure(unitOfMeasure.id, unitOfMeasure)
-            }
-            statusModal={modalEdit}
-            closeModal={() => openCloseModalEdit()}
+          <ConfirmModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirm={deleteUnitOfMeasure}
+            title='Deseja realmente excluir esse Unidade de Medida?'
+            message='Ao excluir este Unidade de Medida, ele será removido permanentemente do sistema.'
           />
-          <Modal<UnitOfMeasure>
-            type='delete'
-            title='Deseja realmente excluir essa Unidade de Medida?'
-            msgInformation='Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema.'
-            action={(unitOfMeasure) => deleteUnitOfMeasure(unitOfMeasure.id)}
-            statusModal={modalDelete}
-            closeModal={() => openCloseModalDelete()}
-            inputs={inputs}
-          />
-          <Modal<UnitOfMeasure>
-            type='info'
-            msgInformation='Unidade de Medida excluida com sucesso!'
-            icon={
-              <CheckCircle size={90} className='text-success' weight='fill' />
-            }
-            statusModal={modalInfo}
-            closeModal={openCloseModalInfo}
+          <AlertModal
+            isOpen={isAlertModalOpen}
+            onClose={() => setIsAlertModalOpen(false)}
+            message={alertMessage}
+            type={alertType}
           />
         </div>
         <Table

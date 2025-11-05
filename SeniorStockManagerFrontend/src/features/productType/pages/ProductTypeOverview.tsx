@@ -111,7 +111,7 @@ export default function ProductTypeOverview() {
   };
 
   const editProductType = async (id: number, model: ProductType) => {
-    // const errorMessage = validateProductType(model, id);
+    // const errorMessage = validateProductType(model);
 
     // if (errorMessage) {
     //   showAlert(errorMessage, 'error');

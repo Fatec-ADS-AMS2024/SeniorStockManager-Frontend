@@ -113,7 +113,7 @@ export default function ManufacturerOverview() {
   };
 
   const editManufacturer = async (id: number, model: Manufacturer) => {
-    // const errorMessage = validateManufacturer(model, id);
+    // const errorMessage = validateManufacturer(model);
 
     // if (errorMessage) {
     //   showAlert(errorMessage, 'error');

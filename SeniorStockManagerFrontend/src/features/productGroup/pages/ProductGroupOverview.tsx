@@ -111,7 +111,7 @@ export default function ProductGroupOverview() {
   };
 
   const editProductGroup = async (id: number, model: ProductGroup) => {
-    // const errorMessage = validateProductGroup(model, id);
+    // const errorMessage = validateProductGroup(model);
 
     // if (errorMessage) {
     //   showAlert(errorMessage, 'error');

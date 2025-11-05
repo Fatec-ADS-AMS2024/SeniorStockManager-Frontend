@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import Product from '@/types/models/Product';
 import Button from '@/components/Button';
-import { SelectInput, TextInput } from '@/components/FormControls';
+import { Checkbox, SelectInput, TextInput } from '@/components/FormControls';
 import { YesNo } from '@/types/enums/YesNo';
 import ProductType from '@/types/models/ProductType';
 import { ProductTypeService } from '@/features/productType';
@@ -14,6 +14,7 @@ import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import ProductService from '../services/productService';
 import useAppRoutes from '@/hooks/useAppRoutes';
 import useFormData from '@/hooks/useFormData';
+import Modal from '@/components/GenericModal';
 
 export default function ProductForm() {
   const navigate = useNavigate();
@@ -36,6 +37,10 @@ export default function ProductForm() {
     productTypeId: 0,
     unitOfMeasureId: 0,
   });
+
+  const [expirationChecked, setExpirationChecked] = useState(false);
+  const [highCostChecked, setHighCostChecked] = useState(false);
+  const [hasMinimumStock, setHasMinimumStock] = useState(false);
 
   const [modalType, setModalType] = useState<boolean>(false);
   const [modalGroup, setModalGroup] = useState<boolean>(false);
@@ -334,38 +339,34 @@ export default function ProductForm() {
               <div className='flex-1'>
                 <div className='flex flex-col gap-y-4'>
                   <div className='flex items-center'>
-                    <input
-                      type='checkbox'
-                      id='validityCheckbox'
-                      name='validityCheckbox'
-                      className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
-                      // checked={expirationControlled}
-                      // onChange={(e) =>
-                      //   setExpirationControlled(e.target.checked)
-                      // }
+                    <Checkbox<Product>
+                      name='expirationControlled'
+                      label='Possui controle de validade'
+                      checked={expirationChecked}
+                      onChange={(_, value) => {
+                        const isControlled = value ? YesNo.YES : YesNo.NO;
+                        setExpirationChecked(value);
+                        setData({
+                          ...data,
+                          expirationControlled: isControlled,
+                        });
+                      }}
                     />
-                    <label
-                      htmlFor='validityCheckbox'
-                      className='ml-2 text-sm font-medium text-textSecondary whitespace-nowrap'
-                    >
-                      Possui controle de validade
-                    </label>
                   </div>
                   <div className='flex items-center'>
-                    <input
-                      type='checkbox'
-                      id='highCostCheckbox'
-                      name='highCostCheckbox'
-                      className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
-                      // checked={highCost}
-                      // onChange={(e) => setHighCost(e.target.checked)}
+                    <Checkbox<Product>
+                      name='highCost'
+                      label='Alto Custo'
+                      checked={highCostChecked}
+                      onChange={(_, value) => {
+                        const isHighCost = value ? YesNo.YES : YesNo.NO;
+                        setHighCostChecked(value);
+                        setData({
+                          ...data,
+                          highCost: isHighCost,
+                        });
+                      }}
                     />
-                    <label
-                      htmlFor='highCostCheckbox'
-                      className='ml-2 text-sm font-medium text-textSecondary whitespace-nowrap'
-                    >
-                      Alto Custo
-                    </label>
                   </div>
                 </div>
               </div>
@@ -381,8 +382,8 @@ export default function ProductForm() {
                   id='stockCheckbox'
                   name='stockCheckbox'
                   className='h-4 w-4 text-primary focus:ring-secondary border-neutralDarker rounded'
-                  // checked={hasMinimumStock}
-                  // onChange={(e) => setHasMinimumStock(e.target.checked)}
+                  checked={hasMinimumStock}
+                  onChange={(e) => setHasMinimumStock(e.target.checked)}
                 />
                 <label
                   htmlFor='stockCheckbox'
@@ -394,16 +395,18 @@ export default function ProductForm() {
               <div className='w-full'>
                 <TextInput<Product>
                   label='Estoque Mínimo'
+                  type='number'
                   value={data.minimumStock}
                   onChange={updateField}
                   name='minimumStock'
                   required
-                  // disabled={!hasMinimumStock}
+                  disabled={!hasMinimumStock}
                 />
               </div>
               <div className='w-full'>
                 <TextInput<Product>
                   label='Estoque Atual'
+                  type='number'
                   value={data.currentStock}
                   onChange={updateField}
                   name='currentStock'
@@ -417,6 +420,7 @@ export default function ProductForm() {
           <div className='w-full flex'>
             <TextInput<Product>
               label='Preço por Unidade'
+              type='number'
               value={data.unitPrice}
               onChange={updateField}
               name='unitPrice'

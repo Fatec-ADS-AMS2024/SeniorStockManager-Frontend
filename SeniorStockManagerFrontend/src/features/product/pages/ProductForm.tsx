@@ -66,7 +66,7 @@ export default function ProductForm() {
       if (res.success && res.data) {
         setData(res.data);
       } else {
-        alert('Produto não encontrado!');
+        showAlert('Produto não encontrado!', 'error');
         navigate(routes.PRODUCT.path);
       }
     },
@@ -121,7 +121,7 @@ export default function ProductForm() {
     if (res.success && res.data) {
       setProductTypes(res.data);
     } else {
-      alert(res.message);
+      showAlert(res.message, 'error');
     }
   };
 
@@ -149,7 +149,7 @@ export default function ProductForm() {
     if (res.success && res.data) {
       setProductGroups(res.data);
     } else {
-      alert(res.message);
+      showAlert(res.message, 'error');
     }
   };
 
@@ -177,7 +177,7 @@ export default function ProductForm() {
     if (res.success && res.data) {
       setUnitOfMeasures(res.data);
     } else {
-      alert(res.message);
+      showAlert(res.message, 'error');
     }
   };
 
@@ -191,10 +191,13 @@ export default function ProductForm() {
       : await ProductService.create(productData);
 
     if (res.success) {
-      alert(`Produto ${isEditing ? 'atualizado' : 'cadastrado'} com sucesso!`);
+      showAlert(
+        `Produto ${isEditing ? 'atualizado' : 'cadastrado'} com sucesso!`,
+        'success'
+      );
       navigate(routes.PRODUCT.path);
     } else {
-      alert(res.message);
+      showAlert(res.message, 'error');
     }
   };
 

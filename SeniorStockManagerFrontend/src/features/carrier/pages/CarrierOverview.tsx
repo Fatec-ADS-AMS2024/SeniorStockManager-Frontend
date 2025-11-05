@@ -30,7 +30,7 @@ export default function CarrierOverview() {
       setData([...res.data]);
       setOriginalData([...res.data]); // Salva os dados originais
     } else {
-      alert(`Erro ao buscar dados: ${res.message}`);
+      showAlert(`Erro ao buscar dados: ${res.message}`, 'error');
     }
   };
 

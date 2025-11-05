@@ -2,44 +2,26 @@ import { useEffect, useState } from 'react';
 import ManufacturerService from '../services/manufacturerService';
 import Manufacturer from '@/types/models/Manufacturer';
 import Table from '@/components/Table';
-import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
-import Modal from '@/components/GenericModal';
-
-const inputs = [
-  {
-    label: 'Id',
-    attribute: 'id',
-    defaultValue: '',
-    locked: true,
-  },
-  {
-    label: 'Nome Corporativo',
-    attribute: 'abbreviation',
-    defaultValue: '',
-  },
-  {
-    label: 'Nome Comercial',
-    attribute: 'description',
-    defaultValue: '',
-  },
-  {
-    label: 'CpfCnpj',
-    attribute: 'description',
-    defaultValue: '',
-  },
-];
+import { AlertModal, ConfirmModal } from '@/components/Modal';
+import ManufacturerFormModal from '../components/ManufacturerFormModal';
 
 export default function ManufacturerOverview() {
   const columns = ['Nome Corporativo', 'Nome Comercial', 'CpfCnpj'];
   const [data, setData] = useState<Manufacturer[]>([]);
   const [originalData, setOriginalData] = useState<Manufacturer[]>([]);
-  const [modalRegister, setModalRegister] = useState(false);
-  const [modalEdit, setModalEdit] = useState(false);
-  const [modalDelete, setModalDelete] = useState(false);
-  const [modalInfo, setModalInfo] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'info' | 'success' | 'error'>(
+    'info'
+  );
+  const [currentId, setCurrentId] = useState<number | null>(null);
+  const [editingItem, setEditingItem] = useState<Manufacturer | undefined>();
 
   const fetchData = async () => {
     const res = await ManufacturerService.getAll();
@@ -63,105 +45,114 @@ export default function ManufacturerOverview() {
     }
 
     const filteredData = originalData.filter((manufacturer) =>
-      manufacturer.CorporateName.toLowerCase().includes(
-        searchTerm.toLowerCase()
-      )
+      manufacturer.corporateName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     );
     setData(filteredData);
   };
 
-  // Pega os valores de uma linha baseado em seu id
-  const getRowValues = (id: number) => {
-    const existingRow = data.find((row) => row.id === id);
-    return existingRow;
+  const openCreateModal = () => {
+    setEditingItem(undefined);
+    setCurrentId(null);
+    setIsFormModalOpen(true);
   };
 
-  const openCloseModalRegister = () => {
-    setModalRegister((isOpen) => !isOpen);
-  };
-
-  // Abre a modal para edição pegando os dados da linha
-  const openCloseModalEdit = (id?: number) => {
-    if (!id) {
-      setModalEdit((isOpen) => !isOpen);
-      return;
-    }
-
-    const rowValues = getRowValues(id);
-    if (rowValues) {
-      inputs.forEach((input) => {
-        input.defaultValue = String(
-          rowValues[input.attribute as keyof Manufacturer]
-        );
-      });
+  const openEditModal = (id: number) => {
+    const item = data.find((row) => row.id === id);
+    if (item) {
+      setEditingItem(item);
+      setCurrentId(id);
+      setIsFormModalOpen(true);
     } else {
-      alert('Registro não encontrado');
-      return;
+      showAlert('Registro não encontrado', 'error');
     }
-
-    setModalEdit((isOpen) => !isOpen);
   };
 
-  // Abre a modal para deleção pegando os dados da linha
-  const openCloseModalDelete = (id?: number) => {
-    if (!id) {
-      setModalDelete((isOpen) => !isOpen);
-      return;
-    }
+  const openDeleteModal = (id: number) => {
+    setCurrentId(id);
+    setIsDeleteModalOpen(true);
+  };
 
-    // Necessário para funcionar
-    const rowValues = getRowValues(id);
-    if (rowValues) {
-      inputs.forEach((input) => {
-        input.defaultValue = String(
-          rowValues[input.attribute as keyof Manufacturer]
-        );
-      });
+  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setIsAlertModalOpen(true);
+  };
+
+  const handleSave = async (model: Manufacturer) => {
+    if (currentId !== null) {
+      await editManufacturer(currentId, model);
     } else {
-      alert('Registro não encontrado');
-      return;
+      await registerManufacturer(model);
     }
-
-    setModalDelete((isOpen) => !isOpen);
-  };
-
-  const openCloseModalInfo = () => {
-    setModalInfo((isOpen) => !isOpen);
   };
 
   const registerManufacturer = async (model: Manufacturer) => {
-    const res = await ManufacturerService.create({
-      ...model,
-      id: Number(model.id),
-    });
+    // const errorMessage = validateManufacturer(model);
+
+    // if (errorMessage) {
+    //   showAlert(errorMessage, 'error');
+    //   return;
+    // }
+    const res = await ManufacturerService.create(model);
+
     if (res.success) {
-      alert(`Fabricante ${res.data?.CorporateName} cadastrado com sucesso!`);
-      setModalRegister(false);
       await fetchData();
+      showAlert(
+        `Fabricante "${res.data?.corporateName}" criado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao criar o Fabricante.',
+        'error'
+      );
+      throw new Error(res.message);
     }
   };
 
   const editManufacturer = async (id: number, model: Manufacturer) => {
+    // const errorMessage = validateManufacturer(model, id);
+
+    // if (errorMessage) {
+    //   showAlert(errorMessage, 'error');
+    //   return;
+    // }
     const res = await ManufacturerService.update(id, model);
+
     if (res.success) {
-      alert(`Fabricante ${res.data?.CorporateName} atualizado com sucesso!`);
-      setModalEdit(false);
       await fetchData();
+      showAlert(
+        `Fabricante "${res.data?.corporateName}" atualizado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao atualizar o Fabricante.',
+        'error'
+      );
+      throw new Error(res.message);
     }
   };
 
-  const deleteManufacturer = async (id: number) => {
-    const res = await ManufacturerService.deleteById(id);
+  const deleteManufacturer = async () => {
+    if (!currentId) return;
+
+    const res = await ManufacturerService.deleteById(currentId);
     if (res.success) {
-      setModalDelete(false);
-      setModalInfo(true);
+      setIsDeleteModalOpen(false);
+      const itemName =
+        data.find((item) => item.id === currentId)?.corporateName || '';
+      setCurrentId(null);
+
       await fetchData();
+      showAlert(`Fabricante "${itemName}" excluído com sucesso!`, 'success');
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao excluir o Fabricante.',
+        'error'
+      );
     }
   };
 
@@ -169,13 +160,13 @@ export default function ManufacturerOverview() {
   const Actions = ({ id }: { id: number }) => (
     <>
       <button
-        onClick={() => openCloseModalEdit(id)}
+        onClick={() => openEditModal(id)}
         className='text-edit hover:text-hoverEdit'
       >
         <Pencil className='size-6' weight='fill' />
       </button>
       <button
-        onClick={() => openCloseModalDelete(id)}
+        onClick={() => openDeleteModal(id)}
         className='text-danger hover:text-hoverDanger'
       >
         <Trash className='size-6' weight='fill' />
@@ -195,43 +186,29 @@ export default function ManufacturerOverview() {
             iconPosition='left'
             color='success'
             size='medium'
-            onClick={openCloseModalRegister}
+            onClick={openCreateModal}
           />
-          <Modal<Manufacturer>
-            title='Cadastrar Fabricante'
-            inputs={inputs}
-            action={registerManufacturer}
-            statusModal={modalRegister}
-            closeModal={openCloseModalRegister}
-            type='create'
+          <ManufacturerFormModal
+            isOpen={isFormModalOpen}
+            onClose={() => {
+              setIsFormModalOpen(false);
+              setEditingItem(undefined);
+            }}
+            onSubmit={handleSave}
+            objectData={editingItem}
           />
-          <Modal<Manufacturer>
-            type='update'
-            title='Editar Fabricante'
-            inputs={inputs}
-            action={(manufacturer) =>
-              editManufacturer(manufacturer.id, manufacturer)
-            }
-            statusModal={modalEdit}
-            closeModal={() => openCloseModalEdit()}
-          />
-          <Modal<Manufacturer>
-            type='delete'
+          <ConfirmModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirm={deleteManufacturer}
             title='Deseja realmente excluir esse Fabricante?'
-            msgInformation='Ao excluir este Fabricante, ela será removida permanentemente do sistema.'
-            action={(manufacturer) => deleteManufacturer(manufacturer.id)}
-            statusModal={modalDelete}
-            closeModal={() => openCloseModalDelete()}
-            inputs={inputs}
+            message='Ao excluir este Fabricante, ele será removido permanentemente do sistema.'
           />
-          <Modal<Manufacturer>
-            type='info'
-            msgInformation='Fabricante excluido com sucesso!'
-            icon={
-              <CheckCircle size={90} className='text-success' weight='fill' />
-            }
-            statusModal={modalInfo}
-            closeModal={openCloseModalInfo}
+          <AlertModal
+            isOpen={isAlertModalOpen}
+            onClose={() => setIsAlertModalOpen(false)}
+            message={alertMessage}
+            type={alertType}
           />
         </div>
         <Table

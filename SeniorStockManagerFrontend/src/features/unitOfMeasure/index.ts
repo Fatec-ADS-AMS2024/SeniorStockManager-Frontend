@@ -3,3 +3,5 @@ export { unitOfMeasureRoutes } from './unitOfMeasureRoutes';
 
 // Services
 export { default as UnitOfMeasureService } from './services/unitOfMeasureService';
+
+export { default as UnitOfMeasureFormModal } from './components/UnitOfMeasureFormModal';

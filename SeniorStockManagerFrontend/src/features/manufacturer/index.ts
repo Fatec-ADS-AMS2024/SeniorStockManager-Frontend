@@ -1,3 +1,5 @@
+export { default as ManufacturerFormModal } from './components/ManufacturerFormModal';
+
 // Rotas
 export { manufacturerRoutes } from './manufacturerRoutes';
 

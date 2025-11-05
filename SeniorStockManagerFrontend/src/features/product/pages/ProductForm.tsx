@@ -6,15 +6,24 @@ import Button from '@/components/Button';
 import { Checkbox, SelectInput, TextInput } from '@/components/FormControls';
 import { YesNo } from '@/types/enums/YesNo';
 import ProductType from '@/types/models/ProductType';
-import { ProductTypeService } from '@/features/productType';
+import {
+  ProductTypeFormModal,
+  ProductTypeService,
+} from '@/features/productType';
 import ProductGroup from '@/types/models/ProductGroup';
-import { ProductGroupService } from '@/features/productGroup';
-import { UnitOfMeasureService } from '@/features/unitOfMeasure';
+import {
+  ProductGroupFormModal,
+  ProductGroupService,
+} from '@/features/productGroup';
+import {
+  UnitOfMeasureFormModal,
+  UnitOfMeasureService,
+} from '@/features/unitOfMeasure';
 import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import ProductService from '../services/productService';
 import useAppRoutes from '@/hooks/useAppRoutes';
 import useFormData from '@/hooks/useFormData';
-import Modal from '@/components/GenericModal';
+import { AlertModal } from '@/components/Modal';
 
 export default function ProductForm() {
   const navigate = useNavigate();
@@ -22,6 +31,11 @@ export default function ProductForm() {
   const isEditing = id !== undefined && id !== '0';
   const routes = useAppRoutes();
   const [selectedProductGroup, setSelectedProductGroup] = useState<number>(0);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'info' | 'success' | 'error'>(
+    'info'
+  );
   const { data, reset, setData, updateField } = useFormData<Product>({
     id: 0,
     currentStock: 0,
@@ -77,15 +91,26 @@ export default function ProductForm() {
   const closeModalGroup = () => setModalGroup(false);
   const closeModalUnit = () => setModalUnit(false);
 
+  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setIsAlertModalOpen(true);
+  };
+
   const registerProductType = async (model: ProductType) => {
-    const newProductType = { ...model, id: 0 };
-    const res = await ProductTypeService.create(newProductType);
+    const res = await ProductTypeService.create(model);
 
     if (res.success) {
-      alert(`Tipo de produto ${res.data?.name} criado com sucesso!`);
-      setModalType(false);
+      await getProductTypes();
+      showAlert(
+        `Tipo de produto "${res.data?.name}" criado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao criar o tipo de produto.',
+        'error'
+      );
     }
   };
 
@@ -101,15 +126,19 @@ export default function ProductForm() {
   };
 
   const registerProductGroup = async (model: ProductGroup) => {
-    const res = await ProductGroupService.create({
-      ...model,
-      id: Number(model.id),
-    });
+    const res = await ProductGroupService.create(model);
+
     if (res.success) {
-      alert(`Grupo de produto ${res.data?.name} criado com sucesso!`);
-      setModalGroup(false);
+      await getProductGroups();
+      showAlert(
+        `Grupo de produto "${res.data?.name}" criado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao criar o Grupo de produto.',
+        'error'
+      );
     }
   };
 
@@ -125,15 +154,19 @@ export default function ProductForm() {
   };
 
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
-    const res = await UnitOfMeasureService.create({
-      ...model,
-      id: Number(model.id),
-    });
+    const res = await UnitOfMeasureService.create(model);
+
     if (res.success) {
-      alert(`Unidade de medida ${res.data?.description} criada com sucesso!`);
-      setModalUnit(false);
+      await getUnitOfMeasure();
+      showAlert(
+        `Unidade de Medida "${res.data?.description}" criado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao criar o Unidade de Medida.',
+        'error'
+      );
     }
   };
 
@@ -147,39 +180,6 @@ export default function ProductForm() {
       alert(res.message);
     }
   };
-
-  const inputsType = [
-    {
-      label: 'Nome do Tipo',
-      attribute: 'name',
-      type: 'text',
-      required: true,
-    },
-  ];
-
-  const inputsGroup = [
-    {
-      label: 'Nome do Grupo',
-      attribute: 'groupName',
-      type: 'text',
-      required: true,
-    },
-  ];
-
-  const inputsUnit = [
-    {
-      label: 'Nome da Unidade',
-      attribute: 'unitName',
-      type: 'text',
-      required: true,
-    },
-    {
-      label: 'Abreviação',
-      attribute: 'abbreviation',
-      type: 'text',
-      required: true,
-    },
-  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,13 +258,10 @@ export default function ProductForm() {
                 >
                   Grupo não encontrado
                 </a>
-                <Modal
-                  title='Cadastrar Grupo'
-                  inputs={inputsGroup}
-                  action={registerProductGroup}
-                  statusModal={modalGroup}
-                  closeModal={closeModalGroup}
-                  type='create'
+                <ProductGroupFormModal
+                  isOpen={modalGroup}
+                  onClose={closeModalGroup}
+                  onSubmit={registerProductGroup}
                 />
               </div>
               <div className='flex-1'>
@@ -292,13 +289,10 @@ export default function ProductForm() {
                 >
                   Tipo não encontrado
                 </a>
-                <Modal
-                  title='Cadastrar Tipo'
-                  inputs={inputsType}
-                  action={registerProductType}
-                  statusModal={modalType}
-                  closeModal={closeModalType}
-                  type='create'
+                <ProductTypeFormModal
+                  isOpen={modalType}
+                  onClose={closeModalType}
+                  onSubmit={registerProductType}
                 />
               </div>
             </div>
@@ -327,13 +321,10 @@ export default function ProductForm() {
                 >
                   Unidade de medida não encontrada
                 </a>
-                <Modal
-                  title='Cadastrar Unidade de Medida'
-                  inputs={inputsUnit}
-                  action={registerUnitOfMeasure}
-                  statusModal={modalUnit}
-                  closeModal={closeModalUnit}
-                  type='create'
+                <UnitOfMeasureFormModal
+                  isOpen={modalUnit}
+                  onClose={closeModalUnit}
+                  onSubmit={registerUnitOfMeasure}
                 />
               </div>
               <div className='flex-1'>
@@ -439,13 +430,11 @@ export default function ProductForm() {
           </div>
         </form>
       </div>
-      <Modal
-        title='Cadastrar Unidade de Medida'
-        inputs={inputsUnit}
-        action={registerUnitOfMeasure}
-        statusModal={modalUnit}
-        closeModal={closeModalUnit}
-        type='create'
+      <AlertModal
+        isOpen={isAlertModalOpen}
+        onClose={() => setIsAlertModalOpen(false)}
+        message={alertMessage}
+        type={alertType}
       />
     </div>
   );

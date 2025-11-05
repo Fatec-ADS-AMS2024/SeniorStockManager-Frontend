@@ -108,7 +108,6 @@ export default function ManufacturerOverview() {
         res.message || 'Erro inesperado ao criar o Fabricante.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 
@@ -132,7 +131,6 @@ export default function ManufacturerOverview() {
         res.message || 'Erro inesperado ao atualizar o Fabricante.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 

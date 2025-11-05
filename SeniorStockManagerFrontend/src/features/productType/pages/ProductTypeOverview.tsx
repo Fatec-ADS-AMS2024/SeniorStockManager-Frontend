@@ -106,7 +106,6 @@ export default function ProductTypeOverview() {
         res.message || 'Erro inesperado ao criar o Tipo de Produto.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 
@@ -130,7 +129,6 @@ export default function ProductTypeOverview() {
         res.message || 'Erro inesperado ao atualizar o Tipo de Produto.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 

@@ -121,7 +121,6 @@ export default function UnitOfMeasureOverview() {
         res.message || 'Erro inesperado ao criar o Unidade de Medida.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 
@@ -145,7 +144,6 @@ export default function UnitOfMeasureOverview() {
         res.message || 'Erro inesperado ao atualizar o Unidade de Medida.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 

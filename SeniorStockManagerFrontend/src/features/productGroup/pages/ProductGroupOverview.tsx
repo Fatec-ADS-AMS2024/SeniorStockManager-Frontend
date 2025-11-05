@@ -106,7 +106,6 @@ export default function ProductGroupOverview() {
         res.message || 'Erro inesperado ao criar o Grupo de Produto.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 
@@ -130,7 +129,6 @@ export default function ProductGroupOverview() {
         res.message || 'Erro inesperado ao atualizar o Grupo de Produto.',
         'error'
       );
-      throw new Error(res.message);
     }
   };
 

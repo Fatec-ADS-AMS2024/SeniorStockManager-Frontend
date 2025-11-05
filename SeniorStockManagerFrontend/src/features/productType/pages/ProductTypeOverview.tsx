@@ -2,34 +2,26 @@ import { useEffect, useState } from 'react';
 import ProductTypeService from '../services/productTypeService';
 import ProductType from '@/types/models/ProductType';
 import Table from '@/components/Table';
-import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
-import Modal from '@/components/GenericModal';
-
-const inputs = [
-  {
-    label: 'Id',
-    attribute: 'id',
-    defaultValue: '',
-    locked: true,
-  },
-  {
-    label: 'Nome',
-    attribute: 'Name',
-    defaultValue: '',
-  },
-];
+import { AlertModal, ConfirmModal } from '@/components/Modal';
+import ProductTypeFormModal from '../components/ProductTypeFormModal';
 
 export default function ProductTypeOverview() {
   const columns = ['Nome'];
   const [data, setData] = useState<ProductType[]>([]);
   const [originalData, setOriginalData] = useState<ProductType[]>([]);
-  const [modalRegister, setModalRegister] = useState(false);
-  const [modalEdit, setModalEdit] = useState(false);
-  const [modalDelete, setModalDelete] = useState(false);
-  const [modalInfo, setModalInfo] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'info' | 'success' | 'error'>(
+    'info'
+  );
+  const [currentId, setCurrentId] = useState<number | null>(null);
+  const [editingItem, setEditingItem] = useState<ProductType | undefined>();
 
   const fetchData = async () => {
     const res = await ProductTypeService.getAll();
@@ -51,100 +43,116 @@ export default function ProductTypeOverview() {
       setData(originalData); // Restaura os dados originais
       return;
     }
+
+    const filteredData = originalData.filter((productType) =>
+      productType.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setData(filteredData);
   };
 
-  // Pega os valores de uma linha baseado em seu id
-  const getRowValues = (id: number) => {
-    const existingRow = data.find((row) => row.id === id);
-    return existingRow;
+  const openCreateModal = () => {
+    setEditingItem(undefined);
+    setCurrentId(null);
+    setIsFormModalOpen(true);
   };
 
-  const openCloseModalRegister = () => {
-    setModalRegister((isOpen) => !isOpen);
-  };
-
-  // Abre a modal para edição pegando os dados da linha
-  const openCloseModalEdit = (id?: number) => {
-    if (!id) {
-      setModalEdit((isOpen) => !isOpen);
-      return;
-    }
-
-    const rowValues = getRowValues(id);
-    if (rowValues) {
-      inputs.forEach((input) => {
-        input.defaultValue = String(
-          rowValues[input.attribute as keyof ProductType]
-        );
-      });
+  const openEditModal = (id: number) => {
+    const item = data.find((row) => row.id === id);
+    if (item) {
+      setEditingItem(item);
+      setCurrentId(id);
+      setIsFormModalOpen(true);
     } else {
-      alert('Registro não encontrado');
-      return;
+      showAlert('Registro não encontrado', 'error');
     }
-
-    setModalEdit((isOpen) => !isOpen);
   };
 
-  // Abre a modal para deleção pegando os dados da linha
-  const openCloseModalDelete = (id?: number) => {
-    if (!id) {
-      setModalDelete((isOpen) => !isOpen);
-      return;
-    }
+  const openDeleteModal = (id: number) => {
+    setCurrentId(id);
+    setIsDeleteModalOpen(true);
+  };
 
-    // Necessário para funcionar
-    const rowValues = getRowValues(id);
-    if (rowValues) {
-      inputs.forEach((input) => {
-        input.defaultValue = String(
-          rowValues[input.attribute as keyof ProductType]
-        );
-      });
+  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setIsAlertModalOpen(true);
+  };
+
+  const handleSave = async (model: ProductType) => {
+    if (currentId !== null) {
+      await editProductType(currentId, model);
     } else {
-      alert('Registro não encontrado');
-      return;
+      await registerProductType(model);
     }
-
-    setModalDelete((isOpen) => !isOpen);
-  };
-
-  const openCloseModalInfo = () => {
-    setModalInfo((isOpen) => !isOpen);
   };
 
   const registerProductType = async (model: ProductType) => {
-    const res = await ProductTypeService.create({
-      ...model,
-      id: Number(model.id),
-    });
+    // const errorMessage = validateProductType(model);
+
+    // if (errorMessage) {
+    //   showAlert(errorMessage, 'error');
+    //   return;
+    // }
+    const res = await ProductTypeService.create(model);
+
     if (res.success) {
-      alert(`Tipo de produto ${res.data?.name} criada com sucesso!`);
-      setModalRegister(false);
       await fetchData();
+      showAlert(
+        `Tipo de Produto "${res.data?.name}" criado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao criar o Tipo de Produto.',
+        'error'
+      );
+      throw new Error(res.message);
     }
   };
 
   const editProductType = async (id: number, model: ProductType) => {
+    // const errorMessage = validateProductType(model, id);
+
+    // if (errorMessage) {
+    //   showAlert(errorMessage, 'error');
+    //   return;
+    // }
     const res = await ProductTypeService.update(id, model);
+
     if (res.success) {
-      alert(`Tipo de produto ${res.data?.name} atualizada com sucesso!`);
-      setModalEdit(false);
       await fetchData();
+      showAlert(
+        `Tipo de Produto "${res.data?.name}" atualizado com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao atualizar o Tipo de Produto.',
+        'error'
+      );
+      throw new Error(res.message);
     }
   };
 
-  const deleteProductType = async (id: number) => {
-    const res = await ProductTypeService.deleteById(id);
+  const deleteProductType = async () => {
+    if (!currentId) return;
+
+    const res = await ProductTypeService.deleteById(currentId);
     if (res.success) {
-      setModalDelete(false);
-      setModalInfo(true);
+      setIsDeleteModalOpen(false);
+      const itemName = data.find((item) => item.id === currentId)?.name || '';
+      setCurrentId(null);
+
       await fetchData();
+      showAlert(
+        `Tipo de Produto "${itemName}" excluído com sucesso!`,
+        'success'
+      );
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao excluir o Tipo de Produto.',
+        'error'
+      );
     }
   };
 
@@ -152,13 +160,13 @@ export default function ProductTypeOverview() {
   const Actions = ({ id }: { id: number }) => (
     <>
       <button
-        onClick={() => openCloseModalEdit(id)}
+        onClick={() => openEditModal(id)}
         className='text-edit hover:text-hoverEdit'
       >
         <Pencil className='size-6' weight='fill' />
       </button>
       <button
-        onClick={() => openCloseModalDelete(id)}
+        onClick={() => openDeleteModal(id)}
         className='text-danger hover:text-hoverDanger'
       >
         <Trash className='size-6' weight='fill' />
@@ -181,43 +189,29 @@ export default function ProductTypeOverview() {
             iconPosition='left'
             color='success'
             size='medium'
-            onClick={openCloseModalRegister}
+            onClick={openCreateModal}
           />
-          <Modal<ProductType>
-            title='Cadastrar Tipo de Produto'
-            inputs={inputs}
-            action={registerProductType}
-            statusModal={modalRegister}
-            closeModal={openCloseModalRegister}
-            type='create'
+          <ProductTypeFormModal
+            isOpen={isFormModalOpen}
+            onClose={() => {
+              setIsFormModalOpen(false);
+              setEditingItem(undefined);
+            }}
+            onSubmit={handleSave}
+            objectData={editingItem}
           />
-          <Modal<ProductType>
-            type='update'
-            title='Editar Tipo de Produto'
-            inputs={inputs}
-            action={(productType) =>
-              editProductType(productType.id, productType)
-            }
-            statusModal={modalEdit}
-            closeModal={() => openCloseModalEdit()}
-          />
-          <Modal<ProductType>
-            type='delete'
+          <ConfirmModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirm={deleteProductType}
             title='Deseja realmente excluir esse Tipo de Produto?'
-            msgInformation='Ao excluir este Tipo de Produto, ela será removida permanentemente do sistema.'
-            action={(productType) => deleteProductType(productType.id)}
-            statusModal={modalDelete}
-            closeModal={() => openCloseModalDelete()}
-            inputs={inputs}
+            message='Ao excluir este Tipo de Produto, ele será removido permanentemente do sistema.'
           />
-          <Modal<ProductType>
-            type='info'
-            msgInformation='Tipo de Produto excluida com sucesso!'
-            icon={
-              <CheckCircle size={90} className='text-success' weight='fill' />
-            }
-            statusModal={modalInfo}
-            closeModal={openCloseModalInfo}
+          <AlertModal
+            isOpen={isAlertModalOpen}
+            onClose={() => setIsAlertModalOpen(false)}
+            message={alertMessage}
+            type={alertType}
           />
         </div>
         <Table

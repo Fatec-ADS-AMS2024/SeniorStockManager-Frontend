@@ -2,22 +2,27 @@ import { useEffect, useState } from 'react';
 import CarrierService from '../services/carrierService';
 import Carrier from '@/types/models/Carrier';
 import Table from '@/components/Table';
-import { CheckCircle, Pencil, Plus, Trash } from '@phosphor-icons/react';
+import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
 import Button from '@/components/Button';
-import Modal from '@/components/GenericModal';
-import { useNavigate } from 'react-router-dom';
+import { AlertModal, ConfirmModal } from '@/components/Modal';
 import useAppRoutes from '@/hooks/useAppRoutes';
+import { useNavigate } from 'react-router-dom';
 
 export default function CarrierOverview() {
   const columns = ['Descrição', 'Abreviação'];
   const routes = useAppRoutes();
+  const navigate = useNavigate();
   const [data, setData] = useState<Carrier[]>([]);
   const [originalData, setOriginalData] = useState<Carrier[]>([]);
-  const [modalDelete, setModalDelete] = useState(false);
-  const [modalInfo, setModalInfo] = useState(false);
-  const navigate = useNavigate();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState<'info' | 'success' | 'error'>(
+    'info'
+  );
+  const [currentId, setCurrentId] = useState<number | null>(null);
 
   const fetchData = async () => {
     const res = await CarrierService.getAll();
@@ -46,28 +51,34 @@ export default function CarrierOverview() {
     setData(filteredData);
   };
 
-  // Abre a modal para deleção pegando os dados da linha
-  const openCloseModalDelete = (id?: number) => {
-    if (!id) {
-      setModalDelete((isOpen) => !isOpen);
-      return;
-    }
-
-    setModalDelete((isOpen) => !isOpen);
+  const openDeleteModal = (id: number) => {
+    setCurrentId(id);
+    setIsDeleteModalOpen(true);
   };
 
-  const openCloseModalInfo = () => {
-    setModalInfo((isOpen) => !isOpen);
+  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setIsAlertModalOpen(true);
   };
 
-  const deleteCarrier = async (id: number) => {
-    const res = await CarrierService.deleteById(id);
+  const deleteCarrier = async () => {
+    if (!currentId) return;
+
+    const res = await CarrierService.deleteById(currentId);
     if (res.success) {
-      setModalDelete(false);
-      setModalInfo(true);
+      setIsDeleteModalOpen(false);
+      const itemName =
+        data.find((item) => item.id === currentId)?.corporateName || '';
+      setCurrentId(null);
+
       await fetchData();
+      showAlert(`Fornecedor "${itemName}" excluído com sucesso!`, 'success');
     } else {
-      alert(res.message);
+      showAlert(
+        res.message || 'Erro inesperado ao excluir o Fornecedor.',
+        'error'
+      );
     }
   };
 
@@ -75,13 +86,15 @@ export default function CarrierOverview() {
   const Actions = ({ id }: { id: number }) => (
     <>
       <button
-        onClick={() => navigate(`/registrations/carrier/${id}`)}
+        onClick={() =>
+          navigate(routes.CARRIER_EDIT.path.replace(':id', `${id}`))
+        }
         className='text-edit hover:text-hoverEdit'
       >
         <Pencil className='size-6' weight='fill' />
       </button>
       <button
-        onClick={() => openCloseModalDelete(id)}
+        onClick={() => openDeleteModal(id)}
         className='text-danger hover:text-hoverDanger'
       >
         <Trash className='size-6' weight='fill' />
@@ -91,13 +104,10 @@ export default function CarrierOverview() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title='Cadastro de Fornecedora' />
+      <BreadcrumbPageTitle title='Cadastro de Fornecedor' />
       <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
         <div className='flex items-center justify-between mb-4'>
-          <SearchBar
-            action={handleSearch}
-            placeholder='Buscar Fornecedor ...'
-          />
+          <SearchBar action={handleSearch} placeholder='Buscar Fornecedor...' />
           <Button
             label='Adicionar'
             icon={<Plus />}
@@ -106,22 +116,18 @@ export default function CarrierOverview() {
             size='medium'
             onClick={() => navigate(routes.CARRIER_REGISTRATION.path)}
           />
-          <Modal<Carrier>
-            type='delete'
-            title='Deseja realmente excluir essa Unidade de Medida?'
-            msgInformation='Ao excluir esta Unidade de Medida, ela será removida permanentemente do sistema.'
-            action={(carrier) => deleteCarrier(carrier.id)}
-            statusModal={modalDelete}
-            closeModal={() => openCloseModalDelete()}
+          <ConfirmModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirm={deleteCarrier}
+            title='Deseja realmente excluir esse Fornecedor?'
+            message='Ao excluir este Fornecedor, ele será removido permanentemente do sistema.'
           />
-          <Modal<Carrier>
-            type='info'
-            msgInformation='Unidade de Medida excluida com sucesso!'
-            icon={
-              <CheckCircle size={90} className='text-success' weight='fill' />
-            }
-            statusModal={modalInfo}
-            closeModal={openCloseModalInfo}
+          <AlertModal
+            isOpen={isAlertModalOpen}
+            onClose={() => setIsAlertModalOpen(false)}
+            message={alertMessage}
+            type={alertType}
           />
         </div>
         <Table

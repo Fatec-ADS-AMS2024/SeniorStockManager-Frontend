@@ -77,10 +77,10 @@ export default function CarrierOverview() {
       setCurrentId(null);
 
       await fetchData();
-      showAlert(`Fornecedor "${itemName}" excluído com sucesso!`, 'success');
+      showAlert(`Transportadora "${itemName}" excluído com sucesso!`, 'success');
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Fornecedor.',
+        res.message || 'Erro inesperado ao excluir o Transportadora.',
         'error'
       );
     }
@@ -108,10 +108,10 @@ export default function CarrierOverview() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title='Cadastro de Fornecedor' />
+      <BreadcrumbPageTitle title='Cadastro de Transportadora' />
       <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
         <div className='flex items-center justify-between mb-4'>
-          <SearchBar action={handleSearch} placeholder='Buscar Fornecedor...' />
+          <SearchBar action={handleSearch} placeholder='Buscar Transportadora...' />
           <Button
             label='Adicionar'
             icon={<Plus />}
@@ -124,8 +124,8 @@ export default function CarrierOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteCarrier}
-            title='Deseja realmente excluir esse Fornecedor?'
-            message='Ao excluir este Fornecedor, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir esse Transportadora?'
+            message='Ao excluir este Transportadora, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

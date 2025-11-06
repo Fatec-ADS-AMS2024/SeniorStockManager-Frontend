@@ -5,17 +5,17 @@ import CarrierForm from './pages/CarrierForm';
 export const carrierRoutes = createRoutes({
   CARRIER: {
     path: '/carrier',
-    displayName: 'Fornecedores',
+    displayName: 'Transportadoras',
     element: <CarrierOverview />,
   },
   CARRIER_REGISTRATION: {
     path: '/carrier/registration',
-    displayName: 'Cadastrar Fornecedor',
+    displayName: 'Cadastrar Transportadora',
     element: <CarrierForm />,
   },
   CARRIER_EDIT: {
     path: '/carrier/edit/:id',
-    displayName: 'Editar Fornecedor',
+    displayName: 'Editar Transportadora',
     element: <CarrierForm />,
   },
 });

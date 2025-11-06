@@ -23,7 +23,7 @@ export default function RegisterPage() {
     },
     {
       text: routes.CARRIER.displayName,
-      subText: 'Fornecedores cadastrados',
+      subText: 'Transportadoras cadastradas',
       icon: <Truck size={28} className='shrink-0' />,
       page: routes.CARRIER.path,
     },
@@ -67,7 +67,13 @@ export default function RegisterPage() {
         <SearchBar placeholder='Buscar Cadastro' action={console.log} />
         {/* Card Grid */}
         {cards.map(({ text, icon, page, subText }) => (
-          <Card subText={subText} text={text} icon={icon} page={page} />
+          <Card
+            key={page}
+            subText={subText}
+            text={text}
+            icon={icon}
+            page={page}
+          />
         ))}
       </div>
     </div>

@@ -78,10 +78,10 @@ export default function ProductOverview() {
       setCurrentId(null);
 
       await fetchData();
-      showAlert(`Fornecedor "${itemName}" excluído com sucesso!`, 'success');
+      showAlert(`Produto "${itemName}" excluído com sucesso!`, 'success');
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Fornecedor.',
+        res.message || 'Erro inesperado ao excluir o Produto.',
         'error'
       );
     }
@@ -109,10 +109,10 @@ export default function ProductOverview() {
 
   return (
     <div>
-      <BreadcrumbPageTitle title='Cadastro de Fornecedor' />
+      <BreadcrumbPageTitle title='Cadastro de Produto' />
       <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
         <div className='flex items-center justify-between mb-4'>
-          <SearchBar action={handleSearch} placeholder='Buscar Fornecedor...' />
+          <SearchBar action={handleSearch} placeholder='Buscar Produto...' />
           <Button
             label='Adicionar'
             icon={<Plus />}
@@ -125,8 +125,8 @@ export default function ProductOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteProduct}
-            title='Deseja realmente excluir esse Fornecedor?'
-            message='Ao excluir este Fornecedor, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir esse Produto?'
+            message='Ao excluir este Produto, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ManufacturerService from '../services/manufacturerService';
 import Manufacturer from '@/types/models/Manufacturer';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
@@ -10,7 +11,11 @@ import { AlertModal, ConfirmModal } from '@/components/Modal';
 import ManufacturerFormModal from '../components/ManufacturerFormModal';
 
 export default function ManufacturerOverview() {
-  const columns = ['Nome Corporativo', 'Nome Comercial', 'CpfCnpj'];
+  const columns: TableColumn<Manufacturer>[] = [
+    { label: 'Nome Corporativo', attribute: 'corporateName' },
+    { label: 'Nome Comercial', attribute: 'tradeName' },
+    { label: 'CPF/CNPJ', attribute: 'cpfCnpj' },
+  ];
   const [data, setData] = useState<Manufacturer[]>([]);
   const [originalData, setOriginalData] = useState<Manufacturer[]>([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);

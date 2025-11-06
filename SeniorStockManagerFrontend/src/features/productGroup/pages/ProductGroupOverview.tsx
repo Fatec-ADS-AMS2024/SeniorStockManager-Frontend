@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ProductGroupService from '../services/productGroupService';
 import ProductGroup from '@/types/models/ProductGroup';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
@@ -10,7 +11,9 @@ import { AlertModal, ConfirmModal } from '@/components/Modal';
 import ProductGroupFormModal from '../components/ProductGroupFormModal';
 
 export default function ProductGroupOverview() {
-  const columns = ['Nome Corporativo', 'Nome Comercial', 'CpfCnpj'];
+  const columns: TableColumn<ProductGroup>[] = [
+    { label: 'Nome', attribute: 'name' },
+  ];
   const [data, setData] = useState<ProductGroup[]>([]);
   const [originalData, setOriginalData] = useState<ProductGroup[]>([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);

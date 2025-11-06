@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import UnitOfMeasureService from '../services/unitOfMeasureService';
 import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
@@ -10,7 +11,10 @@ import { AlertModal, ConfirmModal } from '@/components/Modal';
 import UnitOfMeasureFormModal from '../components/UnitOfMeasureFormModal';
 
 export default function UnitOfMeasureOverview() {
-  const columns = ['Descrição', 'Abreviação'];
+  const columns: TableColumn<UnitOfMeasure>[] = [
+    { label: 'Descrição', attribute: 'description' },
+    { label: 'Abreviação', attribute: 'abbreviation' }
+  ];
   const [data, setData] = useState<UnitOfMeasure[]>([]);
   const [originalData, setOriginalData] = useState<UnitOfMeasure[]>([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);

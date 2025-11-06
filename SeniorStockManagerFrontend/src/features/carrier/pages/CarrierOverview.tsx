@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CarrierService from '../services/carrierService';
 import Carrier from '@/types/models/Carrier';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
@@ -11,7 +12,10 @@ import useAppRoutes from '@/hooks/useAppRoutes';
 import { useNavigate } from 'react-router-dom';
 
 export default function CarrierOverview() {
-  const columns = ['Descrição', 'Abreviação'];
+  const columns: TableColumn<Carrier>[] = [
+    { label: 'Nome Comercial', attribute: 'tradeName' },
+    { label: 'Razão Social', attribute: 'corporateName' },
+  ];
   const routes = useAppRoutes();
   const navigate = useNavigate();
   const [data, setData] = useState<Carrier[]>([]);

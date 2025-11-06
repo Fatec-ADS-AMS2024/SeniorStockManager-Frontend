@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ProductService from '../services/productService';
 import Product from '@/types/models/Product';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
@@ -11,7 +12,11 @@ import useAppRoutes from '@/hooks/useAppRoutes';
 import { useNavigate } from 'react-router-dom';
 
 export default function ProductOverview() {
-  const columns = ['Descrição', 'Tipo', 'Grupo'];
+  const columns: TableColumn<Product>[] = [
+    { label: 'Descrição', attribute: 'description' },
+    { label: 'Nome Genérico', attribute: 'genericName' },
+    { label: 'Estoque Atual', attribute: 'currentStock' },
+  ];
   const routes = useAppRoutes();
   const navigate = useNavigate();
   const [data, setData] = useState<Product[]>([]);

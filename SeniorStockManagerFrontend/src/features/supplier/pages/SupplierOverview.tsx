@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import SupplierService from '../services/supplierService';
 import Supplier from '@/types/models/Supplier';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import {
   CheckCircle,
   Pencil,
@@ -186,7 +187,19 @@ const validateSupplier = (
 const SupplierList = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const columns = ['Nome', 'CPF/CNPJ', 'Razão Social'];
+  const columns: TableColumn<Supplier>[] = [
+    { label: 'Nome', attribute: 'tradeName' },
+    { 
+      label: 'CPF/CNPJ', 
+      attribute: 'cpfCnpj',
+      render: (value) => formatCPFCNPJ(value as string)
+    },
+    { 
+      label: 'Razão Social', 
+      attribute: 'corporateName',
+      render: (value) => value || 'N/A'
+    }
+  ];
   const [data, setData] = useState<Supplier[]>([]);
   const [originalData, setOriginalData] = useState<Supplier[]>([]);
   const [modalDelete, setModalDelete] = useState(false);
@@ -327,12 +340,7 @@ const SupplierList = () => {
         </div>
         <Table
           columns={columns}
-          data={data?.map((row) => ({
-            id: row.id,
-            Nome: row.tradeName,
-            'CPF/CNPJ': formatCPFCNPJ(row.cpfCnpj || ''),
-            'Razão Social': row.corporateName || 'N/A',
-          }))}
+          data={data}
           actions={(id) => <Actions id={id} />}
         />
       </div>

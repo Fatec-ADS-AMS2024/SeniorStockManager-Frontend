@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ProductTypeService from '../services/productTypeService';
 import ProductType from '@/types/models/ProductType';
 import Table from '@/components/Table';
+import { TableColumn } from '@/components/Table/types';
 import { Pencil, Plus, Trash } from '@phosphor-icons/react';
 import BreadcrumbPageTitle from '@/components/BreadcrumbPageTitle';
 import SearchBar from '@/components/SearchBar';
@@ -10,7 +11,9 @@ import { AlertModal, ConfirmModal } from '@/components/Modal';
 import ProductTypeFormModal from '../components/ProductTypeFormModal';
 
 export default function ProductTypeOverview() {
-  const columns = ['Nome'];
+  const columns: TableColumn<ProductType>[] = [
+    { label: 'Nome', attribute: 'name' },
+  ];
   const [data, setData] = useState<ProductType[]>([]);
   const [originalData, setOriginalData] = useState<ProductType[]>([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);

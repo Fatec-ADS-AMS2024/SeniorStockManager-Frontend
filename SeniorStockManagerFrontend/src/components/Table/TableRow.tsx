@@ -1,20 +1,22 @@
-interface TableRowProps {
-  data: any;
+import { TableColumn } from './types';
+
+interface TableRowProps<T extends { id: number }> {
+  data: T;
+  columns: TableColumn<T>[];
   index: number;
   actions?: JSX.Element;
   onSelect: (rowId: number) => void;
   isSelected: boolean;
 }
 
-export default function TableRow({
+export default function TableRow<T extends { id: number }>({
   data,
+  columns,
   index,
   actions,
   onSelect,
   isSelected,
-}: TableRowProps) {
-  const keys = Object.keys(data);
-
+}: TableRowProps<T>) {
   const handleClick = () => {
     onSelect(data.id);
   };
@@ -38,8 +40,12 @@ export default function TableRow({
       </td>
 
       {/* Conteúdo */}
-      {keys.map((value, index) => {
-        if (index > 0) return <td key={data[value]}>{data[value]}</td>;
+      {columns.map((column, index) => {
+        const value = data[column.attribute];
+        const displayValue = column.render
+          ? column.render(value, data)
+          : String(value);
+        return <td key={index}>{displayValue}</td>;
       })}
 
       {/* Célula dos botões */}

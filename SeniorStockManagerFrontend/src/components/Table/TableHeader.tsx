@@ -1,9 +1,14 @@
-interface TableHeaderProps {
-  columns: string[];
+import { TableColumn } from './types';
+
+interface TableHeaderProps<T> {
+  columns: TableColumn<T>[];
   actions?: boolean;
 }
 
-export default function TableHeader({ columns, actions }: TableHeaderProps) {
+export default function TableHeader<T>({
+  columns,
+  actions,
+}: TableHeaderProps<T>) {
   return (
     <thead className='text-textPrimary bg-neutral'>
       <tr className='h-12'>
@@ -11,7 +16,7 @@ export default function TableHeader({ columns, actions }: TableHeaderProps) {
         <th className='w-10'></th>
         {columns.map((column, index) => (
           <th key={index} className='text-left'>
-            {column}
+            {column.label}
           </th>
         ))}
         {actions && <th className='text-center w-2/12'>Ações</th>}

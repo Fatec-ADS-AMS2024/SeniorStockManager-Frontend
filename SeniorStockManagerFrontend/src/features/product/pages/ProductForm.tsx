@@ -60,29 +60,79 @@ export default function ProductForm() {
   const [modalGroup, setModalGroup] = useState<boolean>(false);
   const [modalUnit, setModalUnit] = useState<boolean>(false);
 
+  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
+    setAlertMessage(message);
+    setAlertType(type);
+    setIsAlertModalOpen(true);
+  };
+
+  const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+  const [productGroups, setProductGroups] = useState<ProductGroup[]>([]);
+  const [unitOfMeasures, setUnitOfMeasures] = useState<UnitOfMeasure[]>([]);
+
+  const getProductTypes = useCallback(async () => {
+    const res = await ProductTypeService.getAll();
+    if (res.success && res.data) {
+      setProductTypes(res.data);
+    } else {
+      showAlert(res.message, 'error');
+    }
+  }, []);
+
   const fetchProduct = useCallback(
     async (productId: string) => {
       const res = await ProductService.getById(Number(productId));
       if (res.success && res.data) {
-        setData(res.data);
+        const product = res.data!;
+
+        setExpirationChecked(product.expirationControlled === YesNo.YES);
+        setHighCostChecked(product.highCost === YesNo.YES);
+        setHasMinimumStock((product.minimumStock ?? 0) > 0);
+
+        const pt = productTypes.find((t) => t.id === product.productTypeId);
+        if (pt) {
+          setSelectedProductGroup(pt.productGroupId);
+        }
+        setData(product);
       } else {
         showAlert('Produto não encontrado!', 'error');
         navigate(routes.PRODUCT.path);
       }
     },
-    [navigate, routes.PRODUCT.path, setData]
+    [navigate, routes.PRODUCT.path, setData, productTypes]
   );
+
+  const getProductGroups = useCallback(async () => {
+    const res = await ProductGroupService.getAll();
+    if (res.success && res.data) {
+      setProductGroups(res.data);
+    } else {
+      showAlert(res.message, 'error');
+    }
+  }, []);
+
+  const getUnitOfMeasure = useCallback(async () => {
+    const res = await UnitOfMeasureService.getAll();
+    if (res.success && res.data) {
+      setUnitOfMeasures(res.data);
+    } else {
+      showAlert(res.message, 'error');
+    }
+  }, []);
 
   useEffect(() => {
     getProductTypes();
     getProductGroups();
     getUnitOfMeasure();
-    if (isEditing) {
+  }, [getProductTypes, getProductGroups, getUnitOfMeasure]);
+
+  useEffect(() => {
+    if (isEditing && productTypes.length > 0) {
       fetchProduct(id);
-    } else {
+    } else if (!isEditing) {
       reset();
     }
-  }, [fetchProduct, id, isEditing, reset]);
+  }, [fetchProduct, id, isEditing, reset, productTypes.length]);
 
   const openModalType = () => setModalType(true);
   const openModalGroup = () => setModalGroup(true);
@@ -90,12 +140,6 @@ export default function ProductForm() {
   const closeModalType = () => setModalType(false);
   const closeModalGroup = () => setModalGroup(false);
   const closeModalUnit = () => setModalUnit(false);
-
-  const showAlert = (message: string, type: 'info' | 'success' | 'error') => {
-    setAlertMessage(message);
-    setAlertType(type);
-    setIsAlertModalOpen(true);
-  };
 
   const registerProductType = async (model: ProductType) => {
     const res = await ProductTypeService.create(model);
@@ -111,17 +155,6 @@ export default function ProductForm() {
         res.message || 'Erro inesperado ao criar o tipo de produto.',
         'error'
       );
-    }
-  };
-
-  const [productTypes, setProductTypes] = useState<ProductType[]>([]);
-
-  const getProductTypes = async () => {
-    const res = await ProductTypeService.getAll();
-    if (res.success && res.data) {
-      setProductTypes(res.data);
-    } else {
-      showAlert(res.message, 'error');
     }
   };
 
@@ -142,17 +175,6 @@ export default function ProductForm() {
     }
   };
 
-  const [productGroups, setProductGroups] = useState<ProductGroup[]>([]);
-
-  const getProductGroups = async () => {
-    const res = await ProductGroupService.getAll();
-    if (res.success && res.data) {
-      setProductGroups(res.data);
-    } else {
-      showAlert(res.message, 'error');
-    }
-  };
-
   const registerUnitOfMeasure = async (model: UnitOfMeasure) => {
     const res = await UnitOfMeasureService.create(model);
 
@@ -167,17 +189,6 @@ export default function ProductForm() {
         res.message || 'Erro inesperado ao criar o Unidade de Medida.',
         'error'
       );
-    }
-  };
-
-  const [unitOfMeasures, setUnitOfMeasures] = useState<UnitOfMeasure[]>([]);
-
-  const getUnitOfMeasure = async () => {
-    const res = await UnitOfMeasureService.getAll();
-    if (res.success && res.data) {
-      setUnitOfMeasures(res.data);
-    } else {
-      showAlert(res.message, 'error');
     }
   };
 
@@ -244,7 +255,7 @@ export default function ProductForm() {
                   label='Grupo'
                   onChange={(_, value) =>
                     setSelectedProductGroup(Number(value))
-                  }
+                    }
                   options={productGroups.map((group) => ({
                     label: group.name,
                     value: group.id,
@@ -271,6 +282,7 @@ export default function ProductForm() {
                 <SelectInput<Product>
                   name='productTypeId'
                   label='Tipo'
+                  value={data.productTypeId}
                   onChange={updateField}
                   options={productTypes
                     .filter(
@@ -307,6 +319,7 @@ export default function ProductForm() {
                 <SelectInput<Product>
                   name='unitOfMeasureId'
                   label='Unidade de medida'
+                  value={data.unitOfMeasureId}
                   onChange={updateField}
                   options={unitOfMeasures.map((unit) => ({
                     label: unit.abbreviation,

@@ -169,7 +169,7 @@ export default function ProductForm() {
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao criar o Grupo de produto.',
+        res.message || 'Erro inesperado ao criar o grupo de produto.',
         'error'
       );
     }
@@ -181,12 +181,12 @@ export default function ProductForm() {
     if (res.success) {
       await getUnitOfMeasure();
       showAlert(
-        `Unidade de Medida "${res.data?.description}" criado com sucesso!`,
+        `Unidade de medida "${res.data?.description}" criada com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao criar o Unidade de Medida.',
+        res.message || 'Erro inesperado ao criar a unidade de medida.',
         'error'
       );
     }

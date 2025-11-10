@@ -101,12 +101,12 @@ export default function ProductTypeOverview() {
     if (res.success) {
       await fetchData();
       showAlert(
-        `Tipo de Produto "${res.data?.name}" criado com sucesso!`,
+        `Tipo de produto "${res.data?.name}" criado com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao criar o Tipo de Produto.',
+        res.message || 'Erro inesperado ao criar o tipo de produto.',
         'error'
       );
     }
@@ -124,12 +124,12 @@ export default function ProductTypeOverview() {
     if (res.success) {
       await fetchData();
       showAlert(
-        `Tipo de Produto "${res.data?.name}" atualizado com sucesso!`,
+        `Tipo de produto "${res.data?.name}" atualizado com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao atualizar o Tipo de Produto.',
+        res.message || 'Erro inesperado ao atualizar o tipo de produto.',
         'error'
       );
     }
@@ -146,12 +146,12 @@ export default function ProductTypeOverview() {
 
       await fetchData();
       showAlert(
-        `Tipo de Produto "${itemName}" excluído com sucesso!`,
+        `Tipo de produto "${itemName}" excluído com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Tipo de Produto.',
+        res.message || 'Erro inesperado ao excluir o tipo de produto.',
         'error'
       );
     }
@@ -205,8 +205,8 @@ export default function ProductTypeOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteProductType}
-            title='Deseja realmente excluir esse Tipo de Produto?'
-            message='Ao excluir este Tipo de Produto, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir este tipo de produto?'
+            message='Ao excluir este tipo de produto, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

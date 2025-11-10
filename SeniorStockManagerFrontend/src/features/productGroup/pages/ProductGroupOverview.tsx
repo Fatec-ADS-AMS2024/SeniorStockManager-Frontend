@@ -101,12 +101,12 @@ export default function ProductGroupOverview() {
     if (res.success) {
       await fetchData();
       showAlert(
-        `Grupo de Produto "${res.data?.name}" criado com sucesso!`,
+        `Grupo de produto "${res.data?.name}" criado com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao criar o Grupo de Produto.',
+        res.message || 'Erro inesperado ao criar o grupo de produto.',
         'error'
       );
     }
@@ -124,12 +124,12 @@ export default function ProductGroupOverview() {
     if (res.success) {
       await fetchData();
       showAlert(
-        `Grupo de Produto "${res.data?.name}" atualizado com sucesso!`,
+        `Grupo de produto "${res.data?.name}" atualizado com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao atualizar o Grupo de Produto.',
+        res.message || 'Erro inesperado ao atualizar o grupo de produto.',
         'error'
       );
     }
@@ -146,12 +146,12 @@ export default function ProductGroupOverview() {
 
       await fetchData();
       showAlert(
-        `Grupo de Produto "${itemName}" excluído com sucesso!`,
+        `Grupo de produto "${itemName}" excluído com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Grupo de Produto.',
+        res.message || 'Erro inesperado ao excluir o grupo de produto.',
         'error'
       );
     }
@@ -205,8 +205,8 @@ export default function ProductGroupOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteProductGroup}
-            title='Deseja realmente excluir esse Grupo de Produto?'
-            message='Ao excluir este Grupo de Produto, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir este grupo de produto?'
+            message='Ao excluir este grupo de produto, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

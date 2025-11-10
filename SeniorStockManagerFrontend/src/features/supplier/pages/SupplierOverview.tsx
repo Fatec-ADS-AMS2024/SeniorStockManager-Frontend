@@ -81,7 +81,7 @@ export default function SupplierOverview() {
       showAlert(`Fornecedor "${itemName}" excluído com sucesso!`, 'success');
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Fornecedor.',
+        res.message || 'Erro inesperado ao excluir o fornecedor.',
         'error'
       );
     }
@@ -125,8 +125,8 @@ export default function SupplierOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteSupplier}
-            title='Deseja realmente excluir esse Fornecedor?'
-            message='Ao excluir este Fornecedor, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir este fornecedor?'
+            message='Ao excluir este fornecedor, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

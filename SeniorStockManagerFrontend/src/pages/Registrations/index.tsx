@@ -17,7 +17,7 @@ export default function RegisterPage() {
   const cards = [
     {
       text: routes.UNIT_OF_MEASURE.displayName,
-      subText: 'Unidades de medidas Cadastradas',
+      subText: 'Unidades de medidas cadastradas',
       icon: <Ruler size={28} className='shrink-0' />,
       page: routes.UNIT_OF_MEASURE.path,
     },
@@ -29,25 +29,25 @@ export default function RegisterPage() {
     },
     {
       text: routes.PRODUCT.displayName,
-      subText: 'Produtos Cadastrados',
+      subText: 'Produtos cadastrados',
       icon: <Ruler size={28} className='shrink-0' />,
       page: routes.PRODUCT.path,
     },
     {
       text: routes.MANUFACTURER.displayName,
-      subText: 'Fabricantes Cadastrados',
+      subText: 'Fabricantes cadastrados',
       icon: <Factory size={28} className='shrink-0' />,
       page: routes.MANUFACTURER.path,
     },
     {
       text: routes.PRODUCT_GROUP.displayName,
-      subText: 'Grupos de Produtos Cadastrados',
+      subText: 'Grupos de produtos cadastrados',
       icon: <Package size={28} className='shrink-0' />,
       page: routes.PRODUCT_GROUP.path,
     },
     {
       text: routes.SUPPLIER.displayName,
-      subText: 'Fornecedores Cadastrados',
+      subText: 'Fornecedores cadastrados',
       icon: <Handshake size={28} className='shrink-0' />,
       page: routes.SUPPLIER.path,
     },

@@ -77,10 +77,10 @@ export default function CarrierOverview() {
       setCurrentId(null);
 
       await fetchData();
-      showAlert(`Transportadora "${itemName}" excluído com sucesso!`, 'success');
+      showAlert(`Transportadora "${itemName}" excluída com sucesso!`, 'success');
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Transportadora.',
+        res.message || 'Erro inesperado ao excluir a transportadora.',
         'error'
       );
     }
@@ -124,8 +124,8 @@ export default function CarrierOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteCarrier}
-            title='Deseja realmente excluir esse Transportadora?'
-            message='Ao excluir este Transportadora, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir esta transportadora?'
+            message='Ao excluir esta transportadora, ela será removida permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

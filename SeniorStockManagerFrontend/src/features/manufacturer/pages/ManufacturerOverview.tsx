@@ -110,7 +110,7 @@ export default function ManufacturerOverview() {
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao criar o Fabricante.',
+        res.message || 'Erro inesperado ao criar o fabricante.',
         'error'
       );
     }
@@ -133,7 +133,7 @@ export default function ManufacturerOverview() {
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao atualizar o Fabricante.',
+        res.message || 'Erro inesperado ao atualizar o fabricante.',
         'error'
       );
     }
@@ -153,7 +153,7 @@ export default function ManufacturerOverview() {
       showAlert(`Fabricante "${itemName}" excluído com sucesso!`, 'success');
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Fabricante.',
+        res.message || 'Erro inesperado ao excluir o fabricante.',
         'error'
       );
     }
@@ -204,8 +204,8 @@ export default function ManufacturerOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteManufacturer}
-            title='Deseja realmente excluir esse Fabricante?'
-            message='Ao excluir este Fabricante, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir este fabricante?'
+            message='Ao excluir este fabricante, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

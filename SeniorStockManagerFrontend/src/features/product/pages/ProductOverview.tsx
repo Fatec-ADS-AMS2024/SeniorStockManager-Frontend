@@ -81,7 +81,7 @@ export default function ProductOverview() {
       showAlert(`Produto "${itemName}" excluído com sucesso!`, 'success');
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Produto.',
+        res.message || 'Erro inesperado ao excluir o produto.',
         'error'
       );
     }
@@ -125,8 +125,8 @@ export default function ProductOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteProduct}
-            title='Deseja realmente excluir esse Produto?'
-            message='Ao excluir este Produto, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir este produto?'
+            message='Ao excluir este produto, ele será removido permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

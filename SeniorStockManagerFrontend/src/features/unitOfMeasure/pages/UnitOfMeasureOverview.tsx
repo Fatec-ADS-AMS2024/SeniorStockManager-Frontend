@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import UnitOfMeasureService from '../services/unitOfMeasureService';
 import UnitOfMeasure from '@/types/models/UnitOfMeasure';
 import Table from '@/components/Table';
@@ -13,7 +13,7 @@ import UnitOfMeasureFormModal from '../components/UnitOfMeasureFormModal';
 export default function UnitOfMeasureOverview() {
   const columns: TableColumn<UnitOfMeasure>[] = [
     { label: 'Descrição', attribute: 'description' },
-    { label: 'Abreviação', attribute: 'abbreviation' }
+    { label: 'Abreviação', attribute: 'abbreviation' },
   ];
   const [data, setData] = useState<UnitOfMeasure[]>([]);
   const [originalData, setOriginalData] = useState<UnitOfMeasure[]>([]);
@@ -27,7 +27,7 @@ export default function UnitOfMeasureOverview() {
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [editingItem, setEditingItem] = useState<UnitOfMeasure | undefined>();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const res = await UnitOfMeasureService.getAll();
     if (res.success && res.data) {
       setData([...res.data]);
@@ -35,12 +35,12 @@ export default function UnitOfMeasureOverview() {
     } else {
       showAlert(`Erro ao buscar dados: ${res.message}`, 'error');
     }
-  };
+  }, []);
 
   // Pega os dados ja cadastrados para mostrar na tabela
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSearch = (searchTerm: string) => {
     if (!searchTerm) {
@@ -117,12 +117,12 @@ export default function UnitOfMeasureOverview() {
     if (res.success) {
       await fetchData();
       showAlert(
-        `Unidade de Medida "${res.data?.description}" criado com sucesso!`,
+        `Unidade de medida "${res.data?.description}" criada com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao criar o Unidade de Medida.',
+        res.message || 'Erro inesperado ao criar a unidade de medida.',
         'error'
       );
     }
@@ -140,12 +140,12 @@ export default function UnitOfMeasureOverview() {
     if (res.success) {
       await fetchData();
       showAlert(
-        `Unidade de Medida "${res.data?.description}" atualizado com sucesso!`,
+        `Unidade de medida "${res.data?.description}" atualizada com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao atualizar o Unidade de Medida.',
+        res.message || 'Erro inesperado ao atualizar a unidade de medida.',
         'error'
       );
     }
@@ -163,12 +163,12 @@ export default function UnitOfMeasureOverview() {
 
       await fetchData();
       showAlert(
-        `Unidade de Medida "${itemName}" excluído com sucesso!`,
+        `Unidade de medida "${itemName}" excluída com sucesso!`,
         'success'
       );
     } else {
       showAlert(
-        res.message || 'Erro inesperado ao excluir o Unidade de Medida.',
+        res.message || 'Erro inesperado ao excluir a unidade de medida.',
         'error'
       );
     }
@@ -222,8 +222,8 @@ export default function UnitOfMeasureOverview() {
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
             onConfirm={deleteUnitOfMeasure}
-            title='Deseja realmente excluir esse Unidade de Medida?'
-            message='Ao excluir este Unidade de Medida, ele será removido permanentemente do sistema.'
+            title='Deseja realmente excluir esta unidade de medida?'
+            message='Ao excluir esta unidade de medida, ela será removida permanentemente do sistema.'
           />
           <AlertModal
             isOpen={isAlertModalOpen}

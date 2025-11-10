@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ProductGroupService from '../services/productGroupService';
 import ProductGroup from '@/types/models/ProductGroup';
 import Table from '@/components/Table';
@@ -26,7 +26,7 @@ export default function ProductGroupOverview() {
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [editingItem, setEditingItem] = useState<ProductGroup | undefined>();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const res = await ProductGroupService.getAll();
     if (res.success && res.data) {
       setData([...res.data]);
@@ -34,12 +34,12 @@ export default function ProductGroupOverview() {
     } else {
       showAlert(`Erro ao buscar dados: ${res.message}`, 'error');
     }
-  };
+  }, []);
 
   // Pega os dados ja cadastrados para mostrar na tabela
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSearch = (searchTerm: string) => {
     if (!searchTerm) {

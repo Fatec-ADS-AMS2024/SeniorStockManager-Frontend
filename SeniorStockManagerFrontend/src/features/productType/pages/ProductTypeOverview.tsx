@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ProductTypeService from '../services/productTypeService';
 import ProductType from '@/types/models/ProductType';
 import Table from '@/components/Table';
@@ -26,7 +26,7 @@ export default function ProductTypeOverview() {
   const [currentId, setCurrentId] = useState<number | null>(null);
   const [editingItem, setEditingItem] = useState<ProductType | undefined>();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const res = await ProductTypeService.getAll();
     if (res.success && res.data) {
       setData([...res.data]);
@@ -34,12 +34,12 @@ export default function ProductTypeOverview() {
     } else {
       showAlert(`Erro ao buscar dados: ${res.message}`, 'error');
     }
-  };
+  }, []);
 
   // Pega os dados ja cadastrados para mostrar na tabela
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSearch = (searchTerm: string) => {
     if (!searchTerm) {

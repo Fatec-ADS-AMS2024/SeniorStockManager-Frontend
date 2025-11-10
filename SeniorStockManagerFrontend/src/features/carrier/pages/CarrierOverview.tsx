@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CarrierService from '../services/carrierService';
 import Carrier from '@/types/models/Carrier';
 import Table from '@/components/Table';
@@ -28,7 +28,7 @@ export default function CarrierOverview() {
   );
   const [currentId, setCurrentId] = useState<number | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const res = await CarrierService.getAll();
     if (res.success && res.data) {
       setData([...res.data]);
@@ -36,12 +36,12 @@ export default function CarrierOverview() {
     } else {
       showAlert(`Erro ao buscar dados: ${res.message}`, 'error');
     }
-  };
+  }, []);
 
   // Pega os dados ja cadastrados para mostrar na tabela
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSearch = (searchTerm: string) => {
     if (!searchTerm) {

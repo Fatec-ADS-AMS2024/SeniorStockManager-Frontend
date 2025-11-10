@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SupplierService from '../services/supplierService';
 import Supplier from '@/types/models/Supplier';
 import Table from '@/components/Table';
@@ -29,7 +29,7 @@ export default function SupplierOverview() {
   );
   const [currentId, setCurrentId] = useState<number | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const res = await SupplierService.getAll();
     if (res.success && res.data) {
       setData([...res.data]);
@@ -37,12 +37,12 @@ export default function SupplierOverview() {
     } else {
       showAlert(`Erro ao buscar dados: ${res.message}`, 'error');
     }
-  };
+  }, []);
 
   // Pega os dados ja cadastrados para mostrar na tabela
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSearch = (searchTerm: string) => {
     if (!searchTerm) {

@@ -3,4 +3,6 @@ export default interface Manufacturer {
   corporateName: string;
   tradeName: string;
   cpfCnpj: string;
+  phone: string;
+  email: string;
 }

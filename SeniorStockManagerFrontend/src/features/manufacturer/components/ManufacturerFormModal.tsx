@@ -20,6 +20,8 @@ export default function ManufacturerFormModal({
     corporateName: '',
     cpfCnpj: '',
     tradeName: '',
+    phone: '',
+    email: '',
   });
 
   useEffect(() => {
@@ -70,6 +72,21 @@ export default function ManufacturerFormModal({
           label='CPF/CNPJ'
           onChange={updateField}
           value={data.cpfCnpj}
+          required
+        />
+        <TextInput<Manufacturer>
+          name='phone'
+          label='Telefone'
+          onChange={updateField}
+          value={data.phone}
+          required
+        />
+        <TextInput<Manufacturer>
+          name='email'
+          type='email'
+          label='Email'
+          onChange={updateField}
+          value={data.email}
           required
         />
       </div>

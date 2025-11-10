@@ -28,6 +28,8 @@ const router = createBrowserRouter(
         <Route {...routes.PRODUCT_GROUP} />
         <Route {...routes.PRODUCT_TYPE} />
         <Route {...routes.SUPPLIER} />
+        <Route {...routes.SUPPLIER_REGISTRATION} />
+        <Route {...routes.SUPPLIER_EDIT} />
         <Route {...routes.UNIT_OF_MEASURE} />
       </Route>
       <Route

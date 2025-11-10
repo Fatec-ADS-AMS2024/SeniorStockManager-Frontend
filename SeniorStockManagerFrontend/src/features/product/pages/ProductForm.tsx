@@ -255,7 +255,7 @@ export default function ProductForm() {
                   label='Grupo'
                   onChange={(_, value) =>
                     setSelectedProductGroup(Number(value))
-                    }
+                  }
                   options={productGroups.map((group) => ({
                     label: group.name,
                     value: group.id,

@@ -1,62 +1,61 @@
-
-@import url("assets/fonts/inter.css");
+@import url('assets/fonts/inter.css');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    html {
-      --font-size: 16px;
-      font-size: var(--font-size);
-      font-family: Inter, sans-serif;
-    }
-
-    input::-ms-clear, input::-ms-reveal {
-      display: none;
-    }
-  
-    :root {
-      --color-neutral-lighter: #fafafa; /* Fundo claro*/
-      --color-neutral-light: #E0E3E0;
-      --color-neutral: #f3f3f3; /* Tons intermediários */
-      --color-neutral-darker: #d9d9d9; /* Tons mais escuros */
-      --color-neutral-dark: #c6c6c6; /* Ideal para contraste suave */
-      --color-neutral-white: #FFFFFF;
-      --color-text-primary: #495453;
-      --color-text-secondary: #6D8385;
-
-      /* Cores específicas do Módulo */
-      --color-primary: #539AFD;
-      --color-secondary: #38B6FF;
-      --color-surface-user: #D2EDEB;
-      --color-hoverButton: #3083b2;
-
-      --color-danger: #d30202;
-      --color-hoverDanger: #b80202;
-      --color-edit: #5DB6DC;
-      --color-hoverEdit: #278bb6;
-      --color-success: #009F55;
-      --color-hoverSuccess: #198754;
-      --color-warning: #ffc107;
-
-    }
-    
-    [data-theme="high-contrast"] {
-      --color-primary: #000000;
-      --color-secondary: #242424;
-      --color-text-primary: #424242;
-      --color-text-secondary: #3F3F3F;
-      --color-surface-user: #D2D2D2;
-      --color-hoverButton: #2e2e2e;
-
-      --color-danger: #000000;
-      --color-hoverDanger: #242424;
-      --color-edit: #000000;
-      --color-hoverEdit: #242424;
-      --color-success: #000000;
-      --color-hoverSuccess: #242424;
-      --color-warning: #000000;
-    }
+  html {
+    --font-size: 16px;
+    font-size: var(--font-size);
+    font-family: Inter, sans-serif;
   }
 
+  input::-ms-clear,
+  input::-ms-reveal {
+    display: none;
+  }
+
+  :root {
+    --color-background: #f9f9f9; /* cor de fundo*/
+    --color-neutral-lighter: #fafafa; /* Fundo claro*/
+    --color-neutral-light: #e0e3e0;
+    --color-neutral: #f3f3f3; /* Tons intermediários */
+    --color-neutral-darker: #c6c6c6; /* Tons mais escuros */
+    --color-neutral-dark: #d9d9d9; /* Ideal para contraste suave */
+    --color-neutral-white: #ffffff;
+    --color-text-primary: #495453;
+    --color-text-secondary: #6d8385;
+
+    /* Cores específicas do Módulo */
+    --color-primary: #005ca4;
+    --color-secondary: #6aa0f0;
+    --color-surface-user: #ebf5f8;
+    --color-hoverButton: #3083b2;
+
+    --color-danger: #bd0000;
+    --color-hoverDanger: #b80202;
+    --color-edit: #5db6dc;
+    --color-hoverEdit: #278bb6;
+    --color-success: #009f55;
+    --color-hoverSuccess: #198754;
+    --color-warning: #ffc107;
+  }
+
+  [data-theme='high-contrast'] {
+    --color-primary: #000000;
+    --color-secondary: #242424;
+    --color-text-primary: #424242;
+    --color-text-secondary: #3f3f3f;
+    --color-surface-user: #d2d2d2;
+    --color-hoverButton: #2e2e2e;
+
+    --color-danger: #000000;
+    --color-hoverDanger: #242424;
+    --color-edit: #000000;
+    --color-hoverEdit: #242424;
+    --color-success: #000000;
+    --color-hoverSuccess: #242424;
+    --color-warning: #000000;
+  }
+}

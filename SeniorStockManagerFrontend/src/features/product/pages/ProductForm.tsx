@@ -89,11 +89,11 @@ export default function ProductForm() {
         setHighCostChecked(product.highCost === YesNo.YES);
         setHasMinimumStock((product.minimumStock ?? 0) > 0);
 
+        setData(product);
         const pt = productTypes.find((t) => t.id === product.productTypeId);
         if (pt) {
           setSelectedProductGroup(pt.productGroupId);
         }
-        setData(product);
       } else {
         showAlert('Produto não encontrado!', 'error');
         navigate(routes.PRODUCT.path);
@@ -127,12 +127,46 @@ export default function ProductForm() {
   }, [getProductTypes, getProductGroups, getUnitOfMeasure]);
 
   useEffect(() => {
-    if (isEditing && productTypes.length > 0) {
+    if (
+      isEditing &&
+      productTypes.length > 0 &&
+      productGroups.length > 0 &&
+      unitOfMeasures.length > 0
+    ) {
       fetchProduct(id);
-    } else if (!isEditing) {
-      reset();
     }
-  }, [fetchProduct, id, isEditing, reset, productTypes.length]);
+  }, [
+    fetchProduct,
+    id,
+    isEditing,
+    productTypes.length,
+    productGroups.length,
+    unitOfMeasures.length,
+  ]);
+
+  useEffect(() => {
+    if (!isEditing) {
+      reset();
+      setSelectedProductGroup(0);
+      setExpirationChecked(false);
+      setHighCostChecked(false);
+      setHasMinimumStock(false);
+    }
+  }, [isEditing, reset]);
+
+  useEffect(() => {
+    if (selectedProductGroup > 0 && productTypes.length > 0) {
+      const filteredTypes = productTypes.filter(
+        (type) => type.productGroupId === selectedProductGroup
+      );
+      if (
+        filteredTypes.length > 0 &&
+        data.productTypeId !== filteredTypes[0].id
+      ) {
+        updateField('productTypeId', filteredTypes[0].id);
+      }
+    }
+  }, [selectedProductGroup, productTypes, data.productTypeId, updateField]);
 
   const openModalType = () => setModalType(true);
   const openModalGroup = () => setModalGroup(true);
@@ -253,6 +287,7 @@ export default function ProductForm() {
                 <SelectInput<ProductGroup>
                   name='id'
                   label='Grupo'
+                  value={selectedProductGroup}
                   onChange={(_, value) =>
                     setSelectedProductGroup(Number(value))
                   }

@@ -1,6 +1,6 @@
 import { BaseFieldProps } from '../types';
 import { FormField } from '../FormField';
-import { SelectHTMLAttributes } from 'react';
+import { SelectHTMLAttributes, useEffect } from 'react';
 
 interface SelectInputProps<T>
   extends BaseFieldProps,
@@ -21,6 +21,12 @@ export default function SelectInput<T>({
   name,
   ...props
 }: SelectInputProps<T>) {
+  useEffect(() => {
+    if (options.length > 0 && !value) {
+      onChange(name, options[0].value);
+    }
+  }, [name, onChange, options, value]);
+
   return (
     <FormField label={label} error={error} required={required}>
       {icon && (

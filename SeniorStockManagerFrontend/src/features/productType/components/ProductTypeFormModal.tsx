@@ -34,6 +34,10 @@ export default function ProductTypeFormModal({
   useEffect(() => {
     if (!isOpen) return;
     fetchProductGroups();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
     if (objectData) {
       setData(objectData);
     } else {
@@ -47,7 +51,6 @@ export default function ProductTypeFormModal({
   };
 
   const handleClose = () => {
-    reset();
     onClose();
   };
 

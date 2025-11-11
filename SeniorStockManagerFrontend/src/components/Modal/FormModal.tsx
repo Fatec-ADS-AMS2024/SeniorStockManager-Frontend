@@ -22,6 +22,7 @@ export default function FormModal({
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     await handleSubmit(onSubmit, onClose);
   };
 

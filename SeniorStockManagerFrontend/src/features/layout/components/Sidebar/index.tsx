@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import {
   HouseLine,
-  UserCheck,
-  Users,
-  CalendarDots,
-  HandHeart,
-  UserCirclePlus,
+  Package, // Ícone de "Produtos"
+  Factory, // Ícone de "Fornecedores" (Fábrica)
+  Truck, // Ícone de "Transportadoras" (Caminhão)
+  PencilSimple, // Ícone de "Cadastros" (Lápis)
   X,
   List,
 } from '@phosphor-icons/react';
@@ -16,46 +15,42 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const routes = useAppRoutes();
   const navigate = useNavigate();
-  const location = useLocation(); // Obtém a rota atual
+  const location = useLocation(); 
 
+  
   const buttons = [
     {
       id: 'home',
       label: routes.ADMIN_OVERVIEW.displayName,
       icon: <HouseLine className='size-7 shrink-0' weight='fill' />,
-      route: routes.ADMIN_OVERVIEW.path,
+      route: routes.ADMIN_OVERVIEW.path, 
     },
     {
-      id: 'professionals',
-      label: 'Profissionais',
-      icon: <UserCheck className='size-7 shrink-0' weight='fill' />,
-      route: '#',
+      id: 'products',
+      label: 'Produtos',
+      icon: <Package className='size-7 shrink-0' weight='fill' />,
+      route: routes.PRODUCT.path, 
     },
     {
-      id: 'elderly',
-      label: 'Idosos',
-      icon: <Users className='size-7 shrink-0' weight='fill' />,
-      route: '#',
+      id: 'suppliers',
+      label: 'Fornecedores',
+      icon: <Factory className='size-7 shrink-0' weight='fill' />,
+      route: routes.SUPPLIER.path, 
     },
     {
-      id: 'calendar',
-      label: 'Calendário',
-      icon: <CalendarDots className='size-7 shrink-0' weight='fill' />,
-      route: '#',
-    },
-    {
-      id: 'careProvided',
-      label: 'Cuidados Prestados',
-      icon: <HandHeart className='size-7 shrink-0' weight='fill' />,
-      route: '#',
+      id: 'carriers',
+      label: 'Transportadoras',
+      icon: <Truck className='size-7 shrink-0' weight='fill' />,
+      route: routes.CARRIER.path, 
     },
     {
       id: 'registrations',
       label: routes.REGISTRATIONS.displayName,
-      icon: <UserCirclePlus className='size-7 shrink-0' weight='fill' />,
-      route: routes.REGISTRATIONS.path,
+      icon: <PencilSimple className='size-7 shrink-0' weight='fill' />,
+      route: routes.REGISTRATIONS.path, 
     },
   ];
+  // --- FIM DA ATUALIZAÇÃO ---
 
   return (
     <div

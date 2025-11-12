@@ -10,6 +10,7 @@ import AccessibilityPage from '@/pages/AccessibilityPage';
 import AdminOverview from '@/pages/Admin/AdminOverview';
 import LandingPage from '@/pages/LandingPage';
 import Registrations from '@/pages/Registrations';
+import ProductGroupOverview from '@/features/productGroup/pages/ProductGroupOverview';
 import { createRoutes } from '@/utils/routesUtils';
 
 const appRoutes = createRoutes({
@@ -21,7 +22,7 @@ const appRoutes = createRoutes({
   LANDING: {
     displayName: 'Página Inicial',
     element: <LandingPage />,
-    index: true,
+    index: false,
     path: '',
   },
   ADMIN_OVERVIEW: {
@@ -33,6 +34,12 @@ const appRoutes = createRoutes({
     path: '/registrations',
     displayName: 'Cadastros',
     element: <Registrations />,
+  },
+  PRODUCT_GROUP_DEFAULT: {
+    path: '',
+    displayName: 'Grupos de Produto',
+    element: <ProductGroupOverview />,
+    index: true,
   },
 });
 

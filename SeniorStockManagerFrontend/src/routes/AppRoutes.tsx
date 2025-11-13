@@ -31,6 +31,7 @@ const router = createBrowserRouter(
         <Route {...routes.SUPPLIER_REGISTRATION} />
         <Route {...routes.SUPPLIER_EDIT} />
         <Route {...routes.UNIT_OF_MEASURE} />
+        <Route {...routes.PRODUCT_BATCH} />
       </Route>
       <Route
         path=''

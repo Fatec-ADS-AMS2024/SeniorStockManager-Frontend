@@ -2,6 +2,7 @@ import { authRoutes } from '@/features/auth';
 import { carrierRoutes } from '@/features/carrier';
 import { manufacturerRoutes } from '@/features/manufacturer';
 import { productRoutes } from '@/features/product';
+import { productBatchRoutes } from '@/features/productBatch';
 import { productGroupRoutes } from '@/features/productGroup';
 import { productTypeRoutes } from '@/features/productType';
 import { supplierRoutes } from '@/features/supplier';
@@ -45,6 +46,7 @@ export const routes = {
   ...productRoutes,
   ...productGroupRoutes,
   ...productTypeRoutes,
+  ...productBatchRoutes,
   ...supplierRoutes,
   ...unitOfMeasureRoutes,
 } as const;

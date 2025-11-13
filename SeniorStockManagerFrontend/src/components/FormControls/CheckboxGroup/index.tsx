@@ -7,12 +7,14 @@ interface CheckboxOption<T> {
   label: string;
   disabled?: boolean;
   name: keyof T;
+  ariaLabel?: string;
 }
 
 interface CheckboxGroupProps<T> extends BaseFieldProps {
   options: CheckboxOption<T>[];
   values: unknown[];
   onChange: (attribute: keyof T, values: unknown[]) => void;
+  ariaLabel?: string;
 }
 
 /**
@@ -25,6 +27,7 @@ export default function CheckboxGroup<T>({
   options,
   values,
   onChange,
+  ariaLabel,
 }: CheckboxGroupProps<T>) {
   const handleChange = (
     attribute: keyof T,
@@ -42,8 +45,17 @@ export default function CheckboxGroup<T>({
   };
 
   return (
-    <FormField label={label} error={error} required={required}>
-      <div className={`space-y-2 ${label && 'px-2'}`}>
+    <FormField
+      label={label}
+      error={error}
+      required={required}
+      aria-label={ariaLabel || String(label)}
+    >
+      <div
+        className={`space-y-2 ${label && 'px-2'}`}
+        role='group'
+        aria-labelledby={ariaLabel || String(label)}
+      >
         {options.map((option) => (
           <Checkbox
             key={`Option_${option.value}`}
@@ -54,6 +66,7 @@ export default function CheckboxGroup<T>({
               handleChange(name, option.value, checked)
             }
             disabled={option.disabled}
+            ariaLabel={option.ariaLabel || option.label}
           />
         ))}
       </div>

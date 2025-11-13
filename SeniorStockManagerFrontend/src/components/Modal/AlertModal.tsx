@@ -7,7 +7,6 @@ interface AlertModalProps extends Omit<ModalProps, 'children'> {
   message: string;
 }
 
-// Objeto para mapear tipos a classes do Tailwind e ícones (SVG)
 const icons = {
   info: {
     color: 'text-secondary',
@@ -33,13 +32,26 @@ export default function AlertModal({
   const styles = icons[type];
 
   return (
-    <Modal.ModalRoot isOpen={isOpen} onClose={onClose} {...props}>
+    <Modal.ModalRoot
+      isOpen={isOpen}
+      onClose={onClose}
+      aria-modal='true'
+      aria-label={` Janela de alerta ${type}`}
+      aria-describedby='alert-message'
+      {...props}
+    >
       <Modal.ModalContent>
         <div className='flex flex-col items-center justify-center gap-2'>
-          <span className={`text-8xl rounded-full shrink-0 ${styles.color}`}>
+          <span
+            className={`text-8xl rounded-full shrink-0 ${styles.color}`}
+            aria-hidden='true'
+          >
             {styles.icon}
           </span>
-          <p className='text-textSecondary text-xl font-semibold text-center'>
+          <p
+            id='alert-message'
+            className='text-textSecondary text-xl font-semibold text-center'
+          >
             {message}
           </p>
         </div>

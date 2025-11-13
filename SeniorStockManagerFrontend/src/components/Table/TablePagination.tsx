@@ -22,30 +22,35 @@ export default function TablePagination({
   };
 
   return (
-    <div className='flex items-center justify-end select-none gap-4 w-[50%]'>
-      {/* Botão Anterior */}
+    <div
+      className='flex items-center justify-end select-none gap-4 w-[50%]'
+      role='navigation'
+      aria-label='Paginação da tabela'
+    >
       <button
         className={`px-4 py-2 border border-neutralDark text-textPrimary rounded hover:bg-hoverButton hover:border-neutralWhite hover:text-neutralWhite transition-colors disabled:invisible ${
           totalPages === 1 ? 'hidden' : ''
         }`}
         disabled={currentPage === 1}
         onClick={handlePrevious}
+        aria-label='Página anterior'
       >
         Anterior
       </button>
-
-      {/* Dropdown de seleção de página */}
-      <span className='px-4 py-2 border border-neutralDark rounded'>
+      <span
+        className='px-4 py-2 border border-neutralDark rounded'
+        role='status'
+        aria-live='polite'
+      >
         Página {currentPage} de {totalPages}
       </span>
-
-      {/* Botão Próximo */}
       <button
         className={`px-4 py-2 border border-neutralDark text-textPrimary rounded hover:bg-hoverButton hover:border-neutralWhite hover:text-neutralWhite transition-colors disabled:invisible ${
           totalPages === 1 ? 'hidden' : ''
         }`}
         disabled={currentPage === totalPages}
         onClick={handleNext}
+        aria-label='Próxima página'
       >
         Próximo
       </button>

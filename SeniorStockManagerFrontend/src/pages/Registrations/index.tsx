@@ -60,22 +60,25 @@ export default function RegisterPage() {
   ];
 
   return (
-    <div className='bg-neutralLighter'>
+    <main className='bg-neutralLighter' role='main' aria-label='Página de cadastros'>
       <BreadcrumbPageTitle title='Cadastros' />
 
-      <div className='mt-8 px-4 flex flex-wrap items-center gap-8'>
+      <section className='mt-8 px-4 flex flex-wrap items-center gap-8' aria-label='Seção de busca e navegação'>
         <SearchBar placeholder='Buscar Cadastro' action={console.log} />
         {/* Card Grid */}
-        {cards.map(({ text, icon, page, subText }) => (
-          <Card
-            key={page}
-            subText={subText}
-            text={text}
-            icon={icon}
-            page={page}
-          />
-        ))}
-      </div>
-    </div>
+        <div role='grid' aria-label='Grid de opções de cadastro' className='flex flex-wrap gap-8'>
+          {cards.map(({ text, icon, page, subText }) => (
+            <div key={page} role='gridcell'>
+              <Card
+                subText={subText}
+                text={text}
+                icon={icon}
+                page={page}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }

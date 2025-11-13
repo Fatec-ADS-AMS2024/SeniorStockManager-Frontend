@@ -8,9 +8,10 @@ export default function Breadcrumb() {
   return (
     <nav
       className='flex items-center space-x-2 capitalize'
-      aria-label='Breadcrumb'
+      aria-label='Navegação atual' 
     >
-      <ul className='flex items-center space-x-1'>
+      {/* Adicionei role="list" ao ul para melhor compatibilidade, embora nav/ul/li seja inerentemente uma lista */}
+      <ul className='flex items-center space-x-1' role='list'>
         {/* Renderização dinâmica dos caminhos */}
         {breadcrumbs.map((crumb, index) => {
           const isLast = index === breadcrumbs.length - 1;
@@ -21,21 +22,30 @@ export default function Breadcrumb() {
               <Link
                 className='text-secondary hover:text-primary font-medium'
                 to={crumb.path}
+                aria-current={isLast ? 'page' : undefined}
               >
                 {crumb.name}
               </Link>
             ) : (
-              <span className='text-textSecondary font-medium'>
+              <span
+                className='text-textSecondary font-medium'
+                aria-current={isLast ? 'page' : undefined}
+              >
                 {crumb.name}
               </span>
             );
 
           const separator = !isLast && (
-            <CaretRight className='text-textSecondary h-5 w-5 mx-1' />
+            <CaretRight
+              className='text-textSecondary h-5 w-5 mx-1'
+              aria-hidden='true'
+              focusable='false'
+            />
           );
 
           return (
-            <li key={crumb.path} className='flex items-center'>
+            // Adicionei role="listitem" ao li.
+            <li key={crumb.path} className='flex items-center' role='listitem'>
               {item}
               {separator}
             </li>

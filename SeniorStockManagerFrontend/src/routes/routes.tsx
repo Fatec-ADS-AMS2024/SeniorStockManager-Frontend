@@ -6,6 +6,7 @@ import { productGroupRoutes } from '@/features/productGroup';
 import { productTypeRoutes } from '@/features/productType';
 import { supplierRoutes } from '@/features/supplier';
 import { unitOfMeasureRoutes } from '@/features/unitOfMeasure';
+import { positionRoutes } from '@/features/position/positionRoutes'; // <--- LINHA ADICIONADA
 import AccessibilityPage from '@/pages/AccessibilityPage';
 import AdminOverview from '@/pages/Admin/AdminOverview';
 import LandingPage from '@/pages/LandingPage';
@@ -22,7 +23,7 @@ const appRoutes = createRoutes({
     displayName: 'Página Inicial',
     element: <LandingPage />,
     index: true,
-    path: '',
+    path: '/',
   },
   ADMIN_OVERVIEW: {
     path: '/admin',
@@ -34,7 +35,7 @@ const appRoutes = createRoutes({
     displayName: 'Cadastros',
     element: <Registrations />,
   },
-});
+}); 
 
 // É a união de todas as definições de rotas da aplicação
 export const routes = {
@@ -47,4 +48,5 @@ export const routes = {
   ...productTypeRoutes,
   ...supplierRoutes,
   ...unitOfMeasureRoutes,
+  ...positionRoutes, // <--- LINHA ADICIONADA
 } as const;

@@ -2,11 +2,12 @@ import * as Modal from './BaseModal';
 import { FormEvent } from 'react';
 import Button from '../Button';
 import { Plus, X } from '@phosphor-icons/react';
-import { useModalForm } from '@/hooks/useModalForm';
+// import { useModalForm } from '@/hooks/useModalForm'; // 1. REMOVA O HOOK DAQUI
 import { ModalProps } from './types';
 
 interface FormModalProps extends ModalProps {
   onSubmit: (data?: unknown) => void;
+  isSubmitting?: boolean; // 2. ADICIONE A PROP AQUI
 }
 
 export default function FormModal({
@@ -17,13 +18,17 @@ export default function FormModal({
   children,
   closeOnBackdropClick = false,
   showCloseButton = true,
+  isSubmitting = false, // 3. RECEBA A PROP AQUI
 }: FormModalProps) {
-  const { isSubmitting, handleSubmit } = useModalForm();
+  // const { isSubmitting, handleSubmit } = useModalForm(); // 4. REMOVA ESTA LINHA
 
-  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    await handleSubmit(onSubmit, onClose);
+    // 5. CHAME O onSubmit DIRETAMENTE
+    // A lógica de try/catch e isSubmitting agora será feita
+    // pelo componente que tem o formulário (ProductTypeFormModal)
+    onSubmit();
   };
 
   return (
@@ -46,14 +51,14 @@ export default function FormModal({
             label='Cancelar'
             color='danger'
             icon={<X weight='bold' />}
-            disabled={isSubmitting}
+            disabled={isSubmitting} // 6. USE A PROP AQUI
           />
           <Button
             type='submit'
             label={isSubmitting ? 'Salvando...' : 'Salvar'}
             color='success'
             icon={<Plus weight='bold' />}
-            disabled={isSubmitting}
+            disabled={isSubmitting} // 7. USE A PROP AQUI
           />
         </Modal.ModalFooter>
       </form>

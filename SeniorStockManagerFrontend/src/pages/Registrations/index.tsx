@@ -57,6 +57,12 @@ export default function RegisterPage() {
       icon: <Archive size={28} className='shrink-0' />,
       page: routes.PRODUCT_TYPE.path,
     },
+    {
+      text: routes.POSITION.displayName,
+      subText: 'Posições cadastradas',
+      icon: <Archive size={28} className='shrink-0' />,
+      page: routes.POSITION.path,
+    },
   ];
 
   return (

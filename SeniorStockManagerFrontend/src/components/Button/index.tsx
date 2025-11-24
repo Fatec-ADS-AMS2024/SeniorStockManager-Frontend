@@ -47,6 +47,7 @@ export default function Button({
 
   return (
     <button
+      aria-label={label || 'Botão'}
       className={`flex items-center justify-center shrink-0 gap-1 rounded-[4px] shadow-md transition ${colorClasses[color]} ${sizeClasses[size]} ${className}`}
       {...props}
     >

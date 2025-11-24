@@ -58,25 +58,29 @@ export default function Sidebar() {
   ];
 
   return (
-    <div
+    <nav
       className={`flex flex-col z-10 ${
         isOpen ? 'w-72' : 'w-16'
       } h-[calc(100vh-64px-96px)] bg-neutralWhite transition-all duration-500 overflow-hidden sticky left-0 top-24 bottom-0`}
+      role='navigation'
+      aria-label='Menu principal'
     >
       {/* Botão de Menu */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className='flex w-full items-center justify-center h-16 text-primary hover:bg-neutralLighter border-x-4 border-x-transparent hover:border-r-primary relative '
+        aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
+        aria-expanded={isOpen}
       >
         {isOpen ? (
-          <X className='size-6 absolute right-4' />
+          <X className='size-6 absolute right-4' aria-hidden='true' />
         ) : (
-          <List className='size-8' />
+          <List className='size-8' aria-hidden='true' />
         )}
       </button>
 
       {/* Botões do Sidebar */}
-      <div className='flex flex-col'>
+      <div className='flex flex-col' role='menubar'>
         {buttons.map((button) => (
           <button
             key={button.id}
@@ -88,12 +92,15 @@ export default function Sidebar() {
                 ? 'bg-secondary text-neutralWhite border-r-primary' // Estilo para a página ativa
                 : 'text-primary hover:bg-neutralLighter hover:border-r-primary'
             }`}
+            role='menuitem'
+            aria-label={button.label}
+            aria-current={location.pathname === button.route ? 'page' : undefined}
           >
-            {button.icon}
+            <span aria-hidden='true'>{button.icon}</span>
             {isOpen && <span className='text-sm'>{button.label}</span>}
           </button>
         ))}
       </div>
-    </div>
+    </nav>
   );
 }

@@ -5,6 +5,7 @@ interface FormFieldProps {
   error?: string;
   required?: boolean;
   children: React.ReactNode;
+  ariaLabel?: string;
 }
 
 /**
@@ -16,18 +17,32 @@ export function FormField({
   error,
   required,
   children,
+  ariaLabel,
 }: FormFieldProps) {
+  const fieldId = ariaLabel || label || 'form-field';
+
   return (
-    <div>
+    <div
+      role='group'
+      aria-labelledby={fieldId}
+      aria-invalid={!!error}
+      aria-required={required || undefined}
+    >
       {label && (
-        <label className='block text-textPrimary text-sm mb-1 break-all'>
+        <label
+          id={fieldId}
+          className='block text-textPrimary text-sm mb-1 break-all'
+        >
           {label}
           {required && '*'}
         </label>
       )}
       <div className='relative'>{children}</div>
       {error && (
-        <span className='text-danger text-xs flex gap-1 items-center'>
+        <span
+          className='text-danger text-xs flex gap-1 items-center'
+          role='alert'
+        >
           <XCircle />
           {error}
         </span>

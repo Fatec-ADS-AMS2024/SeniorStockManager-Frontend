@@ -32,13 +32,20 @@ export default function FormModal({
       onClose={onClose}
       closeOnBackdropClick={closeOnBackdropClick && !isSubmitting}
     >
-      <form onSubmit={handleFormSubmit}>
+      <form
+        onSubmit={handleFormSubmit}
+        aria-label={title || 'Formulário'}
+        aria-busy={isSubmitting}
+        aria-live='polite'
+      >
         <Modal.ModalHeader
           onClose={onClose}
           showCloseButton={showCloseButton}
           title={title}
         />
-        <Modal.ModalContent>{children}</Modal.ModalContent>
+        <Modal.ModalContent aria-describedby='form-modal-content'>
+          <div id='form-modal-content'>{children}</div>
+        </Modal.ModalContent>
         <Modal.ModalFooter>
           <Button
             type='button'
@@ -47,6 +54,7 @@ export default function FormModal({
             color='danger'
             icon={<X weight='bold' />}
             disabled={isSubmitting}
+            aria-label='Cancelar e fechar formulário'
           />
           <Button
             type='submit'
@@ -54,6 +62,7 @@ export default function FormModal({
             color='success'
             icon={<Plus weight='bold' />}
             disabled={isSubmitting}
+            aria-label={isSubmitting ? 'Salvando dados' : 'Salvar formulário'}
           />
         </Modal.ModalFooter>
       </form>

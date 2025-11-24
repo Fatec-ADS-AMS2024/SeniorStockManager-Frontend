@@ -165,31 +165,34 @@ export default function ManufacturerOverview() {
       <button
         onClick={() => openEditModal(id)}
         className='text-edit hover:text-hoverEdit'
+        aria-label={`Editar fabricante`}
       >
-        <Pencil className='size-6' weight='fill' />
+        <Pencil className='size-6' weight='fill' aria-hidden='true' />
       </button>
       <button
         onClick={() => openDeleteModal(id)}
         className='text-danger hover:text-hoverDanger'
+        aria-label={`Excluir fabricante`}
       >
-        <Trash className='size-6' weight='fill' />
+        <Trash className='size-6' weight='fill' aria-hidden='true' />
       </button>
     </>
   );
 
   return (
-    <div>
+    <main role='main' aria-label='Página de gerenciamento de fabricantes'>
       <BreadcrumbPageTitle title='Cadastro de Fabricante' />
-      <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
-        <div className='flex items-center justify-between mb-4'>
+      <section className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10' aria-label='Seção de listagem de fabricantes'>
+        <div className='flex items-center justify-between mb-4' role='toolbar' aria-label='Barra de ferramentas'>
           <SearchBar action={handleSearch} placeholder='Buscar Fabricante...' />
           <Button
             label='Adicionar'
-            icon={<Plus />}
+            icon={<Plus aria-hidden='true' />}
             iconPosition='left'
             color='success'
             size='medium'
             onClick={openCreateModal}
+            ariaLabel='Adicionar novo fabricante'
           />
           <ManufacturerFormModal
             isOpen={isFormModalOpen}
@@ -219,7 +222,7 @@ export default function ManufacturerOverview() {
           data={data}
           actions={(id) => <Actions id={id} />}
         />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

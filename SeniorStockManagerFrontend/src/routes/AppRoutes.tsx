@@ -27,6 +27,9 @@ const router = createBrowserRouter(
         <Route {...routes.PRODUCT_EDIT} />
         <Route {...routes.PRODUCT_GROUP} />
         <Route {...routes.PRODUCT_TYPE} />
+        <Route {...routes.USER} />
+        <Route {...routes.USER_REGISTRATION} />
+        <Route {...routes.USER_EDIT} />
         <Route {...routes.SUPPLIER} />
         <Route {...routes.SUPPLIER_REGISTRATION} />
         <Route {...routes.SUPPLIER_EDIT} />

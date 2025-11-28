@@ -43,7 +43,10 @@ export default function SelectInput<T>({
             (opt) => String(opt.value) === selectedValue
           );
           const convertedValue = option ? option.value : selectedValue;
-          onChange(e.target.name as keyof T, Number(convertedValue));
+          onChange(
+            e.target.name as keyof T,
+            convertedValue as string | number
+          );
         }}
         className={`w-full py-2 text-sm text-textPrimary rounded border focus:outline-none focus:border-neutralDarker ${
           error ? 'border-danger' : 'border-neutralDark'

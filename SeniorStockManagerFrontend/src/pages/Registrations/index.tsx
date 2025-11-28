@@ -5,6 +5,7 @@ import {
   Archive,
   Package,
   Factory,
+  Users,
 } from '@phosphor-icons/react';
 import Card from '@/components/Card';
 import SearchBar from '@/components/SearchBar';
@@ -15,6 +16,12 @@ export default function RegisterPage() {
   const routes = useAppRoutes();
 
   const cards = [
+    {
+      text: routes.USER.displayName,
+      subText: 'Usuários cadastrados',
+      icon: <Users size={28} className='shrink-0' />,
+      page: routes.USER.path,
+    },
     {
       text: routes.UNIT_OF_MEASURE.displayName,
       subText: 'Unidades de medidas cadastradas',

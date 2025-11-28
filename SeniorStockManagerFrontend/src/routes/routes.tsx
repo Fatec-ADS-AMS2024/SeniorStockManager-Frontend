@@ -5,6 +5,7 @@ import { productRoutes } from '@/features/product';
 import { productGroupRoutes } from '@/features/productGroup';
 import { productTypeRoutes } from '@/features/productType';
 import { supplierRoutes } from '@/features/supplier';
+import { userRoutes } from '@/features/user';
 import { unitOfMeasureRoutes } from '@/features/unitOfMeasure';
 import AccessibilityPage from '@/pages/AccessibilityPage';
 import AdminOverview from '@/pages/Admin/AdminOverview';
@@ -45,6 +46,7 @@ export const routes = {
   ...productRoutes,
   ...productGroupRoutes,
   ...productTypeRoutes,
+  ...userRoutes,
   ...supplierRoutes,
   ...unitOfMeasureRoutes,
 } as const;

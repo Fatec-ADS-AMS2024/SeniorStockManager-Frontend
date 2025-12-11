@@ -5,6 +5,7 @@ import {
   Archive,
   Package,
   Factory,
+  Stack,
 } from '@phosphor-icons/react';
 import Card from '@/components/Card';
 import SearchBar from '@/components/SearchBar';
@@ -56,6 +57,12 @@ export default function RegisterPage() {
       subText: 'Tipos de produto cadastrados',
       icon: <Archive size={28} className='shrink-0' />,
       page: routes.PRODUCT_TYPE.path,
+    },
+    {
+      text: routes.PRODUCT_BATCH.displayName,
+      subText: 'Lotes de produtos cadastrados',
+      icon: <Stack size={28} className='shrink-0' />,
+      page: routes.PRODUCT_BATCH.path,
     },
   ];
 

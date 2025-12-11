@@ -7,19 +7,20 @@ export default function LoginPage() {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className='flex bg-neutralWhite'>
-      <div className='md:w-[40%] w-full h-full bg-neutralWhite flex flex-col justify-center items-center px-8'>
+    <main className='flex bg-neutralWhite' role='main' aria-label='Página de login'>
+      <section className='md:w-[40%] w-full h-full bg-neutralWhite flex flex-col justify-center items-center px-8' aria-label='Formulário de login'>
         <LoginForm />
-      </div>
-      <div className='relative hidden md:flex md:w-[50%] w-full h-full justify-end items-center pr-16'>
+      </section>
+      <aside className='relative hidden md:flex md:w-[50%] w-full h-full justify-end items-center pr-16' aria-label='Imagem decorativa'>
         <img
           src={fotoLoginSistema}
-          alt='Foto Login Sistema'
+          alt='Ilustração decorativa do sistema de gerenciamento de estoque'
           className={`w-[80%] h-auto object-contain ${
             theme === 'high-contrast' ? 'grayscale' : ''
           }`}
+          role='img'
         />
-      </div>
-    </div>
+      </aside>
+    </main>
   );
 }

@@ -95,31 +95,34 @@ export default function ProductOverview() {
           navigate(routes.PRODUCT_EDIT.path.replace(':id', `${id}`))
         }
         className='text-edit hover:text-hoverEdit'
+        aria-label={`Editar produto`}
       >
-        <Pencil className='size-6' weight='fill' />
+        <Pencil className='size-6' weight='fill' aria-hidden='true' />
       </button>
       <button
         onClick={() => openDeleteModal(id)}
         className='text-danger hover:text-hoverDanger'
+        aria-label={`Excluir produto`}
       >
-        <Trash className='size-6' weight='fill' />
+        <Trash className='size-6' weight='fill' aria-hidden='true' />
       </button>
     </>
   );
 
   return (
-    <div>
+    <main role='main' aria-label='Página de gerenciamento de produtos'>
       <BreadcrumbPageTitle title='Cadastro de Produto' />
-      <div className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10'>
-        <div className='flex items-center justify-between mb-4'>
+      <section className='bg-neutralWhite px-6 py-6 max-w-[95%] mx-auto rounded-lg shadow-md mt-10' aria-label='Seção de listagem de produtos'>
+        <div className='flex items-center justify-between mb-4' role='toolbar' aria-label='Barra de ferramentas'>
           <SearchBar action={handleSearch} placeholder='Buscar Produto...' />
           <Button
             label='Adicionar'
-            icon={<Plus />}
+            icon={<Plus aria-hidden='true' />}
             iconPosition='left'
             color='success'
             size='medium'
             onClick={() => navigate(routes.PRODUCT_REGISTRATION.path)}
+            ariaLabel='Adicionar novo produto'
           />
           <ConfirmModal
             isOpen={isDeleteModalOpen}
@@ -140,7 +143,7 @@ export default function ProductOverview() {
           data={data}
           actions={(id) => <Actions id={id} />}
         />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

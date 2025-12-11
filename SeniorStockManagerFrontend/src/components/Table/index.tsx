@@ -31,23 +31,22 @@ export default function Table<T extends { id: number }>({
   const handleRowSelection = (rowId: number) => {
     setSelectedRows((prevSelectedRows) => {
       if (!prevSelectedRows) return [rowId];
-
       if (prevSelectedRows.includes(rowId)) {
-        // Se a linha já estiver selecionada, desmarque
         return prevSelectedRows.filter((id) => id !== rowId);
       } else {
-        // Caso contrário, adicione a linha aos selecionados
         return [...prevSelectedRows, rowId];
       }
     });
   };
 
   return (
-    <table className='w-full bg-neutralWhite rounded-lg shadow-md overflow-hidden'>
-      {/* Cabeçalho da tabela */}
+    <table
+      className='w-full bg-neutralWhite rounded-lg shadow-md overflow-hidden'
+      role='table'
+      aria-label='Tabela de dados'
+    >
       <TableHeader<T> columns={columns} actions={!!actions} />
-      {/* Corpo da tabela */}
-      <tbody>
+      <tbody role='rowgroup'>
         {paginatedData.map((row, rowIndex) => (
           <TableRow<T>
             key={row.id}

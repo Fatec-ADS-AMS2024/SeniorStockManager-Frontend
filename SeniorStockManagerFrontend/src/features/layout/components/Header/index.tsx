@@ -7,16 +7,21 @@ export default function Header() {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <header className='bg-neutralWhite flex flex-col overflow-hidden items-center justify-center flex-shrink-0 shadow z-20 sticky top-0 left-0 right-0'>
+    <header 
+      className='bg-neutralWhite flex flex-col overflow-hidden items-center justify-center flex-shrink-0 shadow z-20 sticky top-0 left-0 right-0'
+      role='banner'
+      aria-label='Cabeçalho principal'
+    >
       <AccessibilityBar />
 
       <div className='h-16 w-full flex items-center justify-between overflow-hidden'>
         <img
           src={logo}
-          alt='logo do sistema'
+          alt='Logo do sistema Senior Stock Manager'
           className={`aspect-square size-14 object-cover ml-2 ${
             theme === 'high-contrast' ? 'grayscale' : 'grayscale-0'
           }`}
+          role='img'
         />
       </div>
     </header>

@@ -8,6 +8,7 @@ interface SelectInputProps<T>
   options: { label: string; value: string | number }[];
   onChange: (attribute: keyof T, value: string | number) => void;
   name: keyof T;
+  ariaLabel?: string;
 }
 
 export default function SelectInput<T>({
@@ -19,6 +20,7 @@ export default function SelectInput<T>({
   onChange,
   icon,
   name,
+  ariaLabel,
   ...props
 }: SelectInputProps<T>) {
   useEffect(() => {
@@ -28,13 +30,21 @@ export default function SelectInput<T>({
   }, [name, onChange, options, value]);
 
   return (
-    <FormField label={label} error={error} required={required}>
+    <FormField
+      label={label}
+      error={error}
+      required={required}
+      ariaLabel={ariaLabel || label}
+    >
       {icon && (
         <span className='absolute top-2.5 left-2 text-xl text-textSecondary shrink-0'>
           {icon}
         </span>
       )}
       <select
+        aria-label={ariaLabel || label || String(name)}
+        aria-invalid={!!error}
+        aria-required={required || undefined}
         value={value}
         name={String(name)}
         onChange={(e) => {
@@ -50,13 +60,11 @@ export default function SelectInput<T>({
         } ${icon ? 'pr-2 pl-7' : 'px-1'}`}
         {...props}
       >
-        {/* Placeholder */}
-        <option value='' disabled>
+        <option value='' disabled aria-label='Opção padrão'>
           Selecione um...
         </option>
-        {/* Lista de opções */}
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} aria-label={`Opção: ${option.label}`}>
             {option.label}
           </option>
         ))}

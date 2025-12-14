@@ -3,6 +3,8 @@ export default interface Carrier {
   corporateName: string;
   tradeName: string;
   cpfCnpj: string;
+  carrierType: string;
+  carrierGroup: string;
   street: string;
   number: string;
   district: string;

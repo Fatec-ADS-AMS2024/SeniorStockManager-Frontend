@@ -8,6 +8,7 @@ interface SelectInputProps<T>
   options: { label: string; value: string | number }[];
   onChange: (attribute: keyof T, value: string | number) => void;
   name: keyof T;
+  autoSelectFirst?: boolean;
 }
 
 export default function SelectInput<T>({
@@ -19,13 +20,21 @@ export default function SelectInput<T>({
   onChange,
   icon,
   name,
+  autoSelectFirst = true,
   ...props
 }: SelectInputProps<T>) {
   useEffect(() => {
-    if (options.length > 0 && !value) {
+    if (!autoSelectFirst || options.length === 0) return;
+
+    const hasValue =
+      value !== undefined &&
+      value !== '' &&
+      !(typeof value === 'number' && value <= 0);
+
+    if (!hasValue) {
       onChange(name, options[0].value);
     }
-  }, [name, onChange, options, value]);
+  }, [autoSelectFirst, name, onChange, options, value]);
 
   return (
     <FormField label={label} error={error} required={required}>
@@ -35,7 +44,7 @@ export default function SelectInput<T>({
         </span>
       )}
       <select
-        value={value}
+        value={value ?? ''}
         name={String(name)}
         onChange={(e) => {
           const selectedValue = e.target.value;
@@ -43,7 +52,7 @@ export default function SelectInput<T>({
             (opt) => String(opt.value) === selectedValue
           );
           const convertedValue = option ? option.value : selectedValue;
-          onChange(e.target.name as keyof T, Number(convertedValue));
+          onChange(e.target.name as keyof T, convertedValue);
         }}
         className={`w-full py-2 text-sm text-textPrimary rounded border focus:outline-none focus:border-neutralDarker ${
           error ? 'border-danger' : 'border-neutralDark'
